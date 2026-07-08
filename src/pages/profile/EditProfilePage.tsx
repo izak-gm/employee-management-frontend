@@ -1,5 +1,14 @@
+// src/pages/profile/EditProfilePage.tsx
 import { useState } from "react";
-import { Container, TextField, Button, Typography, Alert } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Paper,
+} from "@mui/material";
+import DashboardLayout from "../../components/layout/DashboardLayout";
 import { updateEmployee } from "../../api/employeeApi";
 import { useAuth } from "../../context/AuthContext";
 import type { UpdateEmployee } from "../../types/auth.type";
@@ -25,48 +34,64 @@ const EditProfilePage = () => {
     if (!employeeId) return;
     try {
       await updateEmployee(employeeId, form);
-      setMessage("Profile updated successfully");
+      setMessage("Profile updated successfully.");
     } catch {
-      setMessage("Update failed");
+      setMessage("Update failed. Please try again.");
     }
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 4 }}>
-      <Typography variant="h5" gutterBottom>
-        Edit Profile
-      </Typography>
-      {message && <Alert severity="info">{message}</Alert>}
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="First Name"
-          fullWidth
-          margin="normal"
-          onChange={handleChange("firstName")}
-        />
-        <TextField
-          label="Last Name"
-          fullWidth
-          margin="normal"
-          onChange={handleChange("lastName")}
-        />
-        <TextField
-          label="Phone Number"
-          fullWidth
-          margin="normal"
-          onChange={handleChange("phoneNumber")}
-        />
-        <TextField
-          label="Email"
-          fullWidth
-          margin="normal"
-          onChange={handleChange("email")}
-        />
-        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
-          Save
-        </Button>
-      </form>
-    </Container>
+    <DashboardLayout title="My Profile">
+      <Paper
+        sx={{
+          p: 4,
+          maxWidth: 480,
+          border: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Personal Information
+        </Typography>
+        {message && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            {message}
+          </Alert>
+        )}
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="First Name"
+            fullWidth
+            margin="normal"
+            onChange={handleChange("firstName")}
+          />
+          <TextField
+            label="Last Name"
+            fullWidth
+            margin="normal"
+            onChange={handleChange("lastName")}
+          />
+          <TextField
+            label="Phone Number"
+            fullWidth
+            margin="normal"
+            onChange={handleChange("phoneNumber")}
+          />
+          <TextField
+            label="Email"
+            fullWidth
+            margin="normal"
+            onChange={handleChange("email")}
+          />
+          <Box sx={{ mt: 2 }}>
+            <Button type="submit" variant="contained">
+              Save Changes
+            </Button>
+          </Box>
+        </form>
+      </Paper>
+    </DashboardLayout>
   );
 };
+
 export default EditProfilePage;

@@ -1,5 +1,8 @@
+// src/pages/superadmin/SuperAdminDashboard.tsx
 import { useState } from "react";
-import { Container, Typography, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAddAlt";
+import DashboardLayout from "../../components/layout/DashboardLayout";
 import EmployeeTable from "../../components/EmployeeTable";
 import UserFormDialog from "../../components/UserFormDialog";
 import type { EmployeeResponse } from "../../types/auth.type";
@@ -10,19 +13,27 @@ const SuperAdminDashboard = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   return (
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        SuperAdmin Dashboard
-      </Typography>
-      <Button
-        variant="contained"
-        onClick={() => {
-          setEditing(null);
-          setDialogOpen(true);
+    <DashboardLayout title="All Users">
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
         }}
       >
-        Add User
-      </Button>
+        <Typography variant="h5">Manage All Users</Typography>
+        <Button
+          variant="contained"
+          startIcon={<PersonAddIcon />}
+          onClick={() => {
+            setEditing(null);
+            setDialogOpen(true);
+          }}
+        >
+          Add User
+        </Button>
+      </Box>
       <EmployeeTable
         key={refreshKey}
         onEdit={(emp) => {
@@ -35,9 +46,10 @@ const SuperAdminDashboard = () => {
         onClose={() => setDialogOpen(false)}
         onSaved={() => setRefreshKey((k) => k + 1)}
         editingEmployee={editing}
-        availableRoles={["ADMIN", "SUPERADMIN", "EMPLOYEE"]} // SuperAdmin can create anyone
+        availableRoles={["ADMIN", "SUPERADMIN", "EMPLOYEE"]}
       />
-    </Container>
+    </DashboardLayout>
   );
 };
+
 export default SuperAdminDashboard;
