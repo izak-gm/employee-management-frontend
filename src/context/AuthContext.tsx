@@ -1,11 +1,12 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
-import type { Role, DecodedToken } from "../types/auth.type";
+import type { DecodedToken, Role } from "../types/auth.type";
 
 interface AuthContextType {
   token: string | null;
   employeeId: string | null;
+  email: string | null;
   role: Role | null;
   isAuthenticated: boolean;
   login: (token: string) => void;
@@ -14,32 +15,41 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token"),
-  );
-  const [decoded, setDecoded] = useState<DecodedToken | null>(null);
+const VALID_ROLES: Role[] = ["ADMIN", "SUPERADMIN", "EMPLOYEE"];
 
-  useEffect(() => {
-    if (token) {
-      try {
-        const payload = jwtDecode<DecodedToken>(token);
-        if (payload.exp * 1000 < Date.now()) {
-          logout();
-        } else {
-          setDecoded(payload);
-        }
-      } catch {
-        logout();
-      }
-    } else {
-      setDecoded(null);
-    }
-  }, [token]);
+const extractRole = (role: string | undefined): Role | null => {
+  if (!role) return null;
+  const cleaned = role.replace("ROLE_", "");
+  return VALID_ROLES.includes(cleaned as Role) ? (cleaned as Role) : null;
+};
+
+const decodeStoredToken = (token: string | null): DecodedToken | null => {
+  if (!token) return null;
+  try {
+    const payload = jwtDecode<DecodedToken>(token);
+    if (payload.exp * 1000 < Date.now()) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+};
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const initialToken = localStorage.getItem("token");
+  const [token, setToken] = useState<string | null>(initialToken);
+  const [decoded, setDecoded] = useState<DecodedToken | null>(
+    decodeStoredToken(initialToken),
+  );
 
   const login = (newToken: string) => {
+    const payload = decodeStoredToken(newToken);
+    if (!payload) {
+      logout();
+      return;
+    }
     localStorage.setItem("token", newToken);
     setToken(newToken);
+    setDecoded(payload);
   };
 
   const logout = () => {
@@ -53,7 +63,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         token,
         employeeId: decoded?.employeeId ?? null,
-        role: decoded?.role ?? null,
+        email: decoded?.email ?? null,
+        role: extractRole(decoded?.role),
         isAuthenticated: !!token,
         login,
         logout,
