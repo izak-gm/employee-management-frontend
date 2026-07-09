@@ -19,6 +19,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { updateMyProfile } from "../../api/employeeApi";
+import { extractErrorMessage } from "../../api/errorUtils";
 
 const getStrength = (
   password: string,
@@ -70,9 +71,9 @@ const ResetPasswordPage = () => {
       setSuccess(true);
       setNewPassword("");
       setConfirmPassword("");
-    } catch {
-      setError("Could not reset password. Please try again.");
-    } finally {
+ } catch (err) {
+  setError(extractErrorMessage(err, 'Could not reset password. Please try again.'));
+}finally {
       setSaving(false);
     }
   };

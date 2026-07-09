@@ -1,4 +1,3 @@
-// src/pages/auth/RegisterPage.tsx
 import { useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
@@ -9,13 +8,19 @@ import {
   Typography,
   Alert,
   Link,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { register } from "../../api/authApi";
 import { useAuth } from "../../context/AuthContext";
+import { extractErrorMessage } from "../../api/errorUtils";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -31,9 +36,9 @@ const RegisterPage = () => {
         login(res.data.token);
         navigate("/");
       }
-    } catch {
-      setError("Registration failed. That email may already be in use.");
-    } finally {
+   } catch (err) {
+  setError(extractErrorMessage(err, 'Registration failed. Please try again.'));
+} finally {
       setLoading(false);
     }
   };
@@ -108,11 +113,28 @@ const RegisterPage = () => {
             />
             <TextField
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               fullWidth
               margin="normal"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((s) => !s)}
+                        edge="end"
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
             />
             <Button
               type="submit"

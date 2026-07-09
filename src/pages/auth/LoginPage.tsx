@@ -9,40 +9,44 @@ import {
   Alert,
   Link,
   InputAdornment,
+  IconButton,
 } from "@mui/material";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { login as loginApi } from "../../api/authApi";
 import { useAuth } from "../../context/AuthContext";
+import { extractErrorMessage } from "../../api/errorUtils";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const res = await loginApi({ email, password });
-      if (res.data.token) {
-        login(res.data.token);
-        navigate("/");
-      }
-    } catch {
-      setError("Invalid email or password. Please try again.");
-    } finally {
-      setLoading(false);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+  try {
+    const res = await loginApi({ email, password });
+    if (res.data.token) {
+      login(res.data.token);
+      navigate("/");
     }
-  };
+  } catch (err) {
+    setError(extractErrorMessage(err, "Invalid email or password."));
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Grid container sx={{ minHeight: "100vh" }}>
-      {/* Branding panel */}
       <Grid
         size={{ xs: 0, md: 6 }}
         sx={{
@@ -78,7 +82,6 @@ const LoginPage = () => {
         </Typography>
       </Grid>
 
-      {/* Form panel */}
       <Grid
         size={{ xs: 12, md: 6 }}
         sx={{
@@ -121,7 +124,7 @@ const LoginPage = () => {
             />
             <TextField
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               fullWidth
               margin="normal"
               value={password}
@@ -131,6 +134,19 @@ const LoginPage = () => {
                   startAdornment: (
                     <InputAdornment position="start">
                       <LockOutlinedIcon color="action" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((s) => !s)}
+                        edge="end"
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
                     </InputAdornment>
                   ),
                 },
