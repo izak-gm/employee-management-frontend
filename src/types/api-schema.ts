@@ -20,6 +20,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/employees/update-profile/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateMyProfile"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/register": {
         parameters: {
             query?: never;
@@ -100,6 +116,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/employees/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMyProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -125,9 +157,9 @@ export interface components {
             enabled?: boolean;
             authorities?: components["schemas"]["GrantedAuthority"][];
             username?: string;
-            accountNonExpired?: boolean;
             accountNonLocked?: boolean;
             credentialsNonExpired?: boolean;
+            accountNonExpired?: boolean;
         };
         GrantedAuthority: {
             authority?: string;
@@ -183,6 +215,30 @@ export interface operations {
             path: {
                 employeeId: string;
             };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateEmployee"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Employee"];
+                };
+            };
+        };
+    };
+    updateMyProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -337,6 +393,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MessageResponse"];
+                };
+            };
+        };
+    };
+    getMyProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EmployeeResponse"];
                 };
             };
         };

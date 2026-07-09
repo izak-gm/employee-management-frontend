@@ -8,7 +8,8 @@ import EditProfilePage from "./pages/profile/EditProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
-import ProfilePage from "./pages/profile/ProfilePage";
+import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
+import ViewProfilePage from "./pages/profile/ViewProfilePage";
 
 const RoleRedirect = () => {
   const { role } = useAuth();
@@ -29,9 +30,12 @@ function App() {
 
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<RoleRedirect />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/edit/profile" element={<EditProfilePage />} />
-
+            <Route path="/profile" element={<ViewProfilePage />} />
+            <Route path="/profile/edit" element={<EditProfilePage />} />
+            <Route
+              path="/profile/reset-password"
+              element={<ResetPasswordPage />}
+            />
             <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
               <Route path="/admin" element={<AdminDashboard />} />
             </Route>

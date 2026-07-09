@@ -1,47 +1,123 @@
 // src/pages/profile/EditProfilePage.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
+  Paper,
+  Typography,
   TextField,
   Button,
-  Typography,
   Alert,
-  Paper,
+  Stack,
+  Skeleton,
 } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import { updateEmployee } from "../../api/employeeApi";
-import { useAuth } from "../../context/AuthContext";
+import { getMyProfile, updateMyProfile } from "../../api/employeeApi";
 import type { UpdateEmployee } from "../../types/auth.type";
 
+type FormState = {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+};
+
+type FormErrors = Partial<Record<keyof FormState, string>>;
+
 const EditProfilePage = () => {
-  const { employeeId } = useAuth();
-  const [form, setForm] = useState<UpdateEmployee>({
+  const navigate = useNavigate();
+  const [form, setForm] = useState<FormState>({
     firstName: "",
     lastName: "",
     phoneNumber: "",
     email: "",
   });
-  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [banner, setBanner] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getMyProfile();
+        setForm({
+          firstName: res.data.firstName ?? "",
+          lastName: res.data.lastName ?? "",
+          phoneNumber: res.data.phoneNumber ?? "",
+          email: res.data.email ?? "",
+        });
+      } catch {
+        setBanner({
+          type: "error",
+          text: "Could not load your profile. Please try again.",
+        });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   const handleChange =
-    (field: keyof UpdateEmployee) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setForm((prev) => ({ ...prev, [field]: e.target.value }));
+      if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
     };
+
+  const validate = (): boolean => {
+    const nextErrors: FormErrors = {};
+    if (!form.firstName.trim()) nextErrors.firstName = "First name is required";
+    if (!form.lastName.trim()) nextErrors.lastName = "Last name is required";
+    if (!form.phoneNumber.trim())
+      nextErrors.phoneNumber = "Phone number is required";
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!employeeId) return;
+    setBanner(null);
+    if (!validate()) {
+      setBanner({
+        type: "error",
+        text: "Please fill in all required fields before saving.",
+      });
+      return;
+    }
+
+    setSaving(true);
     try {
-      await updateEmployee(employeeId, form);
-      setMessage("Profile updated successfully.");
+      const payload: UpdateEmployee = {
+        firstName: form.firstName.trim(),
+        lastName: form.lastName.trim(),
+        phoneNumber: form.phoneNumber.trim(),
+        email: form.email.trim(),
+      };
+      await updateMyProfile(payload);
+      setBanner({ type: "success", text: "Profile updated successfully." });
+      setTimeout(() => navigate("/profile"), 900);
     } catch {
-      setMessage("Update failed. Please try again.");
+      setBanner({ type: "error", text: "Update failed. Please try again." });
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
-    <DashboardLayout title="My Profile">
+    <DashboardLayout title="Edit Profile">
+      <Button
+        startIcon={<ArrowBackIcon />}
+        onClick={() => navigate("/profile")}
+        sx={{ mb: 2, color: "text.secondary" }}
+      >
+        Back to Profile
+      </Button>
+
       <Paper
         sx={{
           p: 4,
@@ -51,44 +127,87 @@ const EditProfilePage = () => {
         }}
       >
         <Typography variant="h6" gutterBottom>
-          Personal Information
+          Edit Personal Information
         </Typography>
-        {message && (
-          <Alert severity="info" sx={{ mb: 2 }}>
-            {message}
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          Fields marked as required must be completed before saving.
+        </Typography>
+
+        {banner && (
+          <Alert severity={banner.type} sx={{ mb: 2 }}>
+            {banner.text}
           </Alert>
         )}
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="First Name"
-            fullWidth
-            margin="normal"
-            onChange={handleChange("firstName")}
-          />
-          <TextField
-            label="Last Name"
-            fullWidth
-            margin="normal"
-            onChange={handleChange("lastName")}
-          />
-          <TextField
-            label="Phone Number"
-            fullWidth
-            margin="normal"
-            onChange={handleChange("phoneNumber")}
-          />
-          <TextField
-            label="Email"
-            fullWidth
-            margin="normal"
-            onChange={handleChange("email")}
-          />
-          <Box sx={{ mt: 2 }}>
-            <Button type="submit" variant="contained">
-              Save Changes
-            </Button>
-          </Box>
-        </form>
+
+        {loading ? (
+          <Stack spacing={2}>
+            <Skeleton variant="rounded" height={56} />
+            <Skeleton variant="rounded" height={56} />
+            <Skeleton variant="rounded" height={56} />
+            <Skeleton variant="rounded" height={56} />
+          </Stack>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={2.5}>
+              <TextField
+                label="First Name"
+                required
+                fullWidth
+                placeholder="Fill this field"
+                value={form.firstName}
+                onChange={handleChange("firstName")}
+                error={!!errors.firstName}
+                helperText={errors.firstName}
+              />
+              <TextField
+                label="Last Name"
+                required
+                fullWidth
+                placeholder="Fill this field"
+                value={form.lastName}
+                onChange={handleChange("lastName")}
+                error={!!errors.lastName}
+                helperText={errors.lastName}
+              />
+              <TextField
+                label="Phone Number"
+                required
+                fullWidth
+                placeholder="Fill this field"
+                value={form.phoneNumber}
+                onChange={handleChange("phoneNumber")}
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber}
+              />
+              <TextField
+                label="Email"
+                fullWidth
+                placeholder="Fill this field"
+                value={form.email}
+                onChange={handleChange("email")}
+                helperText="Changing this updates your login email."
+              />
+
+              <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  startIcon={<SaveIcon />}
+                  disabled={saving}
+                >
+                  {saving ? "Saving…" : "Save Changes"}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate("/profile")}
+                  disabled={saving}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </Stack>
+          </form>
+        )}
       </Paper>
     </DashboardLayout>
   );

@@ -106,7 +106,9 @@ const DashboardLayout = ({
         <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
         <List sx={{ px: 1.5, mt: 1 }}>
           {navItems.map((item) => {
-            const active = location.pathname === item.path;
+            const active =
+              location.pathname === item.path ||
+              location.pathname.startsWith(`${item.path}/`);
             return (
               <ListItemButton
                 key={item.label}
