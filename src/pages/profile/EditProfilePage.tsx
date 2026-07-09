@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { getMyProfile, updateMyProfile } from "../../api/employeeApi";
 import type { UpdateEmployee } from "../../types/auth.type";
+import { extractErrorMessage } from "../../api/errorUtils";
 
 type FormState = {
   firstName: string;
@@ -52,12 +53,9 @@ const EditProfilePage = () => {
           phoneNumber: res.data.phoneNumber ?? "",
           email: res.data.email ?? "",
         });
-      } catch {
-        setBanner({
-          type: "error",
-          text: "Could not load your profile. Please try again.",
-        });
-      } finally {
+    } catch (err) {
+  setBanner({ type: 'error', text: extractErrorMessage(err, 'Update failed. Please try again.') });
+} finally {
         setLoading(false);
       }
     })();
