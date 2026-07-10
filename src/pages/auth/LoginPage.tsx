@@ -152,6 +152,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                 },
               }}
             />
+            <Typography sx={{ mt: 1, textAlign: "right" }}>
+              <Link
+                component={RouterLink}
+                to="/forgot-password"
+                sx={{ fontSize: 13 }}
+              >
+                Forgot password?
+              </Link>
+            </Typography>
+            
             <Button
               type="submit"
               variant="contained"
@@ -163,20 +173,6 @@ const handleSubmit = async (e: React.FormEvent) => {
               {loading ? "Signing in…" : "Sign In"}
             </Button>
           </form>
-
-          <Typography
-            sx={{ mt: 3, textAlign: "center" }}
-            color="text.secondary"
-          >
-            Don't have an account?{" "}
-            <Link
-              component={RouterLink}
-              to="/register"
-              sx={{ fontWeight: 600 }}
-            >
-              Create one
-            </Link>
-          </Typography>
         </Box>
       </Grid>
     </Grid>

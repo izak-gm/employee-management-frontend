@@ -79,7 +79,6 @@ src/
 │   ├── axiosInstance.ts      # Axios instance, JWT interceptor, 401 handling
 │   ├── authApi.ts            # register, login, registerUserWithRole
 │   ├── employeeApi.ts        # getMyProfile, updateMyProfile, getEmployees, getEmployeeById, updateEmployee, deleteEmployee
-│   ├── userApi.ts            # ⚠️ legacy — see "Known Gaps" below
 │   └── errorUtils.ts         # extractErrorMessage — surfaces real backend error messages in the UI
 ├── context/
 │   └── AuthContext.tsx       # Decodes JWT, exposes auth state app-wide
@@ -124,7 +123,6 @@ src/
 
 ## Known Gaps / Follow-ups
 
-- **`src/api/userApi.ts` vs `src/api/employeeApi.ts`** — both files currently exist. `employeeApi.ts` is the one aligned with the generated OpenAPI types (`getMyProfile`, `updateMyProfile`, `getEmployees`, `getEmployeeById`, `updateEmployee`, `deleteEmployee`) and is what all current pages/components import. `userApi.ts` appears to be left over from an earlier draft — check for any remaining imports of it and remove the file (or its unused exports) to avoid two sources of truth for the same API calls.
 - `GET /employees` returns a plain array with no total count — pagination in `EmployeeTable` is currently a placeholder and should be revisited if the backend adds paginated response metadata.
 - The API base URL is hardcoded (see Configuration above) — should move to environment-based config before any non-local deployment.
 - The `updateMyProfile`/`updateEmployee` responses currently return the full backend `Employee` entity (not the sanitized `EmployeeResponse`) — the frontend only reads the fields it needs, but this is worth tightening on the backend.
