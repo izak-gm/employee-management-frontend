@@ -406,11 +406,11 @@ export interface components {
             inviteToken?: components["schemas"]["InviteToken"];
             leaves?: components["schemas"]["Leave"][];
             enabled?: boolean;
-            accountNonLocked?: boolean;
-            credentialsNonExpired?: boolean;
-            accountNonExpired?: boolean;
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
+            accountNonExpired?: boolean;
+            accountNonLocked?: boolean;
+            credentialsNonExpired?: boolean;
         };
         GrantedAuthority: {
             authority?: string;
