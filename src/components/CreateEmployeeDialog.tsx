@@ -8,21 +8,40 @@ import {
   Button,
   Alert,
   Stack,
+  MenuItem,
 } from "@mui/material";
 import { createEmployee } from "../api/authApi";
 import { extractErrorMessage } from "../api/errorUtils";
+
+type Role = "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
+
+const roleLabel: Record<Role, string> = {
+  ADMIN: "Admin",
+  SUPERADMIN: "Super Admin",
+  EMPLOYEE: "Employee",
+};
 
 interface Props {
   open: boolean;
   onClose: () => void;
   onSaved: () => void;
+  /** Roles this operator is allowed to assign when creating an employee */
+  availableRoles: Role[];
 }
 
-const CreateEmployeeDialog = ({ open, onClose, onSaved }: Props) => {
+const CreateEmployeeDialog = ({
+  open,
+  onClose,
+  onSaved,
+  availableRoles,
+}: Props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [role, setRole] = useState<Role | "">(
+    availableRoles.length === 1 ? availableRoles[0] : "",
+  );
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,6 +50,7 @@ const CreateEmployeeDialog = ({ open, onClose, onSaved }: Props) => {
     setLastName("");
     setEmail("");
     setPhoneNumber("");
+    setRole(availableRoles.length === 1 ? availableRoles[0] : "");
     setError("");
   };
 
@@ -40,14 +60,15 @@ const CreateEmployeeDialog = ({ open, onClose, onSaved }: Props) => {
       !firstName.trim() ||
       !lastName.trim() ||
       !email.trim() ||
-      !phoneNumber.trim()
+      !phoneNumber.trim() ||
+      !role
     ) {
       setError("All fields are required.");
       return;
     }
     setLoading(true);
     try {
-      await createEmployee({ firstName, lastName, email, phoneNumber });
+      await createEmployee({ firstName, lastName, email, phoneNumber, role });
       reset();
       onSaved();
     } catch (err) {
@@ -105,20 +126,20 @@ const CreateEmployeeDialog = ({ open, onClose, onSaved }: Props) => {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
-          {/* <TextField
-                        select
-                        label="Role"
-                        fullWidth
-                        margin="normal"
-                        value={role}
-                        onChange={(e) => setRole(e.target.value as Role)}
-                      >
-                        {availableRoles.map((r) => (
-                          <MenuItem key={r} value={r}>
-                            {r}
-                          </MenuItem>
-                        ))}
-                      </TextField> */}
+          <TextField
+            label="Role"
+            select
+            required
+            fullWidth
+            value={role}
+            onChange={(e) => setRole(e.target.value as Role)}
+          >
+            {availableRoles.map((r) => (
+              <MenuItem key={r} value={r}>
+                {roleLabel[r]}
+              </MenuItem>
+            ))}
+          </TextField>
         </Stack>
       </DialogContent>
       <DialogActions>

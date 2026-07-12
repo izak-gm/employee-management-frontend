@@ -19,6 +19,8 @@ import {
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/SpaceDashboard";
 import PeopleIcon from "@mui/icons-material/People";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -69,6 +71,16 @@ const DashboardLayout = ({
             label: "Employees",
             path: `/${role.toLowerCase()}/employees`,
             icon: <PeopleIcon />,
+          },
+          {
+            label: "Leaves",
+            path: `/${role.toLowerCase()}/leaves`,
+            icon: <EventNoteIcon />,
+          },
+          {
+            label: "My Leaves",
+            path: "/employee/leaves",
+            icon: <BeachAccessIcon />,
           },
         ]
       : []),

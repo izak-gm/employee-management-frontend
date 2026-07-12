@@ -3,7 +3,12 @@ import type {
   AdminRegisterRequest,
   AuthResponse,
 } from "../types/auth.type";
+import type { components } from "../types/api-schema";
 import axiosInstance from "./axiosInstance";
+
+export type CreateEmployeeRequest =
+  components["schemas"]["CreateEmployeeRequest"];
+export type CreateEmployeeResponse = components["schemas"]["EmployeeResponse"];
 
 // Public self-registration (creates EMPLOYEE by default, per backend logic)
 export const login = (data: RegisterLoginRequest) =>
@@ -24,9 +29,5 @@ export const resetPasswordViaToken = (data: {
   password: string;
 }) => axiosInstance.post("/auth/reset-password", data);
 
-export const createEmployee = (data: {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-}) => axiosInstance.post("/employees/create", data);
+export const createEmployee = (data: CreateEmployeeRequest) =>
+  axiosInstance.post<CreateEmployeeResponse>("/employees/create", data);

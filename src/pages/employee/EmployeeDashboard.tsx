@@ -7,6 +7,9 @@ import {
   Button,
   Stack,
   Chip,
+  Divider,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,11 +21,14 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import WorkIcon from "@mui/icons-material/Work";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import {
   getMyLeaves,
   getMyBalance,
+  getMyNotifications,
+  coverAction,
   type LeaveResponse,
   type LeaveBalance,
 } from "../../api/leaveApi";
@@ -39,11 +45,21 @@ const EmployeeDashboard = () => {
   const navigate = useNavigate();
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
   const [balances, setBalances] = useState<LeaveBalance[]>([]);
+  const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     getMyLeaves().then((r) => setLeaves(r.data));
     getMyBalance().then((r) => setBalances(r.data));
-  }, []);
+    getMyNotifications().then((r) =>
+      setCoverRequests(r.data.filter((l) => l.status === "PENDING_COVER")),
+    );
+  }, [refreshKey]);
+
+  const handleCoverAction = async (id: string, accept: boolean) => {
+    await coverAction(id, accept);
+    setRefreshKey((k) => k + 1);
+  };
 
   const stats = useMemo(() => {
     const year = new Date().getFullYear();
@@ -240,6 +256,79 @@ const EmployeeDashboard = () => {
           />
         </Grid>
       </Grid>
+
+      <Paper sx={{ border: "1px solid", borderColor: "divider", mb: 4 }}>
+        <Box
+          sx={{
+            p: 3,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+            <HandshakeIcon sx={{ color: "secondary.main" }} />
+            <Typography variant="h6">
+              Cover requests awaiting your response
+            </Typography>
+          </Stack>
+          {coverRequests.length > 0 && (
+            <Chip label={coverRequests.length} color="warning" size="small" />
+          )}
+        </Box>
+        <Divider />
+        {coverRequests.length === 0 ? (
+          <Box sx={{ p: 4, textAlign: "center" }}>
+            <Typography color="text.secondary">
+              Nobody's asked you to cover right now.
+            </Typography>
+          </Box>
+        ) : (
+          coverRequests.map((l) => (
+            <Box
+              key={l.id}
+              sx={{
+                px: 3,
+                py: 2,
+                borderTop: "1px solid",
+                borderColor: "divider",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 1,
+              }}
+            >
+              <Box>
+                <Typography sx={{ fontWeight: 600 }}>
+                  {l.employeeFullName} needs cover
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {l.leaveType} · {l.startDate} → {l.endDate}
+                </Typography>
+              </Box>
+              <Stack direction="row" spacing={1}>
+                <Tooltip title="Accept cover">
+                  <IconButton
+                    color="success"
+                    onClick={() => handleCoverAction(l.id!, true)}
+                  >
+                    <CheckCircleIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Decline cover">
+                  <IconButton
+                    color="error"
+                    onClick={() => handleCoverAction(l.id!, false)}
+                  >
+                    <CancelIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+            </Box>
+          ))
+        )}
+      </Paper>
 
       <Paper
         sx={{

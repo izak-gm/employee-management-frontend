@@ -14,6 +14,7 @@ import {
   TableRow,
   IconButton,
   Tooltip,
+  Chip,
 } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -23,6 +24,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import StageChip from "../../components/StageChip";
@@ -30,7 +32,9 @@ import {
   getPendingLeaves,
   getAllLeaves,
   getDashboardStats,
+  getMyNotifications,
   adminActionLeave,
+  coverAction,
   type LeaveResponse,
   type DashboardStats,
 } from "../../api/leaveApi";
@@ -57,6 +61,7 @@ const AdminDashboard = () => {
   const [pending, setPending] = useState<LeaveResponse[]>([]);
   const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
@@ -65,10 +70,18 @@ const AdminDashboard = () => {
     );
     getAllLeaves().then((r) => setAllLeaves(r.data));
     getDashboardStats().then((r) => setStats(r.data));
+    getMyNotifications().then((r) =>
+      setCoverRequests(r.data.filter((l) => l.status === "PENDING_COVER")),
+    );
   }, [refreshKey]);
 
   const handleAction = async (id: string, status: "APPROVED" | "REJECTED") => {
     await adminActionLeave(id, status);
+    setRefreshKey((k) => k + 1);
+  };
+
+  const handleCoverAction = async (id: string, accept: boolean) => {
+    await coverAction(id, accept);
     setRefreshKey((k) => k + 1);
   };
 
@@ -152,6 +165,79 @@ const AdminDashboard = () => {
           />
         </Grid>
       </Grid>
+
+      <Paper sx={{ border: "1px solid", borderColor: "divider", mb: 4 }}>
+        <Box
+          sx={{
+            p: 3,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+            <HandshakeIcon sx={{ color: "secondary.main" }} />
+            <Typography variant="h6">
+              Cover requests awaiting your response
+            </Typography>
+          </Stack>
+          {coverRequests.length > 0 && (
+            <Chip label={coverRequests.length} color="warning" size="small" />
+          )}
+        </Box>
+        <Divider />
+        {coverRequests.length === 0 ? (
+          <Box sx={{ p: 4, textAlign: "center" }}>
+            <Typography color="text.secondary">
+              Nobody's asked you to cover right now.
+            </Typography>
+          </Box>
+        ) : (
+          coverRequests.map((l) => (
+            <Box
+              key={l.id}
+              sx={{
+                px: 3,
+                py: 2,
+                borderTop: "1px solid",
+                borderColor: "divider",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 1,
+              }}
+            >
+              <Box>
+                <Typography sx={{ fontWeight: 600 }}>
+                  {l.employeeFullName} needs cover
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {l.leaveType} · {l.startDate} → {l.endDate}
+                </Typography>
+              </Box>
+              <Stack direction="row" spacing={1}>
+                <Tooltip title="Accept cover">
+                  <IconButton
+                    color="success"
+                    onClick={() => handleCoverAction(l.id!, true)}
+                  >
+                    <CheckCircleIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Decline cover">
+                  <IconButton
+                    color="error"
+                    onClick={() => handleCoverAction(l.id!, false)}
+                  >
+                    <CancelIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+            </Box>
+          ))
+        )}
+      </Paper>
 
       <Paper
         sx={{
@@ -336,6 +422,44 @@ const AdminDashboard = () => {
       <Box sx={{ mb: 4 }}>
         <RoadmapNote text="Department breakdown and average approval time need a department field on Employee and an approvedAt timestamp on Leave — not in the current API." />
       </Box>
+
+      <Paper
+        sx={{
+          p: 2.5,
+          mb: 4,
+          border: "1px solid",
+          borderColor: "divider",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+          <EventNoteIcon sx={{ color: "primary.main" }} />
+          <Typography variant="body1">
+            View, filter, and act on every leave request across the
+            organization.
+          </Typography>
+        </Stack>
+        <Stack direction="row" spacing={1.5}>
+          <Button
+            variant="text"
+            startIcon={<BeachAccessIcon />}
+            onClick={() => navigate("/employee/apply-leave")}
+          >
+            Request time off
+          </Button>
+          <Button
+            variant="outlined"
+            endIcon={<ArrowForwardIcon />}
+            onClick={() => navigate("/admin/leaves")}
+          >
+            View all leaves
+          </Button>
+        </Stack>
+      </Paper>
 
       <Paper sx={{ border: "1px solid", borderColor: "divider" }}>
         <Box sx={{ p: 3 }}>
