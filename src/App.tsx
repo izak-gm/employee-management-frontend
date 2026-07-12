@@ -6,8 +6,10 @@ import LoginPage from "./pages/auth/LoginPage";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminManageEmployeesPage from "./pages/admin/ManageEmployeesPage";
+import AdminLeavesPage from "./pages/admin/LeavesPage";
 import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
 import SuperAdminManageEmployeesPage from "./pages/superadmin/ManageEmployeesPage";
+import SuperAdminLeavesPage from "./pages/superadmin/LeavesPage";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
 import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
 import ViewProfilePage from "./pages/profile/ViewProfilePage";
@@ -53,6 +55,7 @@ function App() {
                 path="/admin/employees"
                 element={<AdminManageEmployeesPage />}
               />
+              <Route path="/admin/leaves" element={<AdminLeavesPage />} />
             </Route>
 
             <Route element={<RoleRoute allowedRoles={["SUPERADMIN"]} />}>
@@ -61,10 +64,28 @@ function App() {
                 path="/superadmin/employees"
                 element={<SuperAdminManageEmployeesPage />}
               />
+              <Route
+                path="/superadmin/leaves"
+                element={<SuperAdminLeavesPage />}
+              />
             </Route>
 
             <Route element={<RoleRoute allowedRoles={["EMPLOYEE"]} />}>
               <Route path="/employee" element={<EmployeeDashboard />} />
+            </Route>
+
+            {/*
+              Personal leave pages: an Admin or SuperAdmin is still an
+              employee under the hood — getMyLeaves/getMyBalance/applyForLeave
+              are scoped to "whoever is logged in", not restricted to the
+              EMPLOYEE role — so these need to stay reachable by all three
+              roles rather than living behind the EMPLOYEE-only guard above.
+            */}
+            <Route
+              element={
+                <RoleRoute allowedRoles={["EMPLOYEE", "ADMIN", "SUPERADMIN"]} />
+              }
+            >
               <Route path="/employee/leaves" element={<MyLeavesPage />} />
               <Route
                 path="/employee/apply-leave"
