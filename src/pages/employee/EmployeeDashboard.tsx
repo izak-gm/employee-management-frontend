@@ -6,22 +6,20 @@ import {
   Box,
   Button,
   Stack,
-  Divider,
   Chip,
 } from "@mui/material";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import AddIcon from "@mui/icons-material/Add";
-import ListAltIcon from "@mui/icons-material/ListAlt";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import WorkIcon from "@mui/icons-material/Work";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import LeaveBalanceCards from "../../components/LeaveBalanceCards";
-import StageChip from "../../components/StageChip";
 import {
   getMyLeaves,
   getMyBalance,
@@ -31,20 +29,10 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import {
   StatCard,
-  ProgressRow,
-  MiniCalendar,
   isOnLeaveToday,
   isUpcoming,
   daysBetweenInclusive,
 } from "../../components/dashboard/DashboardWidgets";
-
-const TYPE_COLORS: Record<string, string> = {
-  ANNUAL: "#0F2A4A",
-  SICK: "#C9A227",
-  PATERNITY: "#2C4A6E",
-  MATERNITY: "#aa3bff",
-  COMPASSIONATE: "#5B6B7A",
-};
 
 const EmployeeDashboard = () => {
   const { email } = useAuth();
@@ -82,17 +70,6 @@ const EmployeeDashboard = () => {
       .filter((l) => isUpcoming(l.startDate))
       .sort((a, b) => (a.startDate ?? "").localeCompare(b.startDate ?? ""))[0];
 
-    const leaveDaysSet = new Set<string>();
-    approved.forEach((l) => {
-      if (!l.startDate || !l.endDate) return;
-      let d = new Date(l.startDate);
-      const end = new Date(l.endDate);
-      while (d <= end) {
-        leaveDaysSet.add(d.toISOString().slice(0, 10));
-        d = new Date(d.getTime() + 86_400_000);
-      }
-    });
-
     return {
       pending,
       approvedCount: approved.length,
@@ -103,11 +80,8 @@ const EmployeeDashboard = () => {
       totalRequestsYtd: thisYear.length,
       currentLeave,
       nextLeave,
-      leaveDaysSet,
     };
   }, [leaves, balances]);
-
-  const recent = leaves.slice(0, 5);
 
   return (
     <DashboardLayout title="Dashboard">
@@ -158,14 +132,12 @@ const EmployeeDashboard = () => {
                   sx={{ alignItems: "center" }}
                 >
                   {stats.currentLeave ? (
-                    <>
-                      <Chip
-                        icon={<WorkIcon />}
-                        label="On leave today"
-                        color="warning"
-                        size="small"
-                      />
-                    </>
+                    <Chip
+                      icon={<WorkIcon />}
+                      label="On leave today"
+                      color="warning"
+                      size="small"
+                    />
                   ) : (
                     <Chip
                       icon={<WorkIcon />}
@@ -227,7 +199,7 @@ const EmployeeDashboard = () => {
       </Grid>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             icon={<HourglassEmptyIcon />}
             label="Pending"
@@ -235,7 +207,7 @@ const EmployeeDashboard = () => {
             color="#f57c00"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             icon={<CheckCircleIcon />}
             label="Approved"
@@ -243,7 +215,7 @@ const EmployeeDashboard = () => {
             color="#388e3c"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             icon={<CancelIcon />}
             label="Rejected"
@@ -251,7 +223,15 @@ const EmployeeDashboard = () => {
             color="#d32f2f"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
+          <StatCard
+            icon={<CalendarMonthIcon />}
+            label="Days taken YTD"
+            value={stats.daysTaken}
+            color="#2C4A6E"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
             icon={<EventNoteIcon />}
             label="Requests this year"
@@ -261,121 +241,32 @@ const EmployeeDashboard = () => {
         </Grid>
       </Grid>
 
-      <Typography
-        variant="overline"
-        color="text.secondary"
-        sx={{ letterSpacing: "0.1em" }}
+      <Paper
+        sx={{
+          p: 2.5,
+          border: "1px solid",
+          borderColor: "divider",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
       >
-        Your Leave Balances
-      </Typography>
-      <LeaveBalanceCards />
-
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, md: 7 }}>
-          <Paper
-            sx={{
-              p: 3,
-              border: "1px solid",
-              borderColor: "divider",
-              height: "100%",
-            }}
-          >
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Leave usage this cycle
-            </Typography>
-            <Stack spacing={2.5}>
-              {balances.map((b) => (
-                <ProgressRow
-                  key={b.leaveType}
-                  label={b.leaveType ?? ""}
-                  used={b.usedDays ?? 0}
-                  max={b.maxDays ?? 0}
-                  unlimited={b.unlimited}
-                  color={TYPE_COLORS[b.leaveType ?? ""] ?? "#0F2A4A"}
-                />
-              ))}
-              {balances.length === 0 && (
-                <Typography color="text.secondary">
-                  No balance data yet.
-                </Typography>
-              )}
-            </Stack>
-          </Paper>
-        </Grid>
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Paper
-            sx={{
-              p: 3,
-              border: "1px solid",
-              borderColor: "divider",
-              height: "100%",
-            }}
-          >
-            <MiniCalendar highlighted={stats.leaveDaysSet} color="#0F2A4A" />
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ display: "block", mt: 1.5 }}
-            >
-              Highlighted days are your approved leave. Public holidays aren't
-              wired in yet — that needs a holidays endpoint.
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-
-      <Paper sx={{ border: "1px solid", borderColor: "divider" }}>
-        <Box
-          sx={{
-            p: 3,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+          <EventNoteIcon sx={{ color: "primary.main" }} />
+          <Typography variant="body1">
+            See your leave balance breakdown, usage history, and every request
+            on the My Leaves page.
+          </Typography>
+        </Stack>
+        <Button
+          variant="outlined"
+          endIcon={<ArrowForwardIcon />}
+          onClick={() => navigate("/employee/leaves")}
         >
-          <Typography variant="h6">Recent Leave Activity</Typography>
-          <Button
-            size="small"
-            startIcon={<ListAltIcon />}
-            onClick={() => navigate("/employee/leaves")}
-          >
-            View All
-          </Button>
-        </Box>
-        <Divider />
-        {recent.length === 0 ? (
-          <Box sx={{ p: 4, textAlign: "center" }}>
-            <Typography color="text.secondary">
-              No leave applications yet.
-            </Typography>
-          </Box>
-        ) : (
-          recent.map((l) => (
-            <Box
-              key={l.id}
-              sx={{
-                px: 3,
-                py: 2,
-                borderBottom: "1px solid",
-                borderColor: "divider",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box>
-                <Typography
-                  sx={{ fontWeight: 600 }}
-                >{`${l.leaveType ?? ""} Leave`}</Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                >{`${l.startDate ?? ""} → ${l.endDate ?? ""}`}</Typography>
-              </Box>
-              <StageChip status={l.status} />
-            </Box>
-          ))
-        )}
+          Go to My Leaves
+        </Button>
       </Paper>
     </DashboardLayout>
   );

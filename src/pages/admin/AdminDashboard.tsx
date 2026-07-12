@@ -15,16 +15,16 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAddAlt";
+import PeopleIcon from "@mui/icons-material/People";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import GroupsIcon from "@mui/icons-material/Groups";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import EmployeeTable from "../../components/EmployeeTable";
-import CreateEmployeeDialog from "../../components/CreateEmployeeDialog";
 import StageChip from "../../components/StageChip";
 import {
   getPendingLeaves,
@@ -34,7 +34,6 @@ import {
   type LeaveResponse,
   type DashboardStats,
 } from "../../api/leaveApi";
-import type { EmployeeResponse } from "../../types/auth.type";
 import {
   StatCard,
   Donut,
@@ -54,23 +53,18 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 const AdminDashboard = () => {
-  const [createOpen, setCreateOpen] = useState(false);
-  const [, setDialogOpen] = useState(false);
-  const [, setEditing] = useState<EmployeeResponse | null>(null);
+  const navigate = useNavigate();
   const [pending, setPending] = useState<LeaveResponse[]>([]);
   const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const load = () => {
+  useEffect(() => {
     getPendingLeaves().then((r) =>
       setPending(r.data.filter((l) => l.status === "PENDING_ADMIN")),
     );
     getAllLeaves().then((r) => setAllLeaves(r.data));
     getDashboardStats().then((r) => setStats(r.data));
-  };
-  useEffect(() => {
-    load();
   }, [refreshKey]);
 
   const handleAction = async (id: string, status: "APPROVED" | "REJECTED") => {
@@ -159,15 +153,34 @@ const AdminDashboard = () => {
         </Grid>
       </Grid>
 
-      <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+      <Paper
+        sx={{
+          p: 2.5,
+          mb: 4,
+          border: "1px solid",
+          borderColor: "divider",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+          <PeopleIcon sx={{ color: "primary.main" }} />
+          <Typography variant="body1">
+            Add employees, edit profiles, and manage roles from the dedicated
+            Employees page.
+          </Typography>
+        </Stack>
         <Button
-          variant="contained"
-          startIcon={<PersonAddIcon />}
-          onClick={() => setCreateOpen(true)}
+          variant="outlined"
+          endIcon={<ArrowForwardIcon />}
+          onClick={() => navigate("/admin/employees")}
         >
-          Add Employee
+          Manage employees
         </Button>
-      </Stack>
+      </Paper>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={{ xs: 12, md: 4 }}>
@@ -324,7 +337,7 @@ const AdminDashboard = () => {
         <RoadmapNote text="Department breakdown and average approval time need a department field on Employee and an approvedAt timestamp on Leave — not in the current API." />
       </Box>
 
-      <Paper sx={{ border: "1px solid", borderColor: "divider", mb: 4 }}>
+      <Paper sx={{ border: "1px solid", borderColor: "divider" }}>
         <Box sx={{ p: 3 }}>
           <Typography variant="h6">Leave Requests Awaiting Approval</Typography>
         </Box>
@@ -381,26 +394,6 @@ const AdminDashboard = () => {
           </Table>
         )}
       </Paper>
-
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Manage Employees
-      </Typography>
-      <EmployeeTable
-        key={refreshKey}
-        onEdit={(emp) => {
-          setEditing(emp);
-          setDialogOpen(true);
-        }}
-      />
-
-      <CreateEmployeeDialog
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
-        onSaved={() => {
-          setRefreshKey((k) => k + 1);
-          setCreateOpen(false);
-        }}
-      />
     </DashboardLayout>
   );
 };

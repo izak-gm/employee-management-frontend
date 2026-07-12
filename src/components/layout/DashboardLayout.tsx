@@ -67,7 +67,16 @@ const DashboardLayout = ({
       ? [
           {
             label: "Employees",
-            path: `/${role.toLowerCase()}`,
+            path: `/${role.toLowerCase()}/employees`,
+            icon: <PeopleIcon />,
+          },
+        ]
+      : []),
+    ...(role === "EMPLOYEE"
+      ? [
+          {
+            label: "My Leaves",
+            path: "/employee/leaves",
             icon: <PeopleIcon />,
           },
         ]
@@ -106,9 +115,11 @@ const DashboardLayout = ({
         <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
         <List sx={{ px: 1.5, mt: 1 }}>
           {navItems.map((item) => {
-            const active =
-              location.pathname === item.path ||
-              location.pathname.startsWith(`${item.path}/`);
+            const isRootItem = item.path === `/${role?.toLowerCase()}`;
+            const active = isRootItem
+              ? location.pathname === item.path
+              : location.pathname === item.path ||
+                location.pathname.startsWith(`${item.path}/`);
             return (
               <ListItemButton
                 key={item.label}

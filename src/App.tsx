@@ -5,7 +5,9 @@ import RoleRoute from "./routes/RoleRoute";
 import LoginPage from "./pages/auth/LoginPage";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminManageEmployeesPage from "./pages/admin/ManageEmployeesPage";
 import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
+import SuperAdminManageEmployeesPage from "./pages/superadmin/ManageEmployeesPage";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
 import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
 import ViewProfilePage from "./pages/profile/ViewProfilePage";
@@ -47,10 +49,18 @@ function App() {
 
             <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route
+                path="/admin/employees"
+                element={<AdminManageEmployeesPage />}
+              />
             </Route>
 
             <Route element={<RoleRoute allowedRoles={["SUPERADMIN"]} />}>
               <Route path="/superadmin" element={<SuperAdminDashboard />} />
+              <Route
+                path="/superadmin/employees"
+                element={<SuperAdminManageEmployeesPage />}
+              />
             </Route>
 
             <Route element={<RoleRoute allowedRoles={["EMPLOYEE"]} />}>
