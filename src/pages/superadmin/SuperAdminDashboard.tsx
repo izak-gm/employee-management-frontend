@@ -83,7 +83,7 @@ const SuperAdminDashboard = () => {
     const upcoming = allLeaves
       .filter((l) => l.status === "APPROVED" && isUpcoming(l.startDate))
       .sort((a, b) => (a.startDate ?? "").localeCompare(b.startDate ?? ""))
-      .slice(0, 6);
+      .slice(0, 4);
     const withdrawn = allLeaves.filter((l) => l.status === "WITHDRAWN").length;
 
     const byType = Object.entries(
@@ -122,15 +122,8 @@ const SuperAdminDashboard = () => {
 
   return (
     <DashboardLayout title="Super Admin Dashboard">
-      <Typography
-        variant="overline"
-        color="text.secondary"
-        sx={{ mb: 1, display: "block", letterSpacing: "0.1em" }}
-      >
-        Workforce Overview
-      </Typography>
-      <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+      <Grid container spacing={2} sx={{ mb: 2.5 }}>
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
           <StatCard
             icon={<GroupsIcon />}
             label="Total Employees"
@@ -138,7 +131,7 @@ const SuperAdminDashboard = () => {
             color="#0F2A4A"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
           <StatCard
             icon={<AdminPanelSettingsIcon />}
             label="Admins"
@@ -146,7 +139,7 @@ const SuperAdminDashboard = () => {
             color="#C9A227"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
           <StatCard
             icon={<BeachAccessIcon />}
             label="On Leave Now"
@@ -154,7 +147,7 @@ const SuperAdminDashboard = () => {
             color="#2C4A6E"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, sm: 6, md: 3 }}>
           <StatCard
             icon={<EventNoteIcon />}
             label="Total Requests"
@@ -164,119 +157,180 @@ const SuperAdminDashboard = () => {
         </Grid>
       </Grid>
 
-      <Paper sx={{ border: "1px solid", borderColor: "divider", mb: 4 }}>
-        <Box
-          sx={{
-            p: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-            <HandshakeIcon sx={{ color: "secondary.main" }} />
-            <Typography variant="h6">
-              Cover requests awaiting your response
-            </Typography>
-          </Stack>
-          {coverRequests.length > 0 && (
-            <Chip label={coverRequests.length} color="warning" size="small" />
-          )}
-        </Box>
-        <Divider />
-        {coverRequests.length === 0 ? (
-          <Box sx={{ p: 4, textAlign: "center" }}>
-            <Typography color="text.secondary">
-              Nobody's asked you to cover right now.
-            </Typography>
-          </Box>
-        ) : (
-          coverRequests.map((l) => (
-            <Box
-              key={l.id}
-              sx={{
-                px: 3,
-                py: 2,
-                borderTop: "1px solid",
-                borderColor: "divider",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: 1,
-              }}
-            >
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>
-                  {l.employeeFullName} needs cover
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {l.leaveType} · {l.startDate} → {l.endDate}
-                </Typography>
-              </Box>
-              <Stack direction="row" spacing={1}>
-                <Tooltip title="Accept cover">
-                  <IconButton
-                    color="success"
-                    onClick={() => handleCoverAction(l.id!, true)}
-                  >
-                    <CheckCircleIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Decline cover">
-                  <IconButton
-                    color="error"
-                    onClick={() => handleCoverAction(l.id!, false)}
-                  >
-                    <CancelIcon />
-                  </IconButton>
-                </Tooltip>
-              </Stack>
-            </Box>
-          ))
-        )}
-      </Paper>
-
-      <Paper
-        sx={{
-          p: 2.5,
-          mb: 4,
-          border: "1px solid",
-          borderColor: "divider",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 2,
-        }}
-      >
-        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-          <PeopleIcon sx={{ color: "primary.main" }} />
-          <Typography variant="body1">
-            Add employees, edit profiles, and manage admin roles from the
-            dedicated Employees page.
-          </Typography>
-        </Stack>
-        <Button
-          variant="outlined"
-          endIcon={<ArrowForwardIcon />}
-          onClick={() => navigate("/superadmin/employees")}
-        >
-          Manage employees
-        </Button>
-      </Paper>
-
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, md: 4 }}>
+      <Grid container spacing={2} sx={{ mb: 2.5 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Paper
             sx={{
-              p: 3,
+              p: 2,
+              height: "100%",
+              border: "1px solid",
+              borderColor: "divider",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: 1.5,
+            }}
+          >
+            <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+              <PeopleIcon fontSize="small" sx={{ color: "primary.main" }} />
+              <Typography variant="body2">
+                Manage employees & admin roles
+              </Typography>
+            </Stack>
+            <Button
+              size="small"
+              variant="outlined"
+              endIcon={<ArrowForwardIcon />}
+              onClick={() => navigate("/superadmin/employees")}
+            >
+              Employees
+            </Button>
+          </Paper>
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Paper
+            sx={{
+              p: 2,
+              height: "100%",
+              border: "1px solid",
+              borderColor: "divider",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: 1.5,
+            }}
+          >
+            <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+              <EventNoteIcon fontSize="small" sx={{ color: "primary.main" }} />
+              <Typography variant="body2">
+                {pendingLeaves.length > 0
+                  ? `${pendingLeaves.length} in progress`
+                  : "All requests, org-wide"}
+              </Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Button
+                size="small"
+                variant="text"
+                startIcon={<BeachAccessIcon fontSize="small" />}
+                onClick={() => navigate("/employee/apply-leave")}
+              >
+                Request time off
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                endIcon={<ArrowForwardIcon />}
+                onClick={() => navigate("/superadmin/leaves")}
+              >
+                Leaves
+              </Button>
+            </Stack>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2.5} sx={{ mb: 2.5 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Paper
+            sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
+          >
+            <Box
+              sx={{
+                p: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Stack
+                direction="row"
+                spacing={1.25}
+                sx={{ alignItems: "center" }}
+              >
+                <HandshakeIcon
+                  fontSize="small"
+                  sx={{ color: "secondary.main" }}
+                />
+                <Typography variant="subtitle1">Cover requests</Typography>
+              </Stack>
+              {coverRequests.length > 0 && (
+                <Chip
+                  label={coverRequests.length}
+                  color="warning"
+                  size="small"
+                />
+              )}
+            </Box>
+            <Divider />
+            {coverRequests.length === 0 ? (
+              <Box sx={{ p: 3, textAlign: "center" }}>
+                <Typography variant="body2" color="text.secondary">
+                  Nobody's asked you to cover.
+                </Typography>
+              </Box>
+            ) : (
+              coverRequests.slice(0, 4).map((l) => (
+                <Box
+                  key={l.id}
+                  sx={{
+                    px: 2,
+                    py: 1.25,
+                    borderTop: "1px solid",
+                    borderColor: "divider",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: 1,
+                  }}
+                >
+                  <Box>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      {l.employeeFullName}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {l.leaveType} · {l.startDate} → {l.endDate}
+                    </Typography>
+                  </Box>
+                  <Stack direction="row" spacing={0.5}>
+                    <Tooltip title="Accept cover">
+                      <IconButton
+                        size="small"
+                        color="success"
+                        onClick={() => handleCoverAction(l.id!, true)}
+                      >
+                        <CheckCircleIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Decline cover">
+                      <IconButton
+                        size="small"
+                        color="error"
+                        onClick={() => handleCoverAction(l.id!, false)}
+                      >
+                        <CancelIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+                </Box>
+              ))
+            )}
+          </Paper>
+        </Grid>
+
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Paper
+            sx={{
+              p: 2,
               border: "1px solid",
               borderColor: "divider",
               height: "100%",
             }}
           >
-            <Typography variant="h6" sx={{ mb: 2 }}>
+            <Typography variant="subtitle1" sx={{ mb: 1.5 }}>
               Employees by status
             </Typography>
             <Donut
@@ -301,16 +355,19 @@ const SuperAdminDashboard = () => {
             />
           </Paper>
         </Grid>
+      </Grid>
+
+      <Grid container spacing={2.5} sx={{ mb: 2.5 }}>
         <Grid size={{ xs: 12, md: 4 }}>
           <Paper
             sx={{
-              p: 3,
+              p: 2,
               border: "1px solid",
               borderColor: "divider",
               height: "100%",
             }}
           >
-            <Typography variant="h6" sx={{ mb: 2 }}>
+            <Typography variant="subtitle1" sx={{ mb: 1.5 }}>
               Requests by status
             </Typography>
             <Donut
@@ -343,120 +400,78 @@ const SuperAdminDashboard = () => {
         <Grid size={{ xs: 12, md: 4 }}>
           <Paper
             sx={{
-              p: 3,
+              p: 2,
               border: "1px solid",
               borderColor: "divider",
               height: "100%",
             }}
           >
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Requests by leave type
+            <Typography variant="subtitle1" sx={{ mb: 1.5 }}>
+              By leave type
             </Typography>
             {derived.byType.length > 0 ? (
               <BarList segments={derived.byType} />
             ) : (
-              <Typography color="text.secondary">
+              <Typography variant="body2" color="text.secondary">
                 No leave requests yet.
               </Typography>
             )}
           </Paper>
         </Grid>
-      </Grid>
-
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Paper
             sx={{
-              p: 3,
+              p: 2,
               border: "1px solid",
               borderColor: "divider",
               height: "100%",
             }}
           >
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Monthly request trend
+            <Typography variant="subtitle1" sx={{ mb: 1.5 }}>
+              Monthly trend
             </Typography>
             <TrendBars data={derived.trend} color="#C9A227" />
           </Paper>
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Paper
-            sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
-          >
-            <Box sx={{ p: 3, pb: 1.5 }}>
-              <Typography variant="h6">Upcoming scheduled leave</Typography>
-            </Box>
-            {derived.upcoming.length === 0 ? (
-              <Box sx={{ p: 3, textAlign: "center" }}>
-                <Typography color="text.secondary">
-                  Nothing scheduled yet.
-                </Typography>
-              </Box>
-            ) : (
-              derived.upcoming.map((l) => (
-                <Box
-                  key={l.id}
-                  sx={{
-                    px: 3,
-                    py: 1.5,
-                    borderTop: "1px solid",
-                    borderColor: "divider",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography variant="body2">{l.employeeFullName}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {l.startDate} → {l.endDate}
-                  </Typography>
-                </Box>
-              ))
-            )}
-          </Paper>
-        </Grid>
       </Grid>
 
-      <Box sx={{ mb: 4 }}>
-        <RoadmapNote text="Department distribution and employee growth trend need a department field and a createdAt timestamp on Employee — not in the current API. A system activity log beyond leave events also needs an audit endpoint." />
-      </Box>
+      <Grid size={{ xs: 12, md: 6 }} sx={{ mb: 2.5 }}>
+        <Paper
+          sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
+        >
+          <Box sx={{ p: 2 }}>
+            <Typography variant="subtitle1">Upcoming leave</Typography>
+          </Box>
+          {derived.upcoming.length === 0 ? (
+            <Box sx={{ p: 2.5, textAlign: "center" }}>
+              <Typography variant="body2" color="text.secondary">
+                Nothing scheduled yet.
+              </Typography>
+            </Box>
+          ) : (
+            derived.upcoming.map((l) => (
+              <Box
+                key={l.id}
+                sx={{
+                  px: 2,
+                  py: 1,
+                  borderTop: "1px solid",
+                  borderColor: "divider",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body2">{l.employeeFullName}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {l.startDate} → {l.endDate}
+                </Typography>
+              </Box>
+            ))
+          )}
+        </Paper>
+      </Grid>
 
-      <Paper
-        sx={{
-          p: 2.5,
-          border: "1px solid",
-          borderColor: "divider",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 2,
-        }}
-      >
-        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-          <EventNoteIcon sx={{ color: "primary.main" }} />
-          <Typography variant="body1">
-            {pendingLeaves.length > 0
-              ? `${pendingLeaves.length} request${pendingLeaves.length === 1 ? "" : "s"} in progress across the organization.`
-              : "View, approve, and reject every leave request from the dedicated Leaves page."}
-          </Typography>
-        </Stack>
-        <Stack direction="row" spacing={1.5}>
-          <Button
-            variant="text"
-            startIcon={<BeachAccessIcon />}
-            onClick={() => navigate("/employee/apply-leave")}
-          >
-            Request time off
-          </Button>
-          <Button
-            variant="outlined"
-            endIcon={<ArrowForwardIcon />}
-            onClick={() => navigate("/superadmin/leaves")}
-          >
-            View all leaves
-          </Button>
-        </Stack>
-      </Paper>
+      <RoadmapNote text="Department distribution and employee growth trend need a department field and a createdAt timestamp on Employee — not in the current API. A system activity log beyond leave events also needs an audit endpoint." />
     </DashboardLayout>
   );
 };
