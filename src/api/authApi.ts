@@ -1,6 +1,5 @@
 import type {
-  RegisterLoginRequest,
-  AdminRegisterRequest,
+  LoginRequest,
   AuthResponse,
 } from "../types/auth.type";
 import type { components } from "../types/api-schema";
@@ -11,12 +10,8 @@ export type CreateEmployeeRequest =
 export type CreateEmployeeResponse = components["schemas"]["EmployeeResponse"];
 
 // Public self-registration (creates EMPLOYEE by default, per backend logic)
-export const login = (data: RegisterLoginRequest) =>
+export const login = (data: LoginRequest) =>
   axiosInstance.post<AuthResponse>("/auth/login", data);
-
-// Admin/SuperAdmin-only: create a user with a specific role
-export const registerUserWithRole = (data: AdminRegisterRequest) =>
-  axiosInstance.post<AuthResponse>("/auth/admin/register", data);
 
 export const setupPassword = (data: { token: string; password: string }) =>
   axiosInstance.post("/auth/setup-password", data);

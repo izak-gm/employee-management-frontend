@@ -4,15 +4,14 @@ import PersonAddIcon from "@mui/icons-material/PersonAddAlt";
 import EmployeeTable from "../EmployeeTable";
 import CreateEmployeeDialog from "../CreateEmployeeDialog";
 import UserFormDialog from "../UserFormDialog";
-import type { EmployeeResponse } from "../../types/auth.type";
+import type { EmployeeResponse, Role, Gender } from "../../types/auth.type";
 
-type Role = "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
-
-const ManageEmployeesView = ({
-  availableRoles,
-}: {
+interface Props {
   availableRoles: Role[];
-}) => {
+  availableGenders: Gender[];
+}
+
+const ManageEmployeesView = ({ availableRoles, availableGenders }: Props) => {
   const [createOpen, setCreateOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] =
@@ -32,6 +31,7 @@ const ManageEmployeesView = ({
         }}
       >
         <Typography variant="h5">Employees</Typography>
+
         <Button
           variant="contained"
           startIcon={<PersonAddIcon />}
@@ -57,13 +57,19 @@ const ManageEmployeesView = ({
           setCreateOpen(false);
         }}
         availableRoles={availableRoles}
+        availableGenders={availableGenders}
       />
+
       <UserFormDialog
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
-        onSaved={() => setRefreshKey((k) => k + 1)}
+        onSaved={() => {
+          setRefreshKey((k) => k + 1);
+          setDialogOpen(false);
+        }}
         editingEmployee={editingEmployee}
         availableRoles={availableRoles}
+        availableGenders={availableGenders}
       />
     </Box>
   );
