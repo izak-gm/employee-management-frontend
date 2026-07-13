@@ -32,14 +32,12 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/setup-password" element={<SetupPasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordTokenPage />} />
           <Route path="/unauthorized" element={<div>Not authorized</div>} />
 
-          {/* Authenticated routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<RoleRedirect />} />
             <Route path="/profile" element={<ViewProfilePage />} />
@@ -74,13 +72,6 @@ function App() {
               <Route path="/employee" element={<EmployeeDashboard />} />
             </Route>
 
-            {/*
-              Personal leave pages: an Admin or SuperAdmin is still an
-              employee under the hood — getMyLeaves/getMyBalance/applyForLeave
-              are scoped to "whoever is logged in", not restricted to the
-              EMPLOYEE role — so these need to stay reachable by all three
-              roles rather than living behind the EMPLOYEE-only guard above.
-            */}
             <Route
               element={
                 <RoleRoute allowedRoles={["EMPLOYEE", "ADMIN", "SUPERADMIN"]} />
