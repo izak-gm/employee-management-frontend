@@ -24,11 +24,11 @@ export const getEmployees = (params: {
   ids?: string[];
 }) => axiosInstance.get<EmployeeResponse[]>("/employees", { params });
 
-export const getEmployeeById = (employeeId: string) =>
-  axiosInstance.get<EmployeeResponse>(`/employees/${employeeId}`);
+export const getEmployeeById = (id: string) =>
+  axiosInstance.get<EmployeeResponse>(`/employees/${id}`);
 
-export const updateEmployee = (employeeId: string, data: UpdateEmployee) =>
-  axiosInstance.put<Employee>(`/employees/update-profile/${employeeId}`, data);
+export const updateEmployee = (id: string, data: UpdateEmployee) =>
+  axiosInstance.put<Employee>(`/employees/update-profile/${id}`, data);
 
-export const deleteEmployee = (employeeId: string) =>
-  axiosInstance.delete<MessageResponse>(`/employees/${employeeId}`);
+export const deleteEmployee = (id: string) =>
+  axiosInstance.delete<MessageResponse>(`/employees/${id}`);

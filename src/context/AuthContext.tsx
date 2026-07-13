@@ -5,7 +5,7 @@ import type { DecodedToken, Role } from "../types/auth.type";
 
 interface AuthContextType {
   token: string | null;
-  employeeId: string | null;
+  id: string | null;
   email: string | null;
   role: Role | null;
   isAuthenticated: boolean;
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         token,
-        employeeId: decoded?.employeeId ?? null,
+        id: decoded?.id ?? null,
         email: decoded?.email ?? null,
         role: extractRole(decoded?.role),
         isAuthenticated: !!token,
