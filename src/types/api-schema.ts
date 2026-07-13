@@ -390,6 +390,10 @@ export interface components {
             phoneNumber?: string;
             /** Format: email */
             email?: string;
+            /** @enum {string} */
+            role?: "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
+            /** @enum {string} */
+            gender?: "MALE" | "FEMALE";
         };
         Employee: {
             /** Format: uuid */
@@ -398,6 +402,8 @@ export interface components {
             lastName?: string;
             email?: string;
             phoneNumber?: string;
+            /** @enum {string} */
+            gender?: "MALE" | "FEMALE";
             password?: string;
             /** @enum {string} */
             role?: "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
@@ -406,11 +412,11 @@ export interface components {
             inviteToken?: components["schemas"]["InviteToken"];
             leaves?: components["schemas"]["Leave"][];
             enabled?: boolean;
+            username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
             accountNonExpired?: boolean;
             accountNonLocked?: boolean;
             credentialsNonExpired?: boolean;
-            username?: string;
         };
         GrantedAuthority: {
             authority?: string;
@@ -452,6 +458,8 @@ export interface components {
             phoneNumber: string;
             /** @enum {string} */
             role: "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
+            /** @enum {string} */
+            gender: "MALE" | "FEMALE";
         };
         EmployeeResponse: {
             /** Format: uuid */
@@ -462,6 +470,8 @@ export interface components {
             phoneNumber?: string;
             /** @enum {string} */
             role?: "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
+            /** @enum {string} */
+            gender?: "MALE" | "FEMALE";
         };
         SetPasswordRequest: {
             token: string;

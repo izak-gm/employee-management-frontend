@@ -20,6 +20,12 @@ const roleLabel: Record<Role, string> = {
   SUPERADMIN: "Super Admin",
   EMPLOYEE: "Employee",
 };
+type Gender = "MALE" | "FEMALE";
+
+const genderLabel: Record<Gender, string> = {
+  MALE: "Male",
+  FEMALE: "Female",
+};
 
 interface Props {
   open: boolean;
@@ -27,6 +33,7 @@ interface Props {
   onSaved: () => void;
   /** Roles this operator is allowed to assign when creating an employee */
   availableRoles: Role[];
+  availableGenders: Gender[];
 }
 
 const CreateEmployeeDialog = ({
@@ -34,6 +41,7 @@ const CreateEmployeeDialog = ({
   onClose,
   onSaved,
   availableRoles,
+  availableGenders
 }: Props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -41,6 +49,9 @@ const CreateEmployeeDialog = ({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [role, setRole] = useState<Role | "">(
     availableRoles.length === 1 ? availableRoles[0] : "",
+  );
+  const [gender, setGender] = useState<Gender | "">(
+    availableGenders.length === 1 ? availableGenders[0] : "",
   );
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,6 +62,7 @@ const CreateEmployeeDialog = ({
     setEmail("");
     setPhoneNumber("");
     setRole(availableRoles.length === 1 ? availableRoles[0] : "");
+    setGender(availableGenders.length === 1 ? availableGenders[0] : "");
     setError("");
   };
 
@@ -61,14 +73,15 @@ const CreateEmployeeDialog = ({
       !lastName.trim() ||
       !email.trim() ||
       !phoneNumber.trim() ||
-      !role
+      !role ||
+      ! gender
     ) {
       setError("All fields are required.");
       return;
     }
     setLoading(true);
     try {
-      await createEmployee({ firstName, lastName, email, phoneNumber, role });
+      await createEmployee({ firstName, lastName, email, phoneNumber, role ,gender});
       reset();
       onSaved();
     } catch (err) {
@@ -137,6 +150,20 @@ const CreateEmployeeDialog = ({
             {availableRoles.map((r) => (
               <MenuItem key={r} value={r}>
                 {roleLabel[r]}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label="Gender"
+            select
+            required
+            fullWidth
+            value={gender}
+            onChange={(e) => setGender(e.target.value as Gender)}
+          >
+            {availableGenders.map((g) => (
+              <MenuItem key={g} value={g}>
+                {genderLabel[g]}
               </MenuItem>
             ))}
           </TextField>

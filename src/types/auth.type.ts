@@ -2,11 +2,9 @@
 import type { components } from "./api-schema";
 
 export type Role = "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
+export type Gender = "MALE" | "FEMALE"
 
-export type RegisterLoginRequest =
-  components["schemas"]["RegisterLoginRequest"];
-export type AdminRegisterRequest =
-  components["schemas"]["AdminRegisterRequest"];
+export type LoginRequest = components["schemas"]["LoginRequest"];
 export type AuthResponse = components["schemas"]["AuthResponse"];
 export type UpdateEmployee = components["schemas"]["UpdateEmployee"];
 export type Employee = components["schemas"]["Employee"];

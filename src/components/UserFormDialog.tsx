@@ -8,16 +8,27 @@ import {
   Button,
   MenuItem,
 } from "@mui/material";
-import { registerUserWithRole } from "../api/authApi";
 import { updateEmployee } from "../api/employeeApi";
-import type { EmployeeResponse, Role } from "../types/auth.type";
+import type { EmployeeResponse, Role, Gender } from "../types/auth.type";
+
+const genderLabel: Record<Gender, string> = {
+  MALE: "Male",
+  FEMALE: "Female",
+};
+
+const roleLabel: Record<Role, string> = {
+  ADMIN: "Admin",
+  SUPERADMIN: "Super Admin",
+  EMPLOYEE: "Employee",
+};
 
 interface Props {
   open: boolean;
   onClose: () => void;
   onSaved: () => void;
   editingEmployee?: EmployeeResponse | null;
-  availableRoles: Role[]; // Admin dashboard passes ["EMPLOYEE"], SuperAdmin passes all
+  availableRoles: Role[];
+  availableGenders: Gender[];
 }
 
 const UserFormDialog = ({
@@ -26,13 +37,14 @@ const UserFormDialog = ({
   onSaved,
   editingEmployee,
   availableRoles,
+  availableGenders,
 }: Props) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [role, setRole] = useState<Role>(availableRoles[0]);
+  const [gender, setGender] = useState<Gender>(availableGenders[0]);
 
   useEffect(() => {
     if (editingEmployee) {
@@ -40,41 +52,38 @@ const UserFormDialog = ({
       setFirstName(editingEmployee.firstName ?? "");
       setLastName(editingEmployee.lastName ?? "");
       setPhoneNumber(editingEmployee.phoneNumber ?? "");
+      setRole(editingEmployee.role ?? availableRoles[0]);
+      setGender(editingEmployee.gender ?? availableGenders[0]);
     } else {
       setEmail("");
       setFirstName("");
       setLastName("");
       setPhoneNumber("");
-      setPassword("");
+      setRole(availableRoles[0]);
+      setGender(availableGenders[0]);
     }
-  }, [editingEmployee, open]);
+  }, [editingEmployee, open, availableRoles, availableGenders]);
 
   const handleSave = async () => {
-    if (editingEmployee?.id) {
-      // Editing existing user
-      await updateEmployee(editingEmployee.id, {
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-      });
-    } else {
-      // Creating new user (2-step: create account, then fill profile)
-      const res = await registerUserWithRole({ email, password, role });
-      // If backend returns just a token (not the new employeeId), we can't immediately
-      // fill in firstName/lastName here without knowing the new user's id.
-      // You may need an endpoint that returns the created employee's id, or look them up by email.
-      console.log("Created user token:", res.data.token);
-    }
+    if (!editingEmployee?.id) return;
+
+    await updateEmployee(editingEmployee.id, {
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      role,
+      gender,
+    });
+
     onSaved();
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <DialogTitle>
-        {editingEmployee ? "Edit Employee" : "Create User"}
-      </DialogTitle>
+      <DialogTitle>Edit Employee</DialogTitle>
+
       <DialogContent>
         <TextField
           label="Email"
@@ -83,60 +92,65 @@ const UserFormDialog = ({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {!editingEmployee && (
-          <>
-            <TextField
-              label="Password"
-              type="password"
-              fullWidth
-              margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <TextField
-              select
-              label="Role"
-              fullWidth
-              margin="normal"
-              value={role}
-              onChange={(e) => setRole(e.target.value as Role)}
-            >
-              {availableRoles.map((r) => (
-                <MenuItem key={r} value={r}>
-                  {r}
-                </MenuItem>
-              ))}
-            </TextField>
-          </>
-        )}
-        {editingEmployee && (
-          <>
-            <TextField
-              label="First Name"
-              fullWidth
-              margin="normal"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <TextField
-              label="Last Name"
-              fullWidth
-              margin="normal"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <TextField
-              label="Phone Number"
-              fullWidth
-              margin="normal"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </>
-        )}
+
+        <TextField
+          label="First Name"
+          fullWidth
+          margin="normal"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+
+        <TextField
+          label="Last Name"
+          fullWidth
+          margin="normal"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+
+        <TextField
+          label="Phone Number"
+          fullWidth
+          margin="normal"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+
+        <TextField
+          select
+          label="Role"
+          fullWidth
+          margin="normal"
+          value={role}
+          onChange={(e) => setRole(e.target.value as Role)}
+        >
+          {availableRoles.map((r) => (
+            <MenuItem key={r} value={r}>
+              {roleLabel[r]}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          select
+          label="Gender"
+          fullWidth
+          margin="normal"
+          value={gender}
+          onChange={(e) => setGender(e.target.value as Gender)}
+        >
+          {availableGenders.map((g) => (
+            <MenuItem key={g} value={g}>
+              {genderLabel[g]}
+            </MenuItem>
+          ))}
+        </TextField>
       </DialogContent>
+
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
+
         <Button variant="contained" onClick={handleSave}>
           Save
         </Button>
@@ -144,4 +158,5 @@ const UserFormDialog = ({
     </Dialog>
   );
 };
+
 export default UserFormDialog;

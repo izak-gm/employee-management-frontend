@@ -72,6 +72,7 @@ const EmployeeTable = ({
             <TableCell>Email</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>Role</TableCell>
+            <TableCell>Gender</TableCell>
             <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -95,6 +96,7 @@ const EmployeeTable = ({
                 <TableCell>{emp.email}</TableCell>
                 <TableCell>{emp.phoneNumber}</TableCell>
                 <TableCell>{emp.role}</TableCell>
+                <TableCell>{emp.gender}</TableCell>
                 <TableCell align="right">
                   <IconButton onClick={() => onEdit(emp)}>
                     <EditIcon />
