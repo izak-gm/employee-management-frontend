@@ -414,9 +414,9 @@ export interface components {
             enabled?: boolean;
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
-            accountNonExpired?: boolean;
-            accountNonLocked?: boolean;
             credentialsNonExpired?: boolean;
+            accountNonLocked?: boolean;
+            accountNonExpired?: boolean;
         };
         GrantedAuthority: {
             authority?: string;
