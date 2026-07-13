@@ -23,21 +23,12 @@ import { getEmployeeById } from "../../api/employeeApi";
 import { extractErrorMessage } from "../../api/errorUtils";
 import { useAuth } from "../../context/AuthContext";
 
-const ALL_TYPES = [
-  "ANNUAL",
-  "SICK",
-  "PATERNITY",
-  "MATERNITY",
-  "COMPASSIONATE",
-];
+const ALL_TYPES = ["ANNUAL", "SICK", "PATERNITY", "MATERNITY", "COMPASSIONATE"];
 
-const AUTO_CALCULATED_TYPES = new Set([
-  "MATERNITY",
-  "PATERNITY",
-]);
+const AUTO_CALCULATED_TYPES = new Set(["MATERNITY", "PATERNITY"]);
 
 const ApplyLeavePage = () => {
-  const { employeeId } = useAuth();
+  const { id } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const editId = params.get("edit");
@@ -63,14 +54,14 @@ const ApplyLeavePage = () => {
   const readyRef = useRef(false);
 
   useEffect(() => {
-    if (!employeeId) return;
+    if (!id) return;
 
-    getEmployeeById(employeeId).then((res) => {
+    getEmployeeById(id).then((res) => {
       setEmployee(res.data);
     });
 
     getActiveEmployees().then((r) =>
-      setActive(r.data.filter((e: any) => e.id !== employeeId)),
+      setActive(r.data.filter((e: any) => e.id !== id)),
     );
 
     getMyBalance().then((r) => setBalances(r.data));
@@ -91,20 +82,20 @@ const ApplyLeavePage = () => {
     } else {
       readyRef.current = true;
     }
-  }, [employeeId, editId]);
+  }, [id, editId]);
 
-const TYPES = ALL_TYPES.filter((type) => {
-  if (!employee?.gender) return true;
-  if (employee.gender === "MALE") return type !== "MATERNITY";
-  if (employee.gender === "FEMALE") return type !== "PATERNITY";
-  return true;
-});
+  const TYPES = ALL_TYPES.filter((type) => {
+    if (!employee?.gender) return true;
+    if (employee.gender === "MALE") return type !== "MATERNITY";
+    if (employee.gender === "FEMALE") return type !== "PATERNITY";
+    return true;
+  });
 
   useEffect(() => {
     if (!readyRef.current) return;
     if (!AUTO_CALCULATED_TYPES.has(leaveType)) return;
     if (!startDate) return;
-    
+
     const entitlementDays = balances.find(
       (b) => b.leaveType === leaveType,
     )?.maxDays;
@@ -148,7 +139,7 @@ const TYPES = ALL_TYPES.filter((type) => {
         startDate,
         endDate,
         reason,
-        coverEmployeeId: cover?.id,
+        coverid: cover?.id,
       };
 
       if (editId) {

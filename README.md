@@ -34,7 +34,7 @@ The backend base URL is currently set directly in `src/api/axiosInstance.ts`:
 
 ```ts
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
+  baseURL: "http://localhost:8080/api/v1",
 });
 ```
 
@@ -56,17 +56,17 @@ Run this whenever the backend adds/changes endpoints or DTOs. Requires the backe
 
 1. User registers (`/auth/register`) or logs in (`/auth/login`) — backend returns a signed JWT.
 2. The token is decoded client-side (`jwt-decode`) to extract `id`, `email`, and `role`, and stored in `localStorage`.
-3. `AuthContext` exposes `token`, `employeeId`, `email`, `role`, `isAuthenticated`, `login()`, and `logout()` app-wide.
+3. `AuthContext` exposes `token`, `id`, `email`, `role`, `isAuthenticated`, `login()`, and `logout()` app-wide.
 4. Every outgoing request automatically attaches `Authorization: Bearer <token>` via an axios request interceptor.
 5. A response interceptor watches for `401` responses and force-logs-out + redirects to `/login` if the token is rejected server-side.
 6. Route guards (`ProtectedRoute`, `RoleRoute`) block unauthenticated or under-privileged access before a page even renders.
 
 ### Roles & Routing
 
-| Role | Redirected to | Can manage |
-|---|---|---|
-| `EMPLOYEE` | `/employee` | Own profile only |
-| `ADMIN` | `/admin` | Employee accounts |
+| Role         | Redirected to | Can manage                     |
+| ------------ | ------------- | ------------------------------ |
+| `EMPLOYEE`   | `/employee`   | Own profile only               |
+| `ADMIN`      | `/admin`      | Employee accounts              |
 | `SUPERADMIN` | `/superadmin` | All accounts, including Admins |
 
 All authenticated users can access `/profile`, `/profile/edit`, and `/profile/reset-password` regardless of role.

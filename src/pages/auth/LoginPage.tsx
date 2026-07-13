@@ -18,6 +18,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { login as loginApi } from "../../api/authApi";
 import { useAuth } from "../../context/AuthContext";
 import { extractErrorMessage } from "../../api/errorUtils";
+import { jwtDecode } from "jwt-decode";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -32,12 +33,21 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setError("");
   setLoading(true);
+
   try {
     const res = await loginApi({ email, password });
-    if (res.data.token) {
-      login(res.data.token);
-      navigate("/");
+
+    const token = res.data.token;
+
+    if (!token) {
+      setError("No token returned from the server.");
+      return;
     }
+
+    console.log(jwtDecode(token)); // Debug JWT
+
+    login(token);
+    navigate("/");
   } catch (err) {
     setError(extractErrorMessage(err, "Invalid email or password."));
   } finally {
