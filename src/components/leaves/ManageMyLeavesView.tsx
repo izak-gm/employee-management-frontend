@@ -12,10 +12,15 @@ import {
   TextField,
   Stack,
   Button,
+  TableFooter,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import StageChip from "../StageChip";
 import {
-  getMyLeaves,getLeaveById,
+  getMyLeaves,getLeaveById,withdrawLeave,
   type LeaveResponse,
 } from "../../api/leaveApi";
 import AddIcon from "@mui/icons-material/Add";
@@ -25,7 +30,7 @@ import Tooltip from "@mui/material/Tooltip";
 import TablePagination from "@mui/material/TablePagination";
 import LeaveDetailsDialog from "./LeaveDetailsDialog";
 import { useNavigate } from "react-router-dom";
-
+import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 
 type StatusFilter =
   | "ALL"
@@ -50,17 +55,21 @@ const ManageLeavesView = () => {
   const navigate = useNavigate();
 const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
 const [detailsOpen, setDetailsOpen] = useState(false);
-
+const [withdrawOpen, setWithdrawOpen] = useState(false);
+const [leaveToWithdraw, setLeaveToWithdraw] = useState<string | null>(null);
 const [page, setPage] = useState(0);
 const [rowsPerPage, setRowsPerPage] = useState(10);
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, _setRefreshKey] = useState(0);
 
+const fetchLeaves = async () => {
+  const res = await getMyLeaves();
+  setLeaves(res.data);
+};
   useEffect(() => {
-    getMyLeaves().then((r) => setLeaves(r.data));
-  }, [refreshKey]);
-
+  fetchLeaves();
+}, [refreshKey]);
   const visibleLeaves =
     statusFilter === "ALL"
       ? leaves
@@ -74,6 +83,26 @@ const handleViewLeave = async (id: string) => {
     console.error(err);
   }
 };
+const handleWithdraw = async () => {
+  if (!leaveToWithdraw) return;
+
+  try {
+    await withdrawLeave(leaveToWithdraw);
+
+    setLeaves((prev) =>
+      prev.map((l) => (l.id === leaveToWithdraw ? { ...l, status: "WITHDRAWN" } : l)),
+    );
+
+    setWithdrawOpen(false);
+    setLeaveToWithdraw(null);
+  } catch (err) {
+    console.error(err);
+  }
+};
+  const openWithdrawDialog = (id: string) => {
+    setLeaveToWithdraw(id);
+    setWithdrawOpen(true);
+  };
   return (
     <Box>
       <Stack
@@ -146,27 +175,40 @@ const handleViewLeave = async (id: string) => {
                       <StageChip status={l.status} />
                     </TableCell>
                     <TableCell align="right">
-                      <Tooltip title="View leave details">
+                      <Tooltip title="View details">
                         <IconButton color="primary" onClick={() => handleViewLeave(l.id!)}>
                           <VisibilityOutlinedIcon />
                         </IconButton>
                       </Tooltip>
-                    </TableCell>{" "}
+
+                      {(l.status === "PENDING_COVER" ||
+                        l.status === "PENDING_ADMIN" ||
+                        l.status === "COVER_DECLINED") && (
+                        <Tooltip title="Withdraw request">
+                          <IconButton color="warning" onClick={() => openWithdrawDialog(l.id!)}>
+                            <UndoOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
-            <TablePagination
-              component="div"
-              count={visibleLeaves.length}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              onPageChange={(_, newPage) => setPage(newPage)}
-              onRowsPerPageChange={(e) => {
-                setRowsPerPage(parseInt(e.target.value, 10));
-                setPage(0);
-              }}
-              rowsPerPageOptions={[5, 10, 20, 50]}
-            />
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  count={visibleLeaves.length}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  onPageChange={(_, newPage) => setPage(newPage)}
+                  onRowsPerPageChange={(e) => {
+                    setRowsPerPage(parseInt(e.target.value, 10));
+                    setPage(0);
+                  }}
+                  rowsPerPageOptions={[5, 10, 20, 50]}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         )}
       </Paper>
@@ -178,6 +220,21 @@ const handleViewLeave = async (id: string) => {
           setSelectedLeave(null);
         }}
       />
+      <Dialog open={withdrawOpen} onClose={() => setWithdrawOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle>Withdraw Leave</DialogTitle>
+
+        <DialogContent>
+          <Typography>Are you sure you want to withdraw this leave request?</Typography>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={() => setWithdrawOpen(false)}>Cancel</Button>
+
+          <Button variant="contained" color="error" onClick={handleWithdraw}>
+            Withdraw
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
