@@ -66,12 +66,7 @@ const SetupPasswordPage = () => {
       setSuccess(true);
       setTimeout(() => navigate("/login"), 2500);
     } catch (err) {
-      setError(
-        extractErrorMessage(
-          err,
-          "Failed to set password. The link may have expired.",
-        ),
-      );
+      setError(extractErrorMessage(err, "Failed to set password. The link may have expired."));
     } finally {
       setLoading(false);
     }
@@ -90,22 +85,15 @@ const SetupPasswordPage = () => {
           color: "#fff",
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{ letterSpacing: "0.05em", fontWeight: 700 }}
-        >
+        <Typography variant="h5" sx={{ letterSpacing: "0.05em", fontWeight: 700 }}>
           RIVERBANK
         </Typography>
         <Box>
-          <Typography
-            variant="h3"
-            sx={{ fontWeight: 700, mb: 2, maxWidth: 480 }}
-          >
+          <Typography variant="h3" sx={{ fontWeight: 700, mb: 2, maxWidth: 480 }}>
             Welcome to the team.
           </Typography>
           <Typography sx={{ color: "rgba(255,255,255,0.7)", maxWidth: 420 }}>
-            Set up your password to activate your account and access your
-            dashboard.
+            Set up your password to activate your account and access your dashboard.
           </Typography>
         </Box>
         <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.4)" }}>
@@ -159,10 +147,7 @@ const SetupPasswordPage = () => {
                     ),
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => setShowPassword((s) => !s)}
-                          edge="end"
-                        >
+                        <IconButton onClick={() => setShowPassword((s) => !s)} edge="end">
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
@@ -185,10 +170,7 @@ const SetupPasswordPage = () => {
                       },
                     }}
                   />
-                  <Typography
-                    variant="caption"
-                    sx={{ color: strength.color, fontWeight: 600 }}
-                  >
+                  <Typography variant="caption" sx={{ color: strength.color, fontWeight: 600 }}>
                     {strength.label}
                   </Typography>
                 </Box>

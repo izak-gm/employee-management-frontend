@@ -1,21 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  Badge,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-  Box,
-  Divider,
-} from "@mui/material";
+import { Badge, IconButton, Menu, MenuItem, Typography, Box, Divider } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {
-  getMyNotifications,
-  coverAction,
-  type LeaveResponse,
-} from "../api/leaveApi";
+import { getMyNotifications, coverAction, type LeaveResponse } from "../api/leaveApi";
 
 const NotificationBell = () => {
   const [items, setItems] = useState<LeaveResponse[]>([]);
@@ -50,9 +38,7 @@ const NotificationBell = () => {
           Cover Requests
         </Typography>
         <Divider />
-        {items.length === 0 && (
-          <MenuItem disabled>No pending requests</MenuItem>
-        )}
+        {items.length === 0 && <MenuItem disabled>No pending requests</MenuItem>}
         {items.map((i) => (
           <Box
             key={i.id}
@@ -70,18 +56,10 @@ const NotificationBell = () => {
               {i.leaveType} · {i.startDate} → {i.endDate}
             </Typography>
             <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
-              <IconButton
-                size="small"
-                color="success"
-                onClick={() => handle(i.id!, true)}
-              >
+              <IconButton size="small" color="success" onClick={() => handle(i.id!, true)}>
                 <CheckCircleIcon fontSize="small" />
               </IconButton>
-              <IconButton
-                size="small"
-                color="error"
-                onClick={() => handle(i.id!, false)}
-              >
+              <IconButton size="small" color="error" onClick={() => handle(i.id!, false)}>
                 <CancelIcon fontSize="small" />
               </IconButton>
             </Box>

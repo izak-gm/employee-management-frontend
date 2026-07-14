@@ -53,9 +53,7 @@ const SuperAdminDashboard = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
-  const [pendingAdminLeaves, setPendingAdminLeaves] = useState<LeaveResponse[]>(
-    [],
-  );
+  const [pendingAdminLeaves, setPendingAdminLeaves] = useState<LeaveResponse[]>([]);
   const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -66,9 +64,7 @@ const SuperAdminDashboard = () => {
       getAllLeaves().then((r) => {
         setAllLeaves(r.data);
 
-        setPendingAdminLeaves(
-          r.data.filter((l) => l.status === "PENDING_ADMIN"),
-        );
+        setPendingAdminLeaves(r.data.filter((l) => l.status === "PENDING_ADMIN"));
       });
 
       getMyNotifications().then((r) =>
@@ -132,38 +128,28 @@ const SuperAdminDashboard = () => {
         <Alert
           severity="info"
           action={
-            <Button
-              color="inherit"
-              size="small"
-              onClick={() => navigate("/superadmin/leaves")}
-            >
+            <Button color="inherit" size="small" onClick={() => navigate("/superadmin/leaves")}>
               Review
             </Button>
           }
           sx={{ mb: 3 }}
         >
           There are {pendingAdminLeaves.length} leave(s)
-          {pendingAdminLeaves.length === 1 ? " request" : " requests"} awaiting
-          approval.
+          {pendingAdminLeaves.length === 1 ? " request" : " requests"} awaiting approval.
         </Alert>
       )}
       {coverRequests.length > 0 && (
         <Alert
           severity="warning"
           action={
-            <Button
-              color="inherit"
-              size="small"
-              onClick={() => navigate("/superadmin/leaves")}
-            >
+            <Button color="inherit" size="small" onClick={() => navigate("/superadmin/leaves")}>
               Review
             </Button>
           }
           sx={{ mb: 3 }}
         >
           There are {getMyNotifications.length} leave
-          {coverRequests.length === 1 ? " request" : " requests"} awaiting cover
-          employee.
+          {coverRequests.length === 1 ? " request" : " requests"} awaiting cover employee.
         </Alert>
       )}
       <Grid container spacing={2} sx={{ mb: 2.5 }}>
@@ -218,9 +204,7 @@ const SuperAdminDashboard = () => {
           >
             <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
               <PeopleIcon fontSize="small" sx={{ color: "primary.main" }} />
-              <Typography variant="body2">
-                Manage employees & admin roles
-              </Typography>
+              <Typography variant="body2">Manage employees & admin roles</Typography>
             </Stack>
             <Button
               size="small"
@@ -278,9 +262,7 @@ const SuperAdminDashboard = () => {
 
       <Grid container spacing={2.5} sx={{ mb: 2.5 }}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper
-            sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
-          >
+          <Paper sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}>
             <Box
               sx={{
                 p: 2,
@@ -289,23 +271,12 @@ const SuperAdminDashboard = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Stack
-                direction="row"
-                spacing={1.25}
-                sx={{ alignItems: "center" }}
-              >
-                <HandshakeIcon
-                  fontSize="small"
-                  sx={{ color: "secondary.main" }}
-                />
+              <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+                <HandshakeIcon fontSize="small" sx={{ color: "secondary.main" }} />
                 <Typography variant="subtitle1">Cover requests</Typography>
               </Stack>
               {coverRequests.length > 0 && (
-                <Chip
-                  label={coverRequests.length}
-                  color="warning"
-                  size="small"
-                />
+                <Chip label={coverRequests.length} color="warning" size="small" />
               )}
             </Box>
             <Divider />
@@ -480,9 +451,7 @@ const SuperAdminDashboard = () => {
       </Grid>
 
       <Grid size={{ xs: 12, md: 6 }} sx={{ mb: 2.5 }}>
-        <Paper
-          sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
-        >
+        <Paper sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}>
           <Box sx={{ p: 2 }}>
             <Typography variant="subtitle1">Upcoming leave</Typography>
           </Box>

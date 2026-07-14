@@ -14,8 +14,7 @@ interface Props {
 const ManageEmployeesView = ({ availableRoles, availableGenders }: Props) => {
   const [createOpen, setCreateOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingEmployee, setEditingEmployee] =
-    useState<EmployeeResponse | null>(null);
+  const [editingEmployee, setEditingEmployee] = useState<EmployeeResponse | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
   return (

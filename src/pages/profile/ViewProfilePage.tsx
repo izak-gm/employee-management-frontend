@@ -40,17 +40,10 @@ const InfoRow = ({
   <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2, py: 1.5 }}>
     <Box sx={{ color: "text.secondary", mt: 0.3 }}>{icon}</Box>
     <Box>
-      <Typography
-        variant="caption"
-        color="text.secondary"
-        sx={{ display: "block" }}
-      >
+      <Typography variant="caption" color="text.secondary" sx={{ display: "block" }}>
         {label}
       </Typography>
-      <Typography
-        sx={{ fontWeight: 500 }}
-        color={value ? "text.primary" : "text.disabled"}
-      >
+      <Typography sx={{ fontWeight: 500 }} color={value ? "text.primary" : "text.disabled"}>
         {value || "Not provided yet"}
       </Typography>
     </Box>
@@ -79,8 +72,7 @@ const ViewProfilePage = () => {
     profile?.gender?.[0] ||
     "?";
 
-  const isIncomplete =
-    !profile?.firstName || !profile?.lastName || !profile?.phoneNumber;
+  const isIncomplete = !profile?.firstName || !profile?.lastName || !profile?.phoneNumber;
 
   return (
     <DashboardLayout title="My Profile">
@@ -95,8 +87,7 @@ const ViewProfilePage = () => {
         <Box
           sx={{
             bgcolor: "primary.dark",
-            backgroundImage:
-              "linear-gradient(135deg, #0F2A4A 0%, #1A3A5C 100%)",
+            backgroundImage: "linear-gradient(135deg, #0F2A4A 0%, #1A3A5C 100%)",
             px: 4,
             pt: 4,
             pb: 7,

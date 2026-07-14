@@ -128,9 +128,7 @@ export const Donut = ({
             justifyContent: "center",
           }}
         >
-          <Typography sx={{ fontWeight: 700, fontSize: 22, lineHeight: 1 }}>
-            {total}
-          </Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 22, lineHeight: 1 }}>{total}</Typography>
           {centerLabel && (
             <Typography variant="caption" color="text.secondary">
               {centerLabel}
@@ -140,12 +138,7 @@ export const Donut = ({
       </Box>
       <Stack spacing={1}>
         {segments.map((seg) => (
-          <Stack
-            key={seg.label}
-            direction="row"
-            spacing={1}
-            sx={{ alignItems: "center" }}
-          >
+          <Stack key={seg.label} direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <Box
               sx={{
                 width: 10,
@@ -154,11 +147,7 @@ export const Donut = ({
                 bgcolor: seg.color,
               }}
             />
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ minWidth: 90 }}
-            >
+            <Typography variant="body2" color="text.secondary" sx={{ minWidth: 90 }}>
               {seg.label}
             </Typography>
             <Typography variant="body2" sx={{ fontWeight: 700 }}>
@@ -181,10 +170,7 @@ export const BarList = ({ segments }: { segments: Segment[] }) => {
     <Stack spacing={1.5}>
       {segments.map((seg) => (
         <Box key={seg.label}>
-          <Stack
-            direction="row"
-            sx={{ justifyContent: "space-between", mb: 0.5 }}
-          >
+          <Stack direction="row" sx={{ justifyContent: "space-between", mb: 0.5 }}>
             <Typography variant="body2" color="text.secondary">
               {seg.label}
             </Typography>
@@ -229,11 +215,7 @@ export const TrendBars = ({
 }) => {
   const max = Math.max(1, ...data.map((d) => d.value));
   return (
-    <Stack
-      direction="row"
-      spacing={1.5}
-      sx={{ alignItems: "flex-end", height: 140, px: 1 }}
-    >
+    <Stack direction="row" spacing={1.5} sx={{ alignItems: "flex-end", height: 140, px: 1 }}>
       {data.map((d) => (
         <Stack
           key={d.label}
@@ -293,11 +275,7 @@ export const ProgressRow = ({
     </Stack>
     <LinearProgress
       variant="determinate"
-      value={
-        unlimited
-          ? Math.min(100, used * 5)
-          : Math.min(100, (used / Math.max(max, 1)) * 100)
-      }
+      value={unlimited ? Math.min(100, used * 5) : Math.min(100, (used / Math.max(max, 1)) * 100)}
       sx={{
         height: 8,
         borderRadius: 3,
@@ -350,12 +328,7 @@ export const MiniCalendar = ({
         }}
       >
         {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
-          <Typography
-            key={i}
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: "center" }}
-          >
+          <Typography key={i} variant="caption" color="text.secondary" sx={{ textAlign: "center" }}>
             {d}
           </Typography>
         ))}
@@ -374,11 +347,7 @@ export const MiniCalendar = ({
                 fontSize: 12,
                 fontWeight: isToday ? 700 : 400,
                 bgcolor: isLeave ? `${color}1F` : "transparent",
-                color: isLeave
-                  ? color
-                  : isToday
-                    ? "text.primary"
-                    : "text.secondary",
+                color: isLeave ? color : isToday ? "text.primary" : "text.secondary",
                 border: isToday ? "1px solid" : "none",
                 borderColor: color,
               }}
@@ -428,8 +397,7 @@ export const isOnLeaveToday = (startDate?: string, endDate?: string) => {
   return !!startDate && !!endDate && startDate <= t && t <= endDate;
 };
 
-export const isUpcoming = (startDate?: string) =>
-  !!startDate && startDate > todayIso();
+export const isUpcoming = (startDate?: string) => !!startDate && startDate > todayIso();
 
 export const daysBetweenInclusive = (startDate?: string, endDate?: string) => {
   if (!startDate || !endDate) return 0;
@@ -439,10 +407,7 @@ export const daysBetweenInclusive = (startDate?: string, endDate?: string) => {
 };
 
 /** Buckets items with a createdAt date into the last `months` calendar months. */
-export const monthBuckets = <T extends { createdAt?: string }>(
-  items: T[],
-  months = 6,
-) => {
+export const monthBuckets = <T extends { createdAt?: string }>(items: T[], months = 6) => {
   const now = new Date();
   const buckets: { key: string; label: string; value: number }[] = [];
   for (let i = months - 1; i >= 0; i--) {

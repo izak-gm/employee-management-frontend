@@ -6,10 +6,6 @@ import type { Role } from "../types/auth.type";
 const RoleRoute = ({ allowedRoles }: { allowedRoles: Role[] }) => {
   const { role } = useAuth();
   if (!role) return <Navigate to="/login" replace />;
-  return allowedRoles.includes(role) ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/unauthorized" replace />
-  );
+  return allowedRoles.includes(role) ? <Outlet /> : <Navigate to="/unauthorized" replace />;
 };
 export default RoleRoute;
