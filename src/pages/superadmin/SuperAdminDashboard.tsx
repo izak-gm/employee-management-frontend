@@ -10,6 +10,7 @@ import {
   Stack,
   IconButton,
   Tooltip,
+  Alert,
 } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -52,7 +53,9 @@ const SuperAdminDashboard = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
-  const [pendingLeaves, setPendingLeaves] = useState<LeaveResponse[]>([]);
+  const [pendingAdminLeaves, setPendingAdminLeaves] = useState<LeaveResponse[]>(
+    [],
+  );
   const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -60,15 +63,18 @@ const SuperAdminDashboard = () => {
     getDashboardStats().then((r) => setStats(r.data));
     getAllLeaves().then((r) => {
       setAllLeaves(r.data);
-      setPendingLeaves(
-        r.data.filter(
-          (l) => l.status === "PENDING_COVER" || l.status === "PENDING_ADMIN",
-        ),
+      getAllLeaves().then((r) => {
+        setAllLeaves(r.data);
+
+        setPendingAdminLeaves(
+          r.data.filter((l) => l.status === "PENDING_ADMIN"),
+        );
+      });
+
+      getMyNotifications().then((r) =>
+        setCoverRequests(r.data.filter((l) => l.status === "PENDING_COVER")),
       );
     });
-    getMyNotifications().then((r) =>
-      setCoverRequests(r.data.filter((l) => l.status === "PENDING_COVER")),
-    );
   }, [refreshKey]);
 
   const handleCoverAction = async (id: string, accept: boolean) => {
@@ -122,6 +128,44 @@ const SuperAdminDashboard = () => {
 
   return (
     <DashboardLayout title="Super Admin Dashboard">
+      {pendingAdminLeaves.length > 0 && (
+        <Alert
+          severity="info"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => navigate("/superadmin/leaves")}
+            >
+              Review
+            </Button>
+          }
+          sx={{ mb: 3 }}
+        >
+          You have {pendingAdminLeaves.length} leave
+          {pendingAdminLeaves.length === 1 ? " request" : " requests"} awaiting
+          approval.
+        </Alert>
+      )}
+      {coverRequests.length > 0 && (
+        <Alert
+          severity="warning"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => navigate("/superadmin/leaves")}
+            >
+              Review
+            </Button>
+          }
+          sx={{ mb: 3 }}
+        >
+          There are {getMyNotifications.length} leave
+          {coverRequests.length === 1 ? " request" : " requests"} awaiting cover
+          employee.
+        </Alert>
+      )}
       <Grid container spacing={2} sx={{ mb: 2.5 }}>
         <Grid size={{ xs: 6, sm: 6, md: 3 }}>
           <StatCard
@@ -205,8 +249,8 @@ const SuperAdminDashboard = () => {
             <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
               <EventNoteIcon fontSize="small" sx={{ color: "primary.main" }} />
               <Typography variant="body2">
-                {pendingLeaves.length > 0
-                  ? `${pendingLeaves.length} in progress`
+                {coverRequests.length > 0
+                  ? `${coverRequests.length} in progress`
                   : "All requests, org-wide"}
               </Typography>
             </Stack>

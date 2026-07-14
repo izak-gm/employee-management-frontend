@@ -53,52 +53,52 @@ const ApplyLeavePage = () => {
 
   const readyRef = useRef(false);
 
-useEffect(() => {
-  const loadData = async () => {
-    try {
-      const [profile, employees, balance] = await Promise.all([
-        getMyProfile(),
-        getActiveEmployees(),
-        getMyBalance(),
-      ]);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [profile, employees, balance] = await Promise.all([
+          getMyProfile(),
+          getActiveEmployees(),
+          getMyBalance(),
+        ]);
 
-      setEmployee(profile.data);
-      setActive(employees.data.filter((e: any) => e.id !== id));
-      setBalances(balance.data);
+        setEmployee(profile.data);
+        setActive(employees.data.filter((e: any) => e.id !== id));
+        setBalances(balance.data);
 
-      if (editId) {
-        const leaves = await getMyLeaves();
-        const leave = leaves.data.find((l: any) => l.id === editId);
+        if (editId) {
+          const leaves = await getMyLeaves();
+          const leave = leaves.data.find((l: any) => l.id === editId);
 
-        if (leave) {
-          setLeaveType(leave.leaveType ?? "ANNUAL");
-          setStartDate(leave.startDate ?? "");
-          setEndDate(leave.endDate ?? "");
-          setReason(leave.reason ?? "");
+          if (leave) {
+            setLeaveType(leave.leaveType ?? "ANNUAL");
+            setStartDate(leave.startDate ?? "");
+            setEndDate(leave.endDate ?? "");
+            setReason(leave.reason ?? "");
+          }
         }
+
+        readyRef.current = true;
+      } catch (err) {
+        console.error(err);
       }
+    };
 
-      readyRef.current = true;
-    } catch (err) {
-      console.error(err);
+    loadData();
+  }, [id, editId]);
+  const TYPES = ALL_TYPES.filter((type) => {
+    if (!employee) return false; // wait until profile is loaded
+
+    if (employee.gender === "MALE") {
+      return type !== "MATERNITY";
     }
-  };
 
-  loadData();
-}, [id, editId]);
-const TYPES = ALL_TYPES.filter((type) => {
-  if (!employee) return false; // wait until profile is loaded
+    if (employee.gender === "FEMALE") {
+      return type !== "PATERNITY";
+    }
 
-  if (employee.gender === "MALE") {
-    return type !== "MATERNITY";
-  }
-
-  if (employee.gender === "FEMALE") {
-    return type !== "PATERNITY";
-  }
-
-  return true;
-});
+    return true;
+  });
   useEffect(() => {
     if (!readyRef.current) return;
 

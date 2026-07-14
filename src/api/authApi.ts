@@ -1,7 +1,4 @@
-import type {
-  LoginRequest,
-  AuthResponse,
-} from "../types/auth.type";
+import type { LoginRequest, AuthResponse } from "../types/auth.type";
 import type { components } from "../types/api-schema";
 import axiosInstance from "./axiosInstance";
 

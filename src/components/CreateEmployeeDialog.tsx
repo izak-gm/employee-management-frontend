@@ -41,7 +41,7 @@ const CreateEmployeeDialog = ({
   onClose,
   onSaved,
   availableRoles,
-  availableGenders
+  availableGenders,
 }: Props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -74,14 +74,21 @@ const CreateEmployeeDialog = ({
       !email.trim() ||
       !phoneNumber.trim() ||
       !role ||
-      ! gender
+      !gender
     ) {
       setError("All fields are required.");
       return;
     }
     setLoading(true);
     try {
-      await createEmployee({ firstName, lastName, email, phoneNumber, role ,gender});
+      await createEmployee({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        role,
+        gender,
+      });
       reset();
       onSaved();
     } catch (err) {

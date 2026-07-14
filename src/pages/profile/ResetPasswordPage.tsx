@@ -71,9 +71,11 @@ const ResetPasswordPage = () => {
       setSuccess(true);
       setNewPassword("");
       setConfirmPassword("");
- } catch (err) {
-  setError(extractErrorMessage(err, 'Could not reset password. Please try again.'));
-}finally {
+    } catch (err) {
+      setError(
+        extractErrorMessage(err, "Could not reset password. Please try again."),
+      );
+    } finally {
       setSaving(false);
     }
   };
