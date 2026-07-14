@@ -29,31 +29,31 @@ const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-  try {
-    const res = await loginApi({ email, password });
+    try {
+      const res = await loginApi({ email, password });
 
-    const token = res.data.token;
+      const token = res.data.token;
 
-    if (!token) {
-      setError("No token returned from the server.");
-      return;
+      if (!token) {
+        setError("No token returned from the server.");
+        return;
+      }
+
+      console.log(jwtDecode(token)); // Debug JWT
+
+      login(token);
+      navigate("/");
+    } catch (err) {
+      setError(extractErrorMessage(err, "Invalid email or password."));
+    } finally {
+      setLoading(false);
     }
-
-    console.log(jwtDecode(token)); // Debug JWT
-
-    login(token);
-    navigate("/");
-  } catch (err) {
-    setError(extractErrorMessage(err, "Invalid email or password."));
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <Grid container sx={{ minHeight: "100vh" }}>
@@ -171,7 +171,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 Forgot password?
               </Link>
             </Typography>
-            
+
             <Button
               type="submit"
               variant="contained"

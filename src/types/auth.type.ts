@@ -2,7 +2,7 @@
 import type { components } from "./api-schema";
 
 export type Role = "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
-export type Gender = "MALE" | "FEMALE"
+export type Gender = "MALE" | "FEMALE";
 
 export type LoginRequest = components["schemas"]["LoginRequest"];
 export type AuthResponse = components["schemas"]["AuthResponse"];

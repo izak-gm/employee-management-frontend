@@ -53,9 +53,12 @@ const EditProfilePage = () => {
           phoneNumber: res.data.phoneNumber ?? "",
           email: res.data.email ?? "",
         });
-    } catch (err) {
-  setBanner({ type: 'error', text: extractErrorMessage(err, 'Update failed. Please try again.') });
-} finally {
+      } catch (err) {
+        setBanner({
+          type: "error",
+          text: extractErrorMessage(err, "Update failed. Please try again."),
+        });
+      } finally {
         setLoading(false);
       }
     })();

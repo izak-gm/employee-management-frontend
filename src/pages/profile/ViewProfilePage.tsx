@@ -75,7 +75,8 @@ const ViewProfilePage = () => {
 
   const initials =
     `${profile?.firstName?.[0] ?? ""}${profile?.lastName?.[0] ?? ""}`.toUpperCase() ||
-    profile?.email?.[0]?.toUpperCase() || profile?.gender?.[0] ||
+    profile?.email?.[0]?.toUpperCase() ||
+    profile?.gender?.[0] ||
     "?";
 
   const isIncomplete =
@@ -197,8 +198,8 @@ const ViewProfilePage = () => {
                 icon={<EmailOutlinedIcon fontSize="small" />}
                 label="Email"
                 value={profile?.email}
-                />
-                <InfoRow
+              />
+              <InfoRow
                 icon={<EmailOutlinedIcon fontSize="small" />}
                 label="Gender"
                 value={profile?.gender}
