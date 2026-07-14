@@ -20,6 +20,7 @@ export const coverAction = (id: string, accept: boolean) =>
 export const adminActionLeave = (id: string, status: "APPROVED" | "REJECTED") =>
   axiosInstance.put<LeaveResponse>(`/leaves/${id}/action`, { status });
 
+export const getLeaveById = (id: string) => axiosInstance.get<LeaveResponse>(`/leaves/${id}`);
 export const getMyLeaves = () =>
   axiosInstance.get<LeaveResponse[]>("/leaves/my");
 export const getAllLeaves = () => axiosInstance.get<LeaveResponse[]>("/leaves");

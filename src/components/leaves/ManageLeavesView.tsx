@@ -20,9 +20,12 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import StageChip from "../StageChip";
 import {
   getAllLeaves,
-  adminActionLeave,
+  adminActionLeave,getLeaveById,
   type LeaveResponse,
 } from "../../api/leaveApi";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import TablePagination from "@mui/material/TablePagination";
+import LeaveDetailsDialog from "./LeaveDetailsDialog";
 
 type StatusFilter =
   | "ALL"
@@ -45,6 +48,10 @@ const STATUS_FILTERS: { label: string; value: StatusFilter }[] = [
 
 const ManageLeavesView = () => {
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
+  const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+const [page, setPage] = useState(0);
+const [rowsPerPage, setRowsPerPage] = useState(10);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -61,7 +68,15 @@ const ManageLeavesView = () => {
     statusFilter === "ALL"
       ? leaves
       : leaves.filter((l) => l.status === statusFilter);
-
+const handleViewLeave = async (id: string) => {
+  try {
+    const res = await getLeaveById(id);
+    setSelectedLeave(res.data);
+    setDetailsOpen(true);
+  } catch (err) {
+    console.error(err);
+  }
+};
   return (
     <Box>
       <Stack
@@ -94,9 +109,7 @@ const ManageLeavesView = () => {
       <Paper sx={{ border: "1px solid", borderColor: "divider" }}>
         {visibleLeaves.length === 0 ? (
           <Box sx={{ p: 4, textAlign: "center" }}>
-            <Typography color="text.secondary">
-              No leave requests match this filter.
-            </Typography>
+            <Typography color="text.secondary">No leave requests match this filter.</Typography>
           </Box>
         ) : (
           <Table>
@@ -107,6 +120,7 @@ const ManageLeavesView = () => {
                 <TableCell>Dates</TableCell>
                 <TableCell>Cover</TableCell>
                 <TableCell>Stage</TableCell>
+                <TableCell>View</TableCell>
                 <TableCell align="right">Action</TableCell>
               </TableRow>
             </TableHead>
@@ -121,12 +135,15 @@ const ManageLeavesView = () => {
                     <StageChip status={l.status} />
                   </TableCell>
                   <TableCell align="right">
+                    <Tooltip title="View leave details">
+                      <IconButton color="primary" onClick={() => handleViewLeave(l.id!)}>
+                        <VisibilityOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>{" "}
+                  <TableCell align="right">
                     {l.status === "PENDING_ADMIN" ? (
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        sx={{ justifyContent: "flex-end" }}
-                      >
+                      <Stack direction="row" spacing={1} sx={{ justifyContent: "flex-end" }}>
                         <Tooltip title="Approve">
                           <IconButton
                             color="success"
@@ -136,20 +153,13 @@ const ManageLeavesView = () => {
                           </IconButton>
                         </Tooltip>
                         <Tooltip title="Reject">
-                          <IconButton
-                            color="error"
-                            onClick={() => handleAction(l.id!, "REJECTED")}
-                          >
+                          <IconButton color="error" onClick={() => handleAction(l.id!, "REJECTED")}>
                             <CancelIcon />
                           </IconButton>
                         </Tooltip>
                       </Stack>
                     ) : l.status === "PENDING_COVER" ? (
-                      <Chip
-                        label="Waiting on cover"
-                        size="small"
-                        variant="outlined"
-                      />
+                      <Chip label="Waiting on cover" size="small" variant="outlined" />
                     ) : (
                       <Typography variant="caption" color="text.secondary">
                         —
@@ -159,9 +169,29 @@ const ManageLeavesView = () => {
                 </TableRow>
               ))}
             </TableBody>
+            <TablePagination
+              component="div"
+              count={visibleLeaves.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={(_, newPage) => setPage(newPage)}
+              onRowsPerPageChange={(e) => {
+                setRowsPerPage(parseInt(e.target.value, 10));
+                setPage(0);
+              }}
+              rowsPerPageOptions={[5, 10, 20, 50]}
+            />
           </Table>
         )}
       </Paper>
+      <LeaveDetailsDialog
+        open={detailsOpen}
+        leave={selectedLeave}
+        onClose={() => {
+          setDetailsOpen(false);
+          setSelectedLeave(null);
+        }}
+      />
     </Box>
   );
 };
