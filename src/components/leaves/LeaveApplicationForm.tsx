@@ -71,6 +71,22 @@ const ApplyLeavePage = () => {
       readyRef.current = true;
     }
   }, [id, editId]);
+  
+  useEffect(() => {
+  if (!editId || active.length === 0) return;
+
+  getMyLeaves().then((r) => {
+    const leave = r.data.find((l: any) => l.id === editId);
+
+    if (!leave) return;
+
+    const selectedCover = active.find(
+      (e: any) => e.id === leave.coverEmployeeId,
+    );
+
+    setCover(selectedCover ?? null);
+  });
+}, [editId, active]);
 
   const TYPES = ALL_TYPES.filter((type) => {
     if (!employee?.gender) return true;
@@ -173,6 +189,8 @@ const ApplyLeavePage = () => {
     }
   };
 
+  // EDIT
+
   return (
     <DashboardLayout title={editId ? "Edit Leave" : "Apply for Leave"}>
       <Button
@@ -255,21 +273,16 @@ const ApplyLeavePage = () => {
               onChange={(e) => setReason(e.target.value)}
             />
 
-            <Autocomplete
-              options={active}
-              value={cover}
-              onChange={(_, value) => setCover(value)}
-              getOptionLabel={(e: any) => `${e.firstName} ${e.lastName}`}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Cover Employee"
-                  required
-                  error={!cover && banner?.type === "error"}
-                  helperText={!cover ? "Cover employee is required" : ""}
-                />
-              )}
-            />
+            {leaveType !== "COMPASSIONATE" && (
+              <Autocomplete
+                options={active}
+                value={cover}
+                onChange={(_, value) => setCover(value)}
+                getOptionLabel={(e: any) => `${e.firstName} ${e.lastName}`}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => <TextField {...params} label="Cover Employee" required />}
+              />
+            )}
 
             <Button
               type="submit"

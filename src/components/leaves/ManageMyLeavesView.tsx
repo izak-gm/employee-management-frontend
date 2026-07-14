@@ -28,6 +28,7 @@ import TablePagination from "@mui/material/TablePagination";
 import LeaveDetailsDialog from "./LeaveDetailsDialog";
 import { useNavigate } from "react-router-dom";
 import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 type StatusFilter =
   | "ALL"
@@ -98,6 +99,7 @@ const ManageLeavesView = () => {
     setLeaveToWithdraw(id);
     setWithdrawOpen(true);
   };
+  
   return (
     <Box>
       <Stack
@@ -175,7 +177,16 @@ const ManageLeavesView = () => {
                           <VisibilityOutlinedIcon />
                         </IconButton>
                       </Tooltip>
-
+                      {(l.status === "PENDING_COVER" || l.status === "COVER_DECLINED") && (
+                        <Tooltip title="Edit leave">
+                          <IconButton
+                            color="primary"
+                            onClick={() => navigate(`/employee/apply-leave?edit=${l.id}`)}
+                          >
+                            <EditOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                       {(l.status === "PENDING_COVER" ||
                         l.status === "PENDING_ADMIN" ||
                         l.status === "COVER_DECLINED") && (
