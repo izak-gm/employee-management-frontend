@@ -63,12 +63,8 @@ const EmployeeDashboard = () => {
 
   const stats = useMemo(() => {
     const year = new Date().getFullYear();
-    const thisYear = leaves.filter((l) =>
-      (l.createdAt ?? "").startsWith(String(year)),
-    );
-    const pending = leaves.filter((l) =>
-      l.status?.startsWith("PENDING"),
-    ).length;
+    const thisYear = leaves.filter((l) => (l.createdAt ?? "").startsWith(String(year)));
+    const pending = leaves.filter((l) => l.status?.startsWith("PENDING")).length;
     const approved = leaves.filter((l) => l.status === "APPROVED");
     const rejected = leaves.filter((l) => l.status === "REJECTED").length;
 
@@ -79,9 +75,7 @@ const EmployeeDashboard = () => {
     );
     const hasUnlimited = balances.some((b) => b.unlimited);
 
-    const currentLeave = approved.find((l) =>
-      isOnLeaveToday(l.startDate, l.endDate),
-    );
+    const currentLeave = approved.find((l) => isOnLeaveToday(l.startDate, l.endDate));
     const nextLeave = approved
       .filter((l) => isUpcoming(l.startDate))
       .sort((a, b) => (a.startDate ?? "").localeCompare(b.startDate ?? ""))[0];
@@ -112,11 +106,7 @@ const EmployeeDashboard = () => {
           <StatCard
             icon={<BeachAccessIcon />}
             label="Leave balance remaining"
-            value={
-              stats.hasUnlimited
-                ? `${stats.remainingTotal}+`
-                : stats.remainingTotal
-            }
+            value={stats.hasUnlimited ? `${stats.remainingTotal}+` : stats.remainingTotal}
             sublabel="Across all leave types"
             color="#0F2A4A"
             emphasis
@@ -142,62 +132,29 @@ const EmployeeDashboard = () => {
               }}
             >
               <Box>
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  sx={{ alignItems: "center" }}
-                >
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                   {stats.currentLeave ? (
-                    <Chip
-                      icon={<WorkIcon />}
-                      label="On leave today"
-                      color="warning"
-                      size="small"
-                    />
+                    <Chip icon={<WorkIcon />} label="On leave today" color="warning" size="small" />
                   ) : (
-                    <Chip
-                      icon={<WorkIcon />}
-                      label="Working today"
-                      color="success"
-                      size="small"
-                    />
+                    <Chip icon={<WorkIcon />} label="Working today" color="success" size="small" />
                   )}
                 </Stack>
                 {stats.nextLeave ? (
                   <Box sx={{ mt: 1.5 }}>
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      sx={{ alignItems: "center" }}
-                    >
-                      <FlightTakeoffIcon
-                        fontSize="small"
-                        sx={{ color: "secondary.main" }}
-                      />
+                    <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+                      <FlightTakeoffIcon fontSize="small" sx={{ color: "secondary.main" }} />
                       <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                        Next leave: {stats.nextLeave.startDate} →{" "}
-                        {stats.nextLeave.endDate}
+                        Next leave: {stats.nextLeave.startDate} → {stats.nextLeave.endDate}
                       </Typography>
                     </Stack>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ ml: 4 }}
-                    >
+                    <Typography variant="body2" color="text.secondary" sx={{ ml: 4 }}>
                       {stats.nextLeave.leaveType} ·{" "}
-                      {daysBetweenInclusive(
-                        stats.nextLeave.startDate,
-                        stats.nextLeave.endDate,
-                      )}{" "}
+                      {daysBetweenInclusive(stats.nextLeave.startDate, stats.nextLeave.endDate)}{" "}
                       day(s)
                     </Typography>
                   </Box>
                 ) : (
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 1.5 }}
-                  >
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>
                     No upcoming approved leave scheduled.
                   </Typography>
                 )}
@@ -232,12 +189,7 @@ const EmployeeDashboard = () => {
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
-          <StatCard
-            icon={<CancelIcon />}
-            label="Rejected"
-            value={stats.rejected}
-            color="#d32f2f"
-          />
+          <StatCard icon={<CancelIcon />} label="Rejected" value={stats.rejected} color="#d32f2f" />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 2.4 }}>
           <StatCard
@@ -268,9 +220,7 @@ const EmployeeDashboard = () => {
         >
           <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
             <HandshakeIcon sx={{ color: "secondary.main" }} />
-            <Typography variant="h6">
-              Cover requests awaiting your response
-            </Typography>
+            <Typography variant="h6">Cover requests awaiting your response</Typography>
           </Stack>
           {coverRequests.length > 0 && (
             <Chip label={coverRequests.length} color="warning" size="small" />
@@ -279,9 +229,7 @@ const EmployeeDashboard = () => {
         <Divider />
         {coverRequests.length === 0 ? (
           <Box sx={{ p: 4, textAlign: "center" }}>
-            <Typography color="text.secondary">
-              Nobody's asked you to cover right now.
-            </Typography>
+            <Typography color="text.secondary">Nobody's asked you to cover right now.</Typography>
           </Box>
         ) : (
           coverRequests.map((l) => (
@@ -300,27 +248,19 @@ const EmployeeDashboard = () => {
               }}
             >
               <Box>
-                <Typography sx={{ fontWeight: 600 }}>
-                  {l.employeeFullName} needs cover
-                </Typography>
+                <Typography sx={{ fontWeight: 600 }}>{l.employeeFullName} needs cover</Typography>
                 <Typography variant="body2" color="text.secondary">
                   {l.leaveType} · {l.startDate} → {l.endDate}
                 </Typography>
               </Box>
               <Stack direction="row" spacing={1}>
                 <Tooltip title="Accept cover">
-                  <IconButton
-                    color="success"
-                    onClick={() => handleCoverAction(l.id!, true)}
-                  >
+                  <IconButton color="success" onClick={() => handleCoverAction(l.id!, true)}>
                     <CheckCircleIcon />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Decline cover">
-                  <IconButton
-                    color="error"
-                    onClick={() => handleCoverAction(l.id!, false)}
-                  >
+                  <IconButton color="error" onClick={() => handleCoverAction(l.id!, false)}>
                     <CancelIcon />
                   </IconButton>
                 </Tooltip>
@@ -345,8 +285,8 @@ const EmployeeDashboard = () => {
         <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
           <EventNoteIcon sx={{ color: "primary.main" }} />
           <Typography variant="body1">
-            See your leave balance breakdown, usage history, and every request
-            on the My Leaves page.
+            See your leave balance breakdown, usage history, and every request on the My Leaves
+            page.
           </Typography>
         </Stack>
         <Button

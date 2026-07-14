@@ -37,9 +37,7 @@ const decodeStoredToken = (token: string | null): DecodedToken | null => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const initialToken = localStorage.getItem("token");
   const [token, setToken] = useState<string | null>(initialToken);
-  const [decoded, setDecoded] = useState<DecodedToken | null>(
-    decodeStoredToken(initialToken),
-  );
+  const [decoded, setDecoded] = useState<DecodedToken | null>(decodeStoredToken(initialToken));
 
   const login = (newToken: string) => {
     const payload = decodeStoredToken(newToken);

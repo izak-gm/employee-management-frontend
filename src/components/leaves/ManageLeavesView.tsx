@@ -20,7 +20,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import StageChip from "../StageChip";
 import {
   getAllLeaves,
-  adminActionLeave,getLeaveById,
+  adminActionLeave,
+  getLeaveById,
   type LeaveResponse,
 } from "../../api/leaveApi";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
@@ -50,8 +51,8 @@ const ManageLeavesView = () => {
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
   const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-const [page, setPage] = useState(0);
-const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -65,18 +66,16 @@ const [rowsPerPage, setRowsPerPage] = useState(10);
   };
 
   const visibleLeaves =
-    statusFilter === "ALL"
-      ? leaves
-      : leaves.filter((l) => l.status === statusFilter);
-const handleViewLeave = async (id: string) => {
-  try {
-    const res = await getLeaveById(id);
-    setSelectedLeave(res.data);
-    setDetailsOpen(true);
-  } catch (err) {
-    console.error(err);
-  }
-};
+    statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
+  const handleViewLeave = async (id: string) => {
+    try {
+      const res = await getLeaveById(id);
+      setSelectedLeave(res.data);
+      setDetailsOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <Box>
       <Stack

@@ -21,9 +21,7 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import { updateMyProfile } from "../../api/employeeApi";
 import { extractErrorMessage } from "../../api/errorUtils";
 
-const getStrength = (
-  password: string,
-): { score: number; label: string; color: string } => {
+const getStrength = (password: string): { score: number; label: string; color: string } => {
   let score = 0;
   if (password.length >= 8) score++;
   if (/[A-Z]/.test(password)) score++;
@@ -72,9 +70,7 @@ const ResetPasswordPage = () => {
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
-      setError(
-        extractErrorMessage(err, "Could not reset password. Please try again."),
-      );
+      setError(extractErrorMessage(err, "Could not reset password. Please try again."));
     } finally {
       setSaving(false);
     }
@@ -129,10 +125,7 @@ const ResetPasswordPage = () => {
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword((s) => !s)}
-                        edge="end"
-                      >
+                      <IconButton onClick={() => setShowPassword((s) => !s)} edge="end">
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -156,10 +149,7 @@ const ResetPasswordPage = () => {
                     },
                   }}
                 />
-                <Typography
-                  variant="caption"
-                  sx={{ color: strength.color, fontWeight: 600 }}
-                >
+                <Typography variant="caption" sx={{ color: strength.color, fontWeight: 600 }}>
                   {strength.label}
                 </Typography>
               </Box>
@@ -173,12 +163,7 @@ const ResetPasswordPage = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={saving}
-              sx={{ mt: 1 }}
-            >
+            <Button type="submit" variant="contained" disabled={saving} sx={{ mt: 1 }}>
               {saving ? "Updating…" : "Update Password"}
             </Button>
           </Stack>

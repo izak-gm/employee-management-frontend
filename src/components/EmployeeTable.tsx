@@ -24,17 +24,13 @@ import { getEmployeeById } from "../api/employeeApi";
 import EmployeeDetailsDialog from "./employees/EmployeeDetailsDialog";
 const PAGE_SIZE = 10;
 
-const EmployeeTable = ({
-  onEdit,
-}: {
-  onEdit: (emp: EmployeeResponse) => void;
-}) => {
+const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) => {
   const [employees, setEmployees] = useState<EmployeeResponse[]>([]);
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
-const [selectedEmployee, setSelectedEmployee] = useState<EmployeeResponse | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<EmployeeResponse | null>(null);
 
-const [detailsOpen, setDetailsOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const fetchEmployees = async () => {
     const res = await getEmployees({ filter, page: page - 1, size: PAGE_SIZE });
     setEmployees(res.data);
@@ -57,17 +53,17 @@ const [detailsOpen, setDetailsOpen] = useState(false);
   // than PAGE_SIZE reliably signals "this is the last page" without needing
   // the backend to report a total.
   const isLastPage = employees.length < PAGE_SIZE;
-const handleView = async (id?: string) => {
-  if (!id) return;
+  const handleView = async (id?: string) => {
+    if (!id) return;
 
-  try {
-    const res = await getEmployeeById(id);
-    setSelectedEmployee(res.data);
-    setDetailsOpen(true);
-  } catch (err) {
-    console.error(err);
-  }
-};
+    try {
+      const res = await getEmployeeById(id);
+      setSelectedEmployee(res.data);
+      setDetailsOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <Box>
       <TextField

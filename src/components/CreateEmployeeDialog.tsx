@@ -47,9 +47,7 @@ const CreateEmployeeDialog = ({
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [role, setRole] = useState<Role | "">(
-    availableRoles.length === 1 ? availableRoles[0] : "",
-  );
+  const [role, setRole] = useState<Role | "">(availableRoles.length === 1 ? availableRoles[0] : "");
   const [gender, setGender] = useState<Gender | "">(
     availableGenders.length === 1 ? availableGenders[0] : "",
   );
@@ -110,8 +108,7 @@ const CreateEmployeeDialog = ({
         <Stack spacing={2} sx={{ mt: 1 }}>
           {error && <Alert severity="error">{error}</Alert>}
           <Alert severity="info" sx={{ mb: 1 }}>
-            An invitation email will be sent to the employee to set up their
-            password.
+            An invitation email will be sent to the employee to set up their password.
           </Alert>
           <TextField
             label="First Name"

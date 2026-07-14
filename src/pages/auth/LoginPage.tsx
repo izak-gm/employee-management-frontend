@@ -69,22 +69,16 @@ const LoginPage = () => {
           p: 6,
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{ letterSpacing: "0.05em", fontWeight: 700 }}
-        >
+        <Typography variant="h5" sx={{ letterSpacing: "0.05em", fontWeight: 700 }}>
           RIVERBANK
         </Typography>
         <Box>
-          <Typography
-            variant="h3"
-            sx={{ fontWeight: 700, mb: 2, maxWidth: 480 }}
-          >
+          <Typography variant="h3" sx={{ fontWeight: 700, mb: 2, maxWidth: 480 }}>
             Manage your workforce with clarity.
           </Typography>
           <Typography sx={{ color: "rgba(255,255,255,0.7)", maxWidth: 420 }}>
-            One secure platform for employee records, roles, and administration
-            — built for teams that move fast.
+            One secure platform for employee records, roles, and administration — built for teams
+            that move fast.
           </Typography>
         </Box>
         <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.4)" }}>
@@ -151,9 +145,7 @@ const LoginPage = () => {
                       <IconButton
                         onClick={() => setShowPassword((s) => !s)}
                         edge="end"
-                        aria-label={
-                          showPassword ? "Hide password" : "Show password"
-                        }
+                        aria-label={showPassword ? "Hide password" : "Show password"}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -163,11 +155,7 @@ const LoginPage = () => {
               }}
             />
             <Typography sx={{ mt: 1, textAlign: "right" }}>
-              <Link
-                component={RouterLink}
-                to="/forgot-password"
-                sx={{ fontSize: 13 }}
-              >
+              <Link component={RouterLink} to="/forgot-password" sx={{ fontSize: 13 }}>
                 Forgot password?
               </Link>
             </Typography>

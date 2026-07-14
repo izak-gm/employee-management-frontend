@@ -12,13 +12,6 @@ const MAP: Record<string, { label: string; color: any }> = {
 
 const StageChip = ({ status }: { status?: LeaveStatus }) => {
   const s = MAP[status ?? ""] ?? { label: status, color: "default" };
-  return (
-    <Chip
-      label={s.label}
-      color={s.color}
-      size="small"
-      sx={{ fontWeight: 600 }}
-    />
-  );
+  return <Chip label={s.label} color={s.color} size="small" sx={{ fontWeight: 600 }} />;
 };
 export default StageChip;

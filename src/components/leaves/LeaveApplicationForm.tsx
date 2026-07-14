@@ -1,13 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  Paper,
-  TextField,
-  Button,
-  MenuItem,
-  Alert,
-  Stack,
-  Autocomplete,
-} from "@mui/material";
+import { Paper, TextField, Button, MenuItem, Alert, Stack, Autocomplete } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DashboardLayout from "../../components/layout/DashboardLayout";
@@ -23,18 +15,9 @@ import { getMyProfile } from "../../api/employeeApi";
 import { extractErrorMessage } from "../../api/errorUtils";
 import { useAuth } from "../../context/AuthContext";
 
-const ALL_TYPES = [
-  "ANNUAL",
-  "SICK",
-  "PATERNITY",
-  "MATERNITY",
-  "COMPASSIONATE",
-];
+const ALL_TYPES = ["ANNUAL", "SICK", "PATERNITY", "MATERNITY", "COMPASSIONATE"];
 
-const AUTO_CALCULATED_TYPES = new Set([
-  "MATERNITY",
-  "PATERNITY",
-]);
+const AUTO_CALCULATED_TYPES = new Set(["MATERNITY", "PATERNITY"]);
 
 const ApplyLeavePage = () => {
   const { id } = useAuth();
@@ -63,14 +46,11 @@ const ApplyLeavePage = () => {
   const readyRef = useRef(false);
 
   useEffect(() => {
+    getMyProfile().then((res) => {
+      setEmployee(res.data);
+    });
 
-  getMyProfile().then((res) => {
-    setEmployee(res.data);
-  });
-    
-    getActiveEmployees().then((r) =>
-      setActive(r.data.filter((e: any) => e.id !== id)),
-    );
+    getActiveEmployees().then((r) => setActive(r.data.filter((e: any) => e.id !== id)));
 
     getMyBalance().then((r) => setBalances(r.data));
 
@@ -113,9 +93,7 @@ const ApplyLeavePage = () => {
 
     if (!startDate) return;
 
-    const entitlementDays = balances.find(
-      (b) => b.leaveType === leaveType,
-    )?.maxDays;
+    const entitlementDays = balances.find((b) => b.leaveType === leaveType)?.maxDays;
 
     if (!entitlementDays) return;
 
@@ -127,12 +105,9 @@ const ApplyLeavePage = () => {
     setEndDate(end.toISOString().slice(0, 10));
   }, [leaveType, startDate, balances]);
 
-  const entitlementDays = balances.find(
-    (b) => b.leaveType === leaveType,
-  )?.maxDays;
+  const entitlementDays = balances.find((b) => b.leaveType === leaveType)?.maxDays;
 
-  const isEndDateAutoCalculated =
-    AUTO_CALCULATED_TYPES.has(leaveType) && !!entitlementDays;
+  const isEndDateAutoCalculated = AUTO_CALCULATED_TYPES.has(leaveType) && !!entitlementDays;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,7 +122,26 @@ const ApplyLeavePage = () => {
 
       return;
     }
+    if (leaveType !== "COMPASSIONATE" && !cover?.id) {
+      setBanner({
+        type: "error",
+        text: "Please select a cover employee.",
+      });
+      return;
+    }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
+    const selectedStart = new Date(startDate);
+    selectedStart.setHours(0, 0, 0, 0);
+
+    if (selectedStart <= today) {
+      setBanner({
+        type: "error",
+        text: "Leave must start from tomorrow onwards.",
+      });
+      return;
+    }
     setLoading(true);
 
     try {
@@ -156,9 +150,8 @@ const ApplyLeavePage = () => {
         startDate,
         endDate,
         reason,
-        coverid: cover?.id,
+        coverEmployeeId: leaveType === "COMPASSIONATE" ? null : cover!.id,
       };
-
       if (editId) {
         await updateLeave(editId, payload);
       } else {
@@ -228,9 +221,11 @@ const ApplyLeavePage = () => {
               onChange={(e) => setStartDate(e.target.value)}
               slotProps={{
                 inputLabel: { shrink: true },
+                htmlInput: {
+                  min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                },
               }}
             />
-
             <TextField
               label="End Date"
               type="date"
@@ -245,6 +240,9 @@ const ApplyLeavePage = () => {
               }
               slotProps={{
                 inputLabel: { shrink: true },
+                htmlInput: {
+                  min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                },
               }}
             />
 
@@ -259,16 +257,16 @@ const ApplyLeavePage = () => {
 
             <Autocomplete
               options={active}
-              getOptionLabel={(e: any) =>
-                `${e.firstName ?? ""} ${e.lastName ?? ""}`
-              }
               value={cover}
               onChange={(_, value) => setCover(value)}
+              getOptionLabel={(e: any) => `${e.firstName} ${e.lastName}`}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Cover Person"
-                  placeholder="Select an active employee"
+                  label="Cover Employee"
+                  required
+                  error={!cover && banner?.type === "error"}
+                  helperText={!cover ? "Cover employee is required" : ""}
                 />
               )}
             />
@@ -277,13 +275,11 @@ const ApplyLeavePage = () => {
               type="submit"
               variant="contained"
               size="large"
-              disabled={loading}
+              disabled={
+                loading || !startDate || !endDate || (leaveType !== "COMPASSIONATE" && !cover)
+              }
             >
-              {loading
-                ? "Submitting..."
-                : editId
-                  ? "Save Changes"
-                  : "Submit Application"}
+              {loading ? "Submitting..." : editId ? "Save Changes" : "Submit Application"}
             </Button>
           </Stack>
         </form>

@@ -59,9 +59,7 @@ const AdminDashboard = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    getPendingLeaves().then((r) =>
-      setPending(r.data.filter((l) => l.status === "PENDING_ADMIN")),
-    );
+    getPendingLeaves().then((r) => setPending(r.data.filter((l) => l.status === "PENDING_ADMIN")));
     getAllLeaves().then((r) => setAllLeaves(r.data));
     getDashboardStats().then((r) => setStats(r.data));
     getMyNotifications().then((r) =>
@@ -234,9 +232,7 @@ const AdminDashboard = () => {
       {/* Cover requests + pending approvals side by side on desktop */}
       <Grid container spacing={2.5} sx={{ mb: 2.5 }}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper
-            sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
-          >
+          <Paper sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}>
             <Box
               sx={{
                 p: 2,
@@ -245,23 +241,12 @@ const AdminDashboard = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Stack
-                direction="row"
-                spacing={1.25}
-                sx={{ alignItems: "center" }}
-              >
-                <HandshakeIcon
-                  fontSize="small"
-                  sx={{ color: "secondary.main" }}
-                />
+              <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+                <HandshakeIcon fontSize="small" sx={{ color: "secondary.main" }} />
                 <Typography variant="subtitle1">Cover requests</Typography>
               </Stack>
               {coverRequests.length > 0 && (
-                <Chip
-                  label={coverRequests.length}
-                  color="warning"
-                  size="small"
-                />
+                <Chip label={coverRequests.length} color="warning" size="small" />
               )}
             </Box>
             <Divider />
@@ -322,13 +307,9 @@ const AdminDashboard = () => {
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper
-            sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
-          >
+          <Paper sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}>
             <Box sx={{ p: 2 }}>
-              <Typography variant="subtitle1">
-                Awaiting your approval
-              </Typography>
+              <Typography variant="subtitle1">Awaiting your approval</Typography>
             </Box>
             <Divider />
             {pending.length === 0 ? (
@@ -484,9 +465,7 @@ const AdminDashboard = () => {
       {/* On leave / upcoming, compact side by side */}
       <Grid container spacing={2.5} sx={{ mb: 2.5 }}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper
-            sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
-          >
+          <Paper sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}>
             <Box sx={{ p: 2 }}>
               <Typography variant="subtitle1">On leave right now</Typography>
             </Box>
@@ -519,9 +498,7 @@ const AdminDashboard = () => {
           </Paper>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper
-            sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}
-          >
+          <Paper sx={{ border: "1px solid", borderColor: "divider", height: "100%" }}>
             <Box sx={{ p: 2 }}>
               <Typography variant="subtitle1">Upcoming leave</Typography>
             </Box>

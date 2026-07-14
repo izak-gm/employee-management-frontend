@@ -9,8 +9,7 @@ import type {
 
 // --- Self-service endpoints (any authenticated user, own profile only) ---
 
-export const getMyProfile = () =>
-  axiosInstance.get<EmployeeResponse>("/employees/me");
+export const getMyProfile = () => axiosInstance.get<EmployeeResponse>("/employees/me");
 
 export const updateMyProfile = (data: UpdateEmployee) =>
   axiosInstance.put<Employee>("/employees/update-profile/me", data);

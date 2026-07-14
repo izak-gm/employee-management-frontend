@@ -1,15 +1,6 @@
 // src/pages/profile/EditProfilePage.tsx
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-  Alert,
-  Stack,
-  Skeleton,
-} from "@mui/material";
+import { Box, Paper, Typography, TextField, Button, Alert, Stack, Skeleton } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
@@ -64,18 +55,16 @@ const EditProfilePage = () => {
     })();
   }, []);
 
-  const handleChange =
-    (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setForm((prev) => ({ ...prev, [field]: e.target.value }));
-      if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
-    };
+  const handleChange = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, [field]: e.target.value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
 
   const validate = (): boolean => {
     const nextErrors: FormErrors = {};
     if (!form.firstName.trim()) nextErrors.firstName = "First name is required";
     if (!form.lastName.trim()) nextErrors.lastName = "Last name is required";
-    if (!form.phoneNumber.trim())
-      nextErrors.phoneNumber = "Phone number is required";
+    if (!form.phoneNumber.trim()) nextErrors.phoneNumber = "Phone number is required";
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
@@ -198,11 +187,7 @@ const EditProfilePage = () => {
                 >
                   {saving ? "Saving…" : "Save Changes"}
                 </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate("/profile")}
-                  disabled={saving}
-                >
+                <Button variant="outlined" onClick={() => navigate("/profile")} disabled={saving}>
                   Cancel
                 </Button>
               </Box>

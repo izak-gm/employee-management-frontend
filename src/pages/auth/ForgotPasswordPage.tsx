@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Alert,
-  Link,
-  Paper,
-} from "@mui/material";
+import { Box, TextField, Button, Typography, Alert, Link, Paper } from "@mui/material";
 import { forgotPassword } from "../../api/authApi";
 import { extractErrorMessage } from "../../api/errorUtils";
 
@@ -61,8 +53,7 @@ const ForgotPasswordPage = () => {
 
         {sent ? (
           <Alert severity="success">
-            If that email is registered, a reset link is on its way. Check your
-            inbox.
+            If that email is registered, a reset link is on its way. Check your inbox.
           </Alert>
         ) : (
           <>

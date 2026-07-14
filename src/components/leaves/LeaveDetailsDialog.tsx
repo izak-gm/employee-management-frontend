@@ -20,13 +20,7 @@ interface Props {
   onClose: () => void;
 }
 
-const statusColor = (
-  status?: string,
-):
-  | "success"
-  | "warning"
-  | "error"
-  | "default" => {
+const statusColor = (status?: string): "success" | "warning" | "error" | "default" => {
   switch (status) {
     case "APPROVED":
       return "success";
@@ -48,10 +42,7 @@ interface DetailRowProps {
   value?: string | null;
 }
 
-const DetailRow = ({
-  label,
-  value,
-}: DetailRowProps) => (
+const DetailRow = ({ label, value }: DetailRowProps) => (
   <>
     <Grid size={{ xs: 5 }}>
       <Typography
@@ -65,18 +56,12 @@ const DetailRow = ({
     </Grid>
 
     <Grid size={{ xs: 7 }}>
-      <Typography>
-        {value || "-"}
-      </Typography>
+      <Typography>{value || "-"}</Typography>
     </Grid>
   </>
 );
 
-const LeaveDetailsDialog = ({
-  open,
-  leave,
-  onClose,
-}: Props) => {
+const LeaveDetailsDialog = ({ open, leave, onClose }: Props) => {
   if (!leave) return null;
 
   return (

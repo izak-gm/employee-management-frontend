@@ -47,13 +47,7 @@ const roleColor = {
   EMPLOYEE: "#5B6B7A",
 };
 
-const DashboardLayout = ({
-  children,
-  title,
-}: {
-  children: ReactNode;
-  title: string;
-}) => {
+const DashboardLayout = ({ children, title }: { children: ReactNode; title: string }) => {
   const { role, email, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -114,10 +108,7 @@ const DashboardLayout = ({
         }}
       >
         <Box sx={{ px: 3, py: 3.5 }}>
-          <Typography
-            variant="h6"
-            sx={{ color: "#fff", letterSpacing: "0.03em" }}
-          >
+          <Typography variant="h6" sx={{ color: "#fff", letterSpacing: "0.03em" }}>
             RIVERBANK
           </Typography>
           <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.6)" }}>
@@ -130,8 +121,7 @@ const DashboardLayout = ({
             const isRootItem = item.path === `/${role?.toLowerCase()}`;
             const active = isRootItem
               ? location.pathname === item.path
-              : location.pathname === item.path ||
-                location.pathname.startsWith(`${item.path}/`);
+              : location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);
             return (
               <ListItemButton
                 key={item.label}
@@ -206,16 +196,9 @@ const DashboardLayout = ({
                 >
                   {email?.[0]?.toUpperCase()}
                 </Avatar>
-                <KeyboardArrowDownIcon
-                  fontSize="small"
-                  sx={{ color: "text.secondary" }}
-                />
+                <KeyboardArrowDownIcon fontSize="small" sx={{ color: "text.secondary" }} />
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={!!anchorEl}
-                onClose={() => setAnchorEl(null)}
-              >
+              <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={() => setAnchorEl(null)}>
                 <MenuItem disabled sx={{ opacity: "1 !important" }}>
                   <Typography variant="body2" color="text.secondary">
                     {email}

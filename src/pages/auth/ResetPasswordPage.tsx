@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  useSearchParams,
-  useNavigate,
-  Link as RouterLink,
-} from "react-router-dom";
+import { useSearchParams, useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Box,
   TextField,
@@ -70,12 +66,7 @@ const ResetPasswordTokenPage = () => {
       setSuccess(true);
       setTimeout(() => navigate("/login"), 2500);
     } catch (err) {
-      setError(
-        extractErrorMessage(
-          err,
-          "Failed to reset password. The link may have expired.",
-        ),
-      );
+      setError(extractErrorMessage(err, "Failed to reset password. The link may have expired."));
     } finally {
       setLoading(false);
     }
@@ -108,11 +99,7 @@ const ResetPasswordTokenPage = () => {
           Enter your new password below.
         </Typography>
 
-        {success && (
-          <Alert severity="success">
-            Password reset! Redirecting to login…
-          </Alert>
-        )}
+        {success && <Alert severity="success">Password reset! Redirecting to login…</Alert>}
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {error}
@@ -132,10 +119,7 @@ const ResetPasswordTokenPage = () => {
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword((s) => !s)}
-                        edge="end"
-                      >
+                      <IconButton onClick={() => setShowPassword((s) => !s)} edge="end">
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -158,10 +142,7 @@ const ResetPasswordTokenPage = () => {
                     },
                   }}
                 />
-                <Typography
-                  variant="caption"
-                  sx={{ color: strength.color, fontWeight: 600 }}
-                >
+                <Typography variant="caption" sx={{ color: strength.color, fontWeight: 600 }}>
                   {strength.label}
                 </Typography>
               </Box>
