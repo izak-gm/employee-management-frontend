@@ -15,6 +15,7 @@ import ResetPasswordTokenPage from "./pages/auth/ResetPasswordPage";
 import ManageEmployeesPage from "./pages/views/ManageEmployeesPage";
 import AllLeavesPage from "./pages/leaves/AllLeavesPage";
 import MyLeavePage from "./pages/leaves/MyLeavePage";
+import LeaveApplicationForm from "./components/leaves/LeaveApplicationForm";
 
 const RoleRedirect = () => {
   const { role } = useAuth();
@@ -58,6 +59,7 @@ function App() {
 
             <Route element={<RoleRoute allowedRoles={["EMPLOYEE", "ADMIN", "SUPERADMIN"]} />}>
               <Route path="/employee/leaves" element={<MyLeavePage />} />
+              <Route path="/employee/apply-leave" element={<LeaveApplicationForm />} />
             </Route>
           </Route>
         </Routes>
