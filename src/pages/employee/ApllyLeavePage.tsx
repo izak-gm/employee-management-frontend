@@ -54,56 +54,46 @@ const ApplyLeavePage = () => {
   const readyRef = useRef(false);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [profile, employees, balance] = await Promise.all([
-          getMyProfile(),
-          getActiveEmployees(),
-          getMyBalance(),
-        ]);
+getMyProfile()
+  .then((res) => {
+    console.log("Current employee:", res.data);
+    setEmployee(res.data);
+  })
+  .catch(console.error);
+    getActiveEmployees().then((r) =>
+      setActive(r.data.filter((e: any) => e.id !== id)),
+    );
 
-        setEmployee(profile.data);
-        setActive(employees.data.filter((e: any) => e.id !== id));
-        setBalances(balance.data);
+    getMyBalance().then((r) => setBalances(r.data));
 
-        if (editId) {
-          const leaves = await getMyLeaves();
-          const leave = leaves.data.find((l: any) => l.id === editId);
+    if (editId) {
+      getMyLeaves().then((r) => {
+        const l = r.data.find((x: any) => x.id === editId);
 
-          if (leave) {
-            setLeaveType(leave.leaveType ?? "ANNUAL");
-            setStartDate(leave.startDate ?? "");
-            setEndDate(leave.endDate ?? "");
-            setReason(leave.reason ?? "");
-          }
+        if (l) {
+          setLeaveType(l.leaveType ?? "ANNUAL");
+          setStartDate(l.startDate ?? "");
+          setEndDate(l.endDate ?? "");
+          setReason(l.reason ?? "");
         }
 
         readyRef.current = true;
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    loadData();
+      });
+    } else {
+      readyRef.current = true;
+    }
   }, [id, editId]);
+
   const TYPES = ALL_TYPES.filter((type) => {
-    if (!employee) return false; // wait until profile is loaded
-
-    if (employee.gender === "MALE") {
-      return type !== "MATERNITY";
-    }
-
-    if (employee.gender === "FEMALE") {
-      return type !== "PATERNITY";
-    }
-
+    if (!employee?.gender) return true;
+    if (employee.gender === "MALE") return type !== "MATERNITY";
+    if (employee.gender === "FEMALE") return type !== "PATERNITY";
     return true;
   });
+
   useEffect(() => {
     if (!readyRef.current) return;
-
     if (!AUTO_CALCULATED_TYPES.has(leaveType)) return;
-
     if (!startDate) return;
 
     const entitlementDays = balances.find(

@@ -142,7 +142,7 @@ const SuperAdminDashboard = () => {
           }
           sx={{ mb: 3 }}
         >
-          You have {pendingAdminLeaves.length} leave
+          There are {pendingAdminLeaves.length} leave(s)
           {pendingAdminLeaves.length === 1 ? " request" : " requests"} awaiting
           approval.
         </Alert>
