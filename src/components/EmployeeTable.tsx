@@ -18,7 +18,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { getEmployees, deleteEmployee } from "../api/employeeApi";
 import type { EmployeeResponse } from "../types/auth.type";
-
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import Tooltip from "@mui/material/Tooltip";
+import { getEmployeeById } from "../api/employeeApi";
+import EmployeeDetailsDialog from "./employees/EmployeeDetailsDialog";
 const PAGE_SIZE = 10;
 
 const EmployeeTable = ({
@@ -29,7 +32,9 @@ const EmployeeTable = ({
   const [employees, setEmployees] = useState<EmployeeResponse[]>([]);
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
+const [selectedEmployee, setSelectedEmployee] = useState<EmployeeResponse | null>(null);
 
+const [detailsOpen, setDetailsOpen] = useState(false);
   const fetchEmployees = async () => {
     const res = await getEmployees({ filter, page: page - 1, size: PAGE_SIZE });
     setEmployees(res.data);
@@ -52,7 +57,17 @@ const EmployeeTable = ({
   // than PAGE_SIZE reliably signals "this is the last page" without needing
   // the backend to report a total.
   const isLastPage = employees.length < PAGE_SIZE;
+const handleView = async (id?: string) => {
+  if (!id) return;
 
+  try {
+    const res = await getEmployeeById(id);
+    setSelectedEmployee(res.data);
+    setDetailsOpen(true);
+  } catch (err) {
+    console.error(err);
+  }
+};
   return (
     <Box>
       <TextField
@@ -81,9 +96,7 @@ const EmployeeTable = ({
             <TableRow>
               <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
                 <Typography color="text.secondary">
-                  {filter
-                    ? "No employees match this search."
-                    : "No employees found."}
+                  {filter ? "No employees match this search." : "No employees found."}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -98,12 +111,23 @@ const EmployeeTable = ({
                 <TableCell>{emp.role}</TableCell>
                 <TableCell>{emp.gender}</TableCell>
                 <TableCell align="right">
-                  <IconButton onClick={() => onEdit(emp)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(emp.id)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  <Tooltip title="View">
+                    <IconButton color="primary" onClick={() => handleView(emp.id)}>
+                      <VisibilityOutlinedIcon />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title="Edit">
+                    <IconButton color="warning" onClick={() => onEdit(emp)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title="Delete">
+                    <IconButton color="error" onClick={() => handleDelete(emp.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))
@@ -111,10 +135,7 @@ const EmployeeTable = ({
         </TableBody>
       </Table>
 
-      <Stack
-        direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center", mt: 2 }}
-      >
+      <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mt: 2 }}>
         <Button
           startIcon={<ArrowBackIcon />}
           disabled={page === 1}
@@ -133,6 +154,14 @@ const EmployeeTable = ({
           Next
         </Button>
       </Stack>
+      <EmployeeDetailsDialog
+        open={detailsOpen}
+        employee={selectedEmployee}
+        onClose={() => {
+          setDetailsOpen(false);
+          setSelectedEmployee(null);
+        }}
+      />
     </Box>
   );
 };
