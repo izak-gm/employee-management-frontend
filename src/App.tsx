@@ -5,18 +5,16 @@ import RoleRoute from "./routes/RoleRoute";
 import LoginPage from "./pages/auth/LoginPage";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminManageEmployeesPage from "./pages/admin/ManageEmployeesPage";
-import AdminLeavesPage from "./pages/admin/LeavesPage";
 import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
-import SuperAdminManageEmployeesPage from "./pages/superadmin/ManageEmployeesPage";
-import SuperAdminLeavesPage from "./pages/superadmin/LeavesPage";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
 import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
 import ViewProfilePage from "./pages/profile/ViewProfilePage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import SetupPasswordPage from "./pages/auth/SetupPasswordPage";
 import ResetPasswordTokenPage from "./pages/auth/ResetPasswordPage";
-import ApplyLeavePage from "./pages/employee/ApllyLeavePage";
+import ManageEmployeesPage from "./pages/views/ManageEmployeesPage";
+import AllLeavesPage from "./pages/leaves/AllLeavesPage";
+import MyLeavePage from "./pages/leaves/MyLeavePage";
 
 const RoleRedirect = () => {
   const { role } = useAuth();
@@ -41,46 +39,25 @@ function App() {
             <Route path="/" element={<RoleRedirect />} />
             <Route path="/profile" element={<ViewProfilePage />} />
             <Route path="/profile/edit" element={<EditProfilePage />} />
-            <Route
-              path="/profile/reset-password"
-              element={<ResetPasswordPage />}
-            />
+            <Route path="/profile/reset-password" element={<ResetPasswordPage />} />
 
             <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
               <Route path="/admin" element={<AdminDashboard />} />
-              <Route
-                path="/admin/employees"
-                element={<AdminManageEmployeesPage />}
-              />
-              <Route path="/admin/leaves" element={<AdminLeavesPage />} />
+              <Route path="/admin/employees" element={<ManageEmployeesPage />} />
+              <Route path="/admin/leaves" element={<AllLeavesPage />} />
             </Route>
-
             <Route element={<RoleRoute allowedRoles={["SUPERADMIN"]} />}>
               <Route path="/superadmin" element={<SuperAdminDashboard />} />
-              <Route
-                path="/superadmin/employees"
-                element={<SuperAdminManageEmployeesPage />}
-              />
-              <Route
-                path="/superadmin/leaves"
-                element={<SuperAdminLeavesPage />}
-              />
+              <Route path="/superadmin/employees" element={<ManageEmployeesPage />} />
+              <Route path="/superadmin/leaves" element={<AllLeavesPage />} />
             </Route>
 
             <Route element={<RoleRoute allowedRoles={["EMPLOYEE"]} />}>
               <Route path="/employee" element={<EmployeeDashboard />} />
             </Route>
 
-            <Route
-              element={
-                <RoleRoute allowedRoles={["EMPLOYEE", "ADMIN", "SUPERADMIN"]} />
-              }
-            >
-              <Route path="/employee/leaves" element={<ApplyLeavePage />} />
-              <Route
-                path="/employee/apply-leave"
-                element={<ApplyLeavePage />}
-              />
+            <Route element={<RoleRoute allowedRoles={["EMPLOYEE", "ADMIN", "SUPERADMIN"]} />}>
+              <Route path="/employee/leaves" element={<MyLeavePage />} />
             </Route>
           </Route>
         </Routes>

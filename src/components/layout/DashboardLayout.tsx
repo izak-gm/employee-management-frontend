@@ -73,14 +73,14 @@ const DashboardLayout = ({
             icon: <PeopleIcon />,
           },
           {
-            label: "Leaves",
-            path: `/${role.toLowerCase()}/leaves`,
-            icon: <EventNoteIcon />,
-          },
-          {
             label: "My Leaves",
             path: "/employee/leaves",
             icon: <BeachAccessIcon />,
+          },
+          {
+            label: "Leaves",
+            path: `/${role.toLowerCase()}/leaves`,
+            icon: <EventNoteIcon />,
           },
         ]
       : []),
