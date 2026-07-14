@@ -19,10 +19,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import StageChip from "../StageChip";
-import {
-  getMyLeaves,getLeaveById,withdrawLeave,
-  type LeaveResponse,
-} from "../../api/leaveApi";
+import { getMyLeaves, getLeaveById, withdrawLeave, type LeaveResponse } from "../../api/leaveApi";
 import AddIcon from "@mui/icons-material/Add";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -53,52 +50,50 @@ const STATUS_FILTERS: { label: string; value: StatusFilter }[] = [
 
 const ManageLeavesView = () => {
   const navigate = useNavigate();
-const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
-const [detailsOpen, setDetailsOpen] = useState(false);
-const [withdrawOpen, setWithdrawOpen] = useState(false);
-const [leaveToWithdraw, setLeaveToWithdraw] = useState<string | null>(null);
-const [page, setPage] = useState(0);
-const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [withdrawOpen, setWithdrawOpen] = useState(false);
+  const [leaveToWithdraw, setLeaveToWithdraw] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, _setRefreshKey] = useState(0);
 
-const fetchLeaves = async () => {
-  const res = await getMyLeaves();
-  setLeaves(res.data);
-};
+  const fetchLeaves = async () => {
+    const res = await getMyLeaves();
+    setLeaves(res.data);
+  };
   useEffect(() => {
-  fetchLeaves();
-}, [refreshKey]);
+    fetchLeaves();
+  }, [refreshKey]);
   const visibleLeaves =
-    statusFilter === "ALL"
-      ? leaves
-      : leaves.filter((l) => l.status === statusFilter);
-const handleViewLeave = async (id: string) => {
-  try {
-    const res = await getLeaveById(id);
-    setSelectedLeave(res.data);
-    setDetailsOpen(true);
-  } catch (err) {
-    console.error(err);
-  }
-};
-const handleWithdraw = async () => {
-  if (!leaveToWithdraw) return;
+    statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
+  const handleViewLeave = async (id: string) => {
+    try {
+      const res = await getLeaveById(id);
+      setSelectedLeave(res.data);
+      setDetailsOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const handleWithdraw = async () => {
+    if (!leaveToWithdraw) return;
 
-  try {
-    await withdrawLeave(leaveToWithdraw);
+    try {
+      await withdrawLeave(leaveToWithdraw);
 
-    setLeaves((prev) =>
-      prev.map((l) => (l.id === leaveToWithdraw ? { ...l, status: "WITHDRAWN" } : l)),
-    );
+      setLeaves((prev) =>
+        prev.map((l) => (l.id === leaveToWithdraw ? { ...l, status: "WITHDRAWN" } : l)),
+      );
 
-    setWithdrawOpen(false);
-    setLeaveToWithdraw(null);
-  } catch (err) {
-    console.error(err);
-  }
-};
+      setWithdrawOpen(false);
+      setLeaveToWithdraw(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const openWithdrawDialog = (id: string) => {
     setLeaveToWithdraw(id);
     setWithdrawOpen(true);
