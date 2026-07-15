@@ -15,7 +15,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const VALID_ROLES: Role[] = ["ADMIN", "SUPERADMIN", "EMPLOYEE"];
+const VALID_ROLES: Role[] = ["HR_ADMIN", "SUPERADMIN", "SOFTWARE_ENGINEER","TECH_LEAD","INTERN"];
 
 const extractRole = (role: string | undefined): Role | null => {
   if (!role) return null;

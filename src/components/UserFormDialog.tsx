@@ -17,9 +17,14 @@ const genderLabel: Record<Gender, string> = {
 };
 
 const roleLabel: Record<Role, string> = {
-  ADMIN: "Admin",
   SUPERADMIN: "Super Admin",
-  EMPLOYEE: "Employee",
+  HR_ADMIN: "HR Admin",
+  HR_OFFICER: "HR Officer",
+  PAYROLL_MANAGER: "Payroll Manager",
+  FINANCE_MANAGER: "Finance Manager",
+  TECH_LEAD: "Tech LEAD",
+  SOFTWARE_ENGINEER: "Software Engineer",
+  INTERN: "Inter",
 };
 
 interface Props {

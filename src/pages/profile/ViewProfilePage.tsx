@@ -1,4 +1,3 @@
-// src/pages/profile/ViewProfilePage.tsx
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -21,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { getMyProfile } from "../../api/employeeApi";
 import type { EmployeeResponse } from "../../types/auth.type";
+import { useAuth } from "../../context/AuthContext";
 
 const roleColor: Record<string, string> = {
   SUPERADMIN: "#C9A227",
@@ -54,6 +54,7 @@ const ViewProfilePage = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<EmployeeResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const { role } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -197,13 +198,15 @@ const ViewProfilePage = () => {
               />
 
               <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-                <Button
-                  variant="contained"
-                  startIcon={<EditIcon />}
-                  onClick={() => navigate("/profile/edit")}
-                >
-                  Edit Profile
-                </Button>
+                {(role === "HR_ADMIN" || role === "SUPERADMIN") && (
+                  <Button
+                    variant="contained"
+                    startIcon={<EditIcon />}
+                    onClick={() => navigate("/profile/edit")}
+                  >
+                    Edit Profile
+                  </Button>
+                )}
                 <Tooltip title="Change your password">
                   <Button
                     variant="outlined"

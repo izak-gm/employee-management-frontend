@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAddAlt";
 import EmployeeTable from "../EmployeeTable";
-import CreateEmployeeDialog from "../CreateEmployeeDialog";
 import UserFormDialog from "../UserFormDialog";
 import type { EmployeeResponse, Role, Gender } from "../../types/auth.type";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   availableRoles: Role[];
@@ -12,10 +12,10 @@ interface Props {
 }
 
 const ManageEmployeesView = ({ availableRoles, availableGenders }: Props) => {
-  const [createOpen, setCreateOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<EmployeeResponse | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -34,7 +34,7 @@ const ManageEmployeesView = ({ availableRoles, availableGenders }: Props) => {
         <Button
           variant="contained"
           startIcon={<PersonAddIcon />}
-          onClick={() => setCreateOpen(true)}
+          onClick={() => navigate("/employees/create")}
         >
           Add Employee
         </Button>
@@ -46,17 +46,6 @@ const ManageEmployeesView = ({ availableRoles, availableGenders }: Props) => {
           setEditingEmployee(emp);
           setDialogOpen(true);
         }}
-      />
-
-      <CreateEmployeeDialog
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
-        onSaved={() => {
-          setRefreshKey((k) => k + 1);
-          setCreateOpen(false);
-        }}
-        availableRoles={availableRoles}
-        availableGenders={availableGenders}
       />
 
       <UserFormDialog

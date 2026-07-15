@@ -1,35 +1,31 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleRoute from "./routes/RoleRoute";
+
 import LoginPage from "./pages/auth/LoginPage";
-import EditProfilePage from "./pages/profile/EditProfilePage";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
-import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
-import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
-import ViewProfilePage from "./pages/profile/ViewProfilePage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import SetupPasswordPage from "./pages/auth/SetupPasswordPage";
 import ResetPasswordTokenPage from "./pages/auth/ResetPasswordPage";
+
+import DashboardPage from "./pages/dashboard/DashboardPage";
+
+import ViewProfilePage from "./pages/profile/ViewProfilePage";
+import EditProfilePage from "./pages/profile/EditProfilePage";
+import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
+
 import ManageEmployeesPage from "./pages/views/ManageEmployeesPage";
 import AllLeavesPage from "./pages/leaves/AllLeavesPage";
 import MyLeavePage from "./pages/leaves/MyLeavePage";
 import LeaveApplicationForm from "./components/leaves/LeaveApplicationForm";
-
-const RoleRedirect = () => {
-  const { role } = useAuth();
-  if (role === "SUPERADMIN") return <Navigate to="/superadmin" replace />;
-  if (role === "ADMIN") return <Navigate to="/admin" replace />;
-  if (role === "EMPLOYEE") return <Navigate to="/employee" replace />;
-  return <Navigate to="/login" replace />;
-};
+import AddEmployeePage from "./pages/employee/AddEmployeePage";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          {/* Authentication */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/setup-password" element={<SetupPasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -37,29 +33,44 @@ function App() {
           <Route path="/unauthorized" element={<div>Not authorized</div>} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<RoleRedirect />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+            {/* Dashboard */}
+            <Route path="/dashboard" element={<DashboardPage />} />
+
+            {/* Profile */}
             <Route path="/profile" element={<ViewProfilePage />} />
             <Route path="/profile/edit" element={<EditProfilePage />} />
             <Route path="/profile/reset-password" element={<ResetPasswordPage />} />
 
-            <Route element={<RoleRoute allowedRoles={["ADMIN"]} />}>
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/employees" element={<ManageEmployeesPage />} />
-              <Route path="/admin/leaves" element={<AllLeavesPage />} />
-            </Route>
-            <Route element={<RoleRoute allowedRoles={["SUPERADMIN"]} />}>
-              <Route path="/superadmin" element={<SuperAdminDashboard />} />
-              <Route path="/superadmin/employees" element={<ManageEmployeesPage />} />
-              <Route path="/superadmin/leaves" element={<AllLeavesPage />} />
+            {/* Employee Management */}
+            <Route element={<RoleRoute allowedRoles={["SUPERADMIN", "HR_ADMIN"]} />}>
+              <Route path="/employees" element={<ManageEmployeesPage />} />
+              <Route path="/employees/create" element={<AddEmployeePage/>} />
+              <Route path="/employees/:id/edit" element={<div>Edit Employee</div>} />
             </Route>
 
-            <Route element={<RoleRoute allowedRoles={["EMPLOYEE"]} />}>
-              <Route path="/employee" element={<EmployeeDashboard />} />
+            {/* HR Leave Management */}
+            <Route element={<RoleRoute allowedRoles={["SUPERADMIN", "HR_ADMIN"]} />}>
+              <Route path="/leaves/all" element={<AllLeavesPage />} />
             </Route>
 
-            <Route element={<RoleRoute allowedRoles={["EMPLOYEE", "ADMIN", "SUPERADMIN"]} />}>
-              <Route path="/employee/leaves" element={<MyLeavePage />} />
-              <Route path="/employee/apply-leave" element={<LeaveApplicationForm />} />
+            {/* My Leaves */}
+            <Route
+              element={
+                <RoleRoute
+                  allowedRoles={[
+                    "SUPERADMIN",
+                    "HR_ADMIN",
+                    "TECH_LEAD",
+                    "SOFTWARE_ENGINEER",
+                    "INTERN",
+                  ]}
+                />
+              }
+            >
+              <Route path="/leaves" element={<MyLeavePage />} />
+              <Route path="/leaves/apply" element={<LeaveApplicationForm />} />
             </Route>
           </Route>
         </Routes>
@@ -67,4 +78,5 @@ function App() {
     </AuthProvider>
   );
 }
+
 export default App;
