@@ -9,6 +9,7 @@ import {
   Alert,
   Stack,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { createEmployee } from "../api/authApi";
 import { extractErrorMessage } from "../api/errorUtils";
@@ -177,8 +178,13 @@ const CreateEmployeeDialog = ({
         <Button onClick={handleClose} disabled={loading}>
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleSave} disabled={loading}>
-          {loading ? "Sending invite…" : "Create & Send Invite"}
+        <Button
+          variant="contained"
+          onClick={handleSave}
+          disabled={loading}
+          startIcon={loading ? <CircularProgress size={18} color="inherit" /> : null}
+        >
+          {loading ? "Sending Invite..." : "Create & Send Invite"}
         </Button>
       </DialogActions>
     </Dialog>

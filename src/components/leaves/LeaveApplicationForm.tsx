@@ -1,5 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { Paper, TextField, Button, MenuItem, Alert, Stack, Autocomplete } from "@mui/material";
+import {
+  Paper,
+  TextField,
+  Button,
+  MenuItem,
+  Alert,
+  Stack,
+  Autocomplete,
+  CircularProgress,
+} from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DashboardLayout from "../../components/layout/DashboardLayout";
@@ -71,22 +80,20 @@ const ApplyLeavePage = () => {
       readyRef.current = true;
     }
   }, [id, editId]);
-  
+
   useEffect(() => {
-  if (!editId || active.length === 0) return;
+    if (!editId || active.length === 0) return;
 
-  getMyLeaves().then((r) => {
-    const leave = r.data.find((l: any) => l.id === editId);
+    getMyLeaves().then((r) => {
+      const leave = r.data.find((l: any) => l.id === editId);
 
-    if (!leave) return;
+      if (!leave) return;
 
-    const selectedCover = active.find(
-      (e: any) => e.id === leave.coverEmployeeId,
-    );
+      const selectedCover = active.find((e: any) => e.id === leave.coverEmployeeId);
 
-    setCover(selectedCover ?? null);
-  });
-}, [editId, active]);
+      setCover(selectedCover ?? null);
+    });
+  }, [editId, active]);
 
   const TYPES = ALL_TYPES.filter((type) => {
     if (!employee?.gender) return true;
@@ -291,6 +298,7 @@ const ApplyLeavePage = () => {
               disabled={
                 loading || !startDate || !endDate || (leaveType !== "COMPASSIONATE" && !cover)
               }
+              startIcon={loading ? <CircularProgress size={18} color="inherit" /> : null}
             >
               {loading ? "Submitting..." : editId ? "Save Changes" : "Submit Application"}
             </Button>

@@ -40,6 +40,8 @@ import {
   isOnLeaveToday,
   isUpcoming,
 } from "../../components/dashboard/DashboardWidgets";
+import PendingLeaveReviewDialog from "../../components/dialogs/PendingLeaveReviewDialog";
+import { adminActionLeave } from "../../api/leaveApi";
 
 const TYPE_COLORS: Record<string, string> = {
   ANNUAL: "#0F2A4A",
@@ -56,6 +58,10 @@ const SuperAdminDashboard = () => {
   const [pendingAdminLeaves, setPendingAdminLeaves] = useState<LeaveResponse[]>([]);
   const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
+  const [reviewLoading, setReviewLoading] = useState(false);
 
   useEffect(() => {
     getDashboardStats().then((r) => setStats(r.data));
@@ -122,13 +128,37 @@ const SuperAdminDashboard = () => {
     return { onLeaveNow, upcoming, withdrawn, byType, trend };
   }, [allLeaves]);
 
+  const openReview = () => {
+    if (pendingAdminLeaves.length === 0) return;
+
+    // Open the oldest pending request
+    setSelectedLeave(pendingAdminLeaves[0]);
+    setReviewOpen(true);
+  };
+
+  const handleAdminDecision = async (status: "APPROVED" | "REJECTED") => {
+    if (!selectedLeave) return;
+
+    setReviewLoading(true);
+
+    try {
+      await adminActionLeave(selectedLeave.id!, status);
+
+      setReviewOpen(false);
+      setSelectedLeave(null);
+
+      setRefreshKey((k) => k + 1);
+    } finally {
+      setReviewLoading(false);
+    }
+  };
   return (
     <DashboardLayout title="Super Admin Dashboard">
       {pendingAdminLeaves.length > 0 && (
         <Alert
           severity="info"
           action={
-            <Button color="inherit" size="small" onClick={() => navigate("/superadmin/leaves")}>
+            <Button color="inherit" size="small" onClick={openReview}>
               Review
             </Button>
           }
@@ -138,20 +168,7 @@ const SuperAdminDashboard = () => {
           {pendingAdminLeaves.length === 1 ? " request" : " requests"} awaiting approval.
         </Alert>
       )}
-      {coverRequests.length > 0 && (
-        <Alert
-          severity="warning"
-          action={
-            <Button color="inherit" size="small" onClick={() => navigate("/superadmin/leaves")}>
-              Review
-            </Button>
-          }
-          sx={{ mb: 3 }}
-        >
-          There are {getMyNotifications.length} leave
-          {coverRequests.length === 1 ? " request" : " requests"} awaiting cover employee.
-        </Alert>
-      )}
+
       <Grid container spacing={2} sx={{ mb: 2.5 }}>
         <Grid size={{ xs: 6, sm: 6, md: 3 }}>
           <StatCard
@@ -483,7 +500,14 @@ const SuperAdminDashboard = () => {
           )}
         </Paper>
       </Grid>
-
+      <PendingLeaveReviewDialog
+        open={reviewOpen}
+        leave={selectedLeave}
+        loading={reviewLoading}
+        onClose={() => setReviewOpen(false)}
+        onApprove={() => handleAdminDecision("APPROVED")}
+        onReject={() => handleAdminDecision("REJECTED")}
+      />
       <RoadmapNote text="Department distribution and employee growth trend need a department field and a createdAt timestamp on Employee — not in the current API. A system activity log beyond leave events also needs an audit endpoint." />
     </DashboardLayout>
   );
