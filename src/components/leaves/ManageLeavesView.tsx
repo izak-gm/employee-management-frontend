@@ -191,6 +191,7 @@ const ManageLeavesView = () => {
           setSelectedLeave(null);
         }}
       />
+      
     </Box>
   );
 };

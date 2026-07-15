@@ -26,6 +26,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import NotificationBell from "../NotificationBell";
 
 const DRAWER_WIDTH = 260;
 
@@ -174,6 +175,8 @@ const DashboardLayout = ({ children, title }: { children: ReactNode; title: stri
               </Typography>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <NotificationBell />
+
               {role && (
                 <Chip
                   label={roleLabel[role]}
@@ -185,6 +188,7 @@ const DashboardLayout = ({ children, title }: { children: ReactNode; title: stri
                   }}
                 />
               )}
+
               <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
                 <Avatar
                   sx={{
@@ -196,15 +200,19 @@ const DashboardLayout = ({ children, title }: { children: ReactNode; title: stri
                 >
                   {email?.[0]?.toUpperCase()}
                 </Avatar>
+
                 <KeyboardArrowDownIcon fontSize="small" sx={{ color: "text.secondary" }} />
               </IconButton>
+
               <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={() => setAnchorEl(null)}>
                 <MenuItem disabled sx={{ opacity: "1 !important" }}>
                   <Typography variant="body2" color="text.secondary">
                     {email}
                   </Typography>
                 </MenuItem>
+
                 <Divider />
+
                 <MenuItem
                   onClick={() => {
                     navigate("/profile");
@@ -213,6 +221,7 @@ const DashboardLayout = ({ children, title }: { children: ReactNode; title: stri
                 >
                   My Profile
                 </MenuItem>
+
                 <MenuItem onClick={logout}>Logout</MenuItem>
               </Menu>
             </Box>
