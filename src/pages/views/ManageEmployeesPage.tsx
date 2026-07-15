@@ -4,7 +4,7 @@ import ManageEmployeesView from "../../components/employees/ManageEmployeesView"
 const ManageEmployeesPage = () => (
   <DashboardLayout title="Employees">
     <ManageEmployeesView
-      availableRoles={["ADMIN", "SUPERADMIN", "EMPLOYEE"]}
+      availableRoles={["HR_ADMIN", "SUPERADMIN", "SOFTWARE_ENGINEER"]}
       availableGenders={["MALE", "FEMALE"]}
     />
   </DashboardLayout>

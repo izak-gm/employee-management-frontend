@@ -22,14 +22,15 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import { getEmployeeById } from "../api/employeeApi";
 import EmployeeDetailsDialog from "./employees/EmployeeDetailsDialog";
+import DeleteConfirmationDialog from "./employees/DeleteConfirmationDialog";
 const PAGE_SIZE = 10;
 
 const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) => {
   const [employees, setEmployees] = useState<EmployeeResponse[]>([]);
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<EmployeeResponse | null>(null);
-
   const [detailsOpen, setDetailsOpen] = useState(false);
   const fetchEmployees = async () => {
     const res = await getEmployees({ filter, page: page - 1, size: PAGE_SIZE });
@@ -41,17 +42,6 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, page]);
 
-  const handleDelete = async (id?: string) => {
-    if (!id) return;
-    if (!confirm("Delete this employee?")) return;
-    await deleteEmployee(id);
-    fetchEmployees();
-  };
-
-  // The API returns a bare EmployeeResponse[] with no total-count field, so a
-  // numbered page count can't be computed honestly. A returned page shorter
-  // than PAGE_SIZE reliably signals "this is the last page" without needing
-  // the backend to report a total.
   const isLastPage = employees.length < PAGE_SIZE;
   const handleView = async (id?: string) => {
     if (!id) return;
@@ -120,7 +110,13 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
                   </Tooltip>
 
                   <Tooltip title="Delete">
-                    <IconButton color="error" onClick={() => handleDelete(emp.id)}>
+                    <IconButton
+                      color="error"
+                      onClick={() => {
+                        setSelectedEmployee(emp);
+                        setDeleteOpen(true);
+                      }}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </Tooltip>
@@ -156,6 +152,28 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
         onClose={() => {
           setDetailsOpen(false);
           setSelectedEmployee(null);
+        }}
+      />
+      <DeleteConfirmationDialog
+        open={deleteOpen}
+        itemName={
+          selectedEmployee
+            ? `${selectedEmployee.firstName} ${selectedEmployee.lastName}`
+            : undefined
+        }
+        onClose={() => {
+          setDeleteOpen(false);
+          setSelectedEmployee(null);
+        }}
+        onConfirm={async () => {
+          if (!selectedEmployee?.id) return;
+
+          await deleteEmployee(selectedEmployee.id);
+
+          setDeleteOpen(false);
+          setSelectedEmployee(null);
+
+          fetchEmployees();
         }}
       />
     </Box>

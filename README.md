@@ -135,3 +135,7 @@ npm run build     # Type-check and build for production
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
 ```
+
+```
+Roles: superadmin,admin(HR_admin),HR_officer,Finance_officer,Tech_lead,Software_engineer,intern,Attachee,
+```

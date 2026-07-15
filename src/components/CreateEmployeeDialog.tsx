@@ -14,13 +14,27 @@ import {
 import { createEmployee } from "../api/authApi";
 import { extractErrorMessage } from "../api/errorUtils";
 
-type Role = "ADMIN" | "SUPERADMIN" | "EMPLOYEE";
+type Role =
+  | "SUPERADMIN"
+  | "HR_ADMIN"
+  | "HR_OFFICER"
+  | "PAYROLL_MANAGER"
+  | "FINANCE_MANAGER"
+  | "TECH_LEAD"
+  | "SOFTWARE_ENGINEER"
+  | "INTERN";
 
 const roleLabel: Record<Role, string> = {
-  ADMIN: "Admin",
   SUPERADMIN: "Super Admin",
-  EMPLOYEE: "Employee",
+  HR_ADMIN: "HR Admin",
+  HR_OFFICER: "HR Officer",
+  PAYROLL_MANAGER: "Payroll Manager",
+  FINANCE_MANAGER: "Finance Manager",
+  TECH_LEAD: "Tech LEAD",
+  SOFTWARE_ENGINEER: "Software Engineer",
+  INTERN: "Inter",
 };
+
 type Gender = "MALE" | "FEMALE";
 
 const genderLabel: Record<Gender, string> = {
