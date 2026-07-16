@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import { Alert, Box, Button, Card, CardContent, Stack, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -6,6 +7,16 @@ import EmployeeForm from "../../components/employees/EmployeeForm";
 
 const AddEmployeePage = () => {
   const navigate = useNavigate();
+
+  const [success, setSuccess] = useState(false);
+
+  const handleSuccess = () => {
+    setSuccess(true);
+
+    setTimeout(() => {
+      navigate("/employees");
+    }, 1800);
+  };
 
   return (
     <DashboardLayout title="Add Employee">
@@ -28,6 +39,7 @@ const AddEmployeePage = () => {
                 >
                   Register Employee
                 </Typography>
+
                 <Typography variant="body2" color="text.secondary">
                   Fill in the employee information below. An invitation email will automatically be
                   sent for password setup.
@@ -38,6 +50,13 @@ const AddEmployeePage = () => {
                 The employee will receive an email containing a secure link to create their
                 password.
               </Alert>
+
+              {success && (
+                <Alert severity="success">
+                  Employee created successfully. An invitation email has been sent. Redirecting to
+                  Employees...
+                </Alert>
+              )}
 
               <EmployeeForm
                 availableRoles={[
@@ -51,7 +70,7 @@ const AddEmployeePage = () => {
                   "INTERN",
                 ]}
                 availableGenders={["MALE", "FEMALE"]}
-                onSuccess={() => navigate("/employees")}
+                onSuccess={handleSuccess}
               />
             </Stack>
           </CardContent>

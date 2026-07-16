@@ -61,18 +61,18 @@ export const menuItems: MenuItem[] = [
         icon: <PersonAddIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN"],
       },
-      {
-        label: "Departments",
-        path: "/departments",
-        icon: <BusinessIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN"],
-      },
-      {
-        label: "Positions",
-        path: "/positions",
-        icon: <BadgeIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN"],
-      },
+      // {
+      //   label: "Departments",
+      //   path: "/departments",
+      //   icon: <BusinessIcon />,
+      //   roles: ["SUPERADMIN", "HR_ADMIN"],
+      // },
+      // {
+      //   label: "Positions",
+      //   path: "/positions",
+      //   icon: <BadgeIcon />,
+      //   roles: ["SUPERADMIN", "HR_ADMIN"],
+      // },
     ],
   },
 
