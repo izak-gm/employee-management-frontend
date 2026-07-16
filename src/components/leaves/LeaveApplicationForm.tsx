@@ -185,7 +185,7 @@ const ApplyLeavePage = () => {
         text: `Leave ${editId ? "updated" : "submitted"} successfully.`,
       });
 
-      setTimeout(() => navigate("/employee/leaves"), 1200);
+      setTimeout(() => navigate("/leaves"), 1200);
     } catch (err) {
       setBanner({
         type: "error",
@@ -202,7 +202,7 @@ const ApplyLeavePage = () => {
     <DashboardLayout title={editId ? "Edit Leave" : "Apply for Leave"}>
       <Button
         startIcon={<ArrowBackIcon />}
-        onClick={() => navigate("/employee/leaves")}
+        onClick={() => navigate("/leaves")}
         sx={{ mb: 2, color: "text.secondary" }}
       >
         Back
