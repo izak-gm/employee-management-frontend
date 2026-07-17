@@ -18,8 +18,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import StageChip from "../StageChip";
-import { getMyLeaves, getLeaveById, withdrawLeave, type LeaveResponse } from "../../api/leaveApi";
+import { getMyLeaves, getLeaveById, withdrawLeave } from "../../api/leaves";
 import AddIcon from "@mui/icons-material/Add";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -29,6 +28,8 @@ import LeaveDetailsDialog from "./LeaveDetailsDialog";
 import { useNavigate } from "react-router-dom";
 import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import type { LeaveResponse } from "../../api";
+import StageChip from "../dashboard/StageChip";
 
 type StatusFilter =
   | "ALL"
@@ -60,20 +61,22 @@ const ManageLeavesView = () => {
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, _setRefreshKey] = useState(0);
-
   const fetchLeaves = async () => {
-    const res = await getMyLeaves();
-    setLeaves(res.data);
+    const leaves = await getMyLeaves();
+    setLeaves(leaves);
   };
+
   useEffect(() => {
     fetchLeaves();
   }, [refreshKey]);
+
   const visibleLeaves =
     statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
+
   const handleViewLeave = async (id: string) => {
     try {
-      const res = await getLeaveById(id);
-      setSelectedLeave(res.data);
+      const leave = await getLeaveById(id);
+      setSelectedLeave(leave);
       setDetailsOpen(true);
     } catch (err) {
       console.error(err);
@@ -99,7 +102,7 @@ const ManageLeavesView = () => {
     setLeaveToWithdraw(id);
     setWithdrawOpen(true);
   };
-  
+
   return (
     <Box>
       <Stack

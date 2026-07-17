@@ -14,11 +14,11 @@ import ViewProfilePage from "./pages/profile/ViewProfilePage";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
 
-import ManageEmployeesPage from "./pages/views/ManageEmployeesPage";
 import AllLeavesPage from "./pages/leaves/AllLeavesPage";
 import MyLeavePage from "./pages/leaves/MyLeavePage";
 import LeaveApplicationForm from "./components/leaves/LeaveApplicationForm";
 import AddEmployeePage from "./pages/employee/AddEmployeePage";
+import ManageEmployeesPage from "./pages/employee/ManageEmployeesPage";
 
 function App() {
   return (
@@ -46,7 +46,7 @@ function App() {
             {/* Employee Management */}
             <Route element={<RoleRoute allowedRoles={["SUPERADMIN", "HR_ADMIN"]} />}>
               <Route path="/employees" element={<ManageEmployeesPage />} />
-              <Route path="/employees/create" element={<AddEmployeePage/>} />
+              <Route path="/employees/create" element={<AddEmployeePage />} />
               <Route path="/employees/:id/edit" element={<div>Edit Employee</div>} />
             </Route>
 

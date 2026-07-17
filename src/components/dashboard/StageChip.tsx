@@ -1,5 +1,5 @@
 import { Chip } from "@mui/material";
-import type { LeaveStatus } from "../api/leaveApi";
+import type { LeaveStatus } from "../../api/types";
 
 const MAP: Record<string, { label: string; color: any }> = {
   PENDING_COVER: { label: "Awaiting Cover", color: "warning" },

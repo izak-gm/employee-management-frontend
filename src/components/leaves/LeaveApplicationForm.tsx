@@ -12,17 +12,18 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import {
-  applyForLeave,
-  updateLeave,
-  getActiveEmployees,
-  getMyLeaves,
-  getMyBalance,
-  type LeaveBalance,
-} from "../../api/leaveApi";
-import { getMyProfile } from "../../api/employeeApi";
+
 import { extractErrorMessage } from "../../api/errorUtils";
 import { useAuth } from "../../context/AuthContext";
+import {
+  getMyProfile,
+  getActiveEmployees,
+  getMyBalance,
+  getMyLeaves,
+  updateLeave,
+  applyForLeave,
+  type LeaveBalanceResponse,
+} from "../../api";
 
 const ALL_TYPES = ["ANNUAL", "SICK", "PATERNITY", "MATERNITY", "COMPASSIONATE"];
 
@@ -43,7 +44,7 @@ const ApplyLeavePage = () => {
   const [cover, setCover] = useState<any>(null);
 
   const [active, setActive] = useState<any[]>([]);
-  const [balances, setBalances] = useState<LeaveBalance[]>([]);
+  const [balances, setBalances] = useState<LeaveBalanceResponse[]>([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -53,48 +54,61 @@ const ApplyLeavePage = () => {
   } | null>(null);
 
   const readyRef = useRef(false);
-
   useEffect(() => {
-    getMyProfile().then((res) => {
-      setEmployee(res.data);
-    });
+    const loadData = async () => {
+      try {
+        const employee = await getMyProfile();
+        setEmployee(employee);
 
-    getActiveEmployees().then((r) => setActive(r.data.filter((e: any) => e.id !== id)));
+        const employees = await getActiveEmployees();
+        setActive(employees.filter((e: any) => e.id !== id));
 
-    getMyBalance().then((r) => setBalances(r.data));
+        const leaveBalances = await getMyBalance();
+        setBalances(leaveBalances);
 
-    if (editId) {
-      getMyLeaves().then((r) => {
-        const l = r.data.find((x: any) => x.id === editId);
+        if (editId) {
+          const leaves = await getMyLeaves();
 
-        if (l) {
-          setLeaveType(l.leaveType ?? "ANNUAL");
-          setStartDate(l.startDate ?? "");
-          setEndDate(l.endDate ?? "");
-          setReason(l.reason ?? "");
+          const leave = leaves.find((l: any) => l.id === editId);
+
+          if (leave) {
+            setLeaveType(leave.leaveType ?? "ANNUAL");
+            setStartDate(leave.startDate ?? "");
+            setEndDate(leave.endDate ?? "");
+            setReason(leave.reason ?? "");
+          }
         }
 
         readyRef.current = true;
-      });
-    } else {
-      readyRef.current = true;
-    }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadData();
   }, [id, editId]);
 
   useEffect(() => {
     if (!editId || active.length === 0) return;
 
-    getMyLeaves().then((r) => {
-      const leave = r.data.find((l: any) => l.id === editId);
+    const loadCover = async () => {
+      try {
+        const leaves = await getMyLeaves();
 
-      if (!leave) return;
+        const leave = leaves.find((l: any) => l.id === editId);
 
-      const selectedCover = active.find((e: any) => e.id === leave.coverEmployeeId);
+        if (!leave) return;
 
-      setCover(selectedCover ?? null);
-    });
+        const selectedCover = active.find((e: any) => e.id === leave.coverEmployeeId);
+
+        setCover(selectedCover ?? null);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadCover();
   }, [editId, active]);
-
   const TYPES = ALL_TYPES.filter((type) => {
     if (!employee?.gender) return true;
 

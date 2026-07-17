@@ -18,7 +18,7 @@ import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import { getMyProfile } from "../../api/employeeApi";
+import { getMyProfile } from "../../api/employees";
 import type { EmployeeResponse } from "../../types/auth.type";
 import { useAuth } from "../../context/AuthContext";
 
@@ -60,7 +60,7 @@ const ViewProfilePage = () => {
     (async () => {
       try {
         const res = await getMyProfile();
-        setProfile(res.data);
+        setProfile(profile);
       } finally {
         setLoading(false);
       }

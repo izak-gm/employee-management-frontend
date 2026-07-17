@@ -17,16 +17,12 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import StageChip from "../StageChip";
-import {
-  getAllLeaves,
-  adminActionLeave,
-  getLeaveById,
-  type LeaveResponse,
-} from "../../api/leaveApi";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import TablePagination from "@mui/material/TablePagination";
 import LeaveDetailsDialog from "./LeaveDetailsDialog";
+import { getAllLeaves, getLeaveById, type LeaveResponse } from "../../api";
+import StageChip from "../dashboard/StageChip";
+import { adminActionLeave } from "../../api/leaves";
 
 type StatusFilter =
   | "ALL"
@@ -57,20 +53,21 @@ const ManageLeavesView = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    getAllLeaves().then((r) => setLeaves(r.data));
+    getAllLeaves().then(setLeaves);
   }, [refreshKey]);
 
   const handleAction = async (id: string, status: "APPROVED" | "REJECTED") => {
-    await adminActionLeave(id, status);
+    await adminActionLeave(id, { status });
     setRefreshKey((k) => k + 1);
   };
 
   const visibleLeaves =
     statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
+
   const handleViewLeave = async (id: string) => {
     try {
-      const res = await getLeaveById(id);
-      setSelectedLeave(res.data);
+      const leave = await getLeaveById(id);
+      setSelectedLeave(leave);
       setDetailsOpen(true);
     } catch (err) {
       console.error(err);
@@ -191,7 +188,6 @@ const ManageLeavesView = () => {
           setSelectedLeave(null);
         }}
       />
-      
     </Box>
   );
 };

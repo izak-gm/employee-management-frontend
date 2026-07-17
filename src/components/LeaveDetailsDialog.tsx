@@ -8,7 +8,7 @@ import {
   Stack,
   Divider,
 } from "@mui/material";
-import StageChip from "./StageChip";
+import StageChip from "./dashboard/StageChip";
 
 interface Props {
   open: boolean;

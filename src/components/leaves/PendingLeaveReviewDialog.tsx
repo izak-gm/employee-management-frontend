@@ -8,8 +8,8 @@ import {
   Stack,
   Chip,
 } from "@mui/material";
-import type { LeaveResponse } from "../../api/leaveApi";
-import StageChip from "../StageChip";
+import type { LeaveResponse } from "../../api";
+import StageChip from "../dashboard/StageChip";
 
 interface Props {
   open: boolean;

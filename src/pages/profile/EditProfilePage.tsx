@@ -5,7 +5,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import { getMyProfile, updateMyProfile } from "../../api/employeeApi";
+import { getMyProfile, updateMyProfile } from "../../api/employees";
 import type { UpdateEmployee } from "../../types/auth.type";
 import { extractErrorMessage } from "../../api/errorUtils";
 
@@ -37,17 +37,18 @@ const EditProfilePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await getMyProfile();
+        const profile = await getMyProfile();
+
         setForm({
-          firstName: res.data.firstName ?? "",
-          lastName: res.data.lastName ?? "",
-          phoneNumber: res.data.phoneNumber ?? "",
-          email: res.data.email ?? "",
+          firstName: profile.firstName ?? "",
+          lastName: profile.lastName ?? "",
+          phoneNumber: profile.phoneNumber ?? "",
+          email: profile.email ?? "",
         });
       } catch (err) {
         setBanner({
           type: "error",
-          text: extractErrorMessage(err, "Update failed. Please try again."),
+          text: extractErrorMessage(err, "Failed to load profile."),
         });
       } finally {
         setLoading(false);
