@@ -34,27 +34,27 @@ const EditProfilePage = () => {
     text: string;
   } | null>(null);
 
-useEffect(() => {
-  (async () => {
-    try {
-      const profile = await getMyProfile();
+  useEffect(() => {
+    (async () => {
+      try {
+        const profile = await getMyProfile();
 
-      setForm({
-        firstName: profile.firstName ?? "",
-        lastName: profile.lastName ?? "",
-        phoneNumber: profile.phoneNumber ?? "",
-        email: profile.email ?? "",
-      });
-    } catch (err) {
-      setBanner({
-        type: "error",
-        text: extractErrorMessage(err, "Failed to load profile."),
-      });
-    } finally {
-      setLoading(false);
-    }
-  })();
-}, []);
+        setForm({
+          firstName: profile.firstName ?? "",
+          lastName: profile.lastName ?? "",
+          phoneNumber: profile.phoneNumber ?? "",
+          email: profile.email ?? "",
+        });
+      } catch (err) {
+        setBanner({
+          type: "error",
+          text: extractErrorMessage(err, "Failed to load profile."),
+        });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   const handleChange = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));

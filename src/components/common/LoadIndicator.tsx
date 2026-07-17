@@ -6,9 +6,7 @@ interface Props {
   text?: string;
 }
 
-export default function PageLoader({
-  text = "Loading...",
-}: Props) {
+export default function PageLoader({ text = "Loading..." }: Props) {
   return (
     <Box
       sx={{
@@ -21,9 +19,7 @@ export default function PageLoader({
       }}
     >
       <CircularProgress size={45} />
-      <Typography color="text.secondary">
-        {text}
-      </Typography>
+      <Typography color="text.secondary">{text}</Typography>
     </Box>
   );
 }

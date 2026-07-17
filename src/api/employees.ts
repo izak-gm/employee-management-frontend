@@ -27,7 +27,7 @@ import type {
  * Pass `ids` to fetch specific employees by UUID.
  */
 export async function getEmployees(
-  params: EmployeeRequest & { ids?: string[] } = {}
+  params: EmployeeRequest & { ids?: string[] } = {},
 ): Promise<EmployeeResponse[]> {
   const { data } = await apiClient.get<EmployeeResponse[]>("/api/v1/employees", {
     params,
@@ -61,9 +61,7 @@ export async function getEmployeeById(employeeId: string): Promise<EmployeeRespo
 // ─── Mutations ────────────────────────────────────────────────────────────────
 
 /** Create a new employee (SUPERADMIN / HR_ADMIN only). */
-export async function createEmployee(
-  payload: CreateEmployeeRequest
-): Promise<EmployeeResponse> {
+export async function createEmployee(payload: CreateEmployeeRequest): Promise<EmployeeResponse> {
   const { data } = await apiClient.post<EmployeeResponse>("/api/v1/employees/create", payload);
   return data;
 }
@@ -71,11 +69,11 @@ export async function createEmployee(
 /** Admin updates any employee's profile. */
 export async function updateEmployee(
   employeeId: string,
-  payload: UpdateEmployee
+  payload: UpdateEmployee,
 ): Promise<EmployeeResponse> {
   const { data } = await apiClient.put<EmployeeResponse>(
     `/api/v1/employees/update-profile/${employeeId}`,
-    payload
+    payload,
   );
   return data;
 }
@@ -84,7 +82,7 @@ export async function updateEmployee(
 export async function updateMyProfile(payload: UpdateEmployee): Promise<EmployeeResponse> {
   const { data } = await apiClient.put<EmployeeResponse>(
     "/api/v1/employees/update-profile/me",
-    payload
+    payload,
   );
   return data;
 }

@@ -1,23 +1,23 @@
-import { useState } from "react";
 import {
+  Avatar,
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
-  Grid,
   Paper,
-  Step,
-  StepLabel,
-  Stepper,
+  Stack,
   Typography,
 } from "@mui/material";
 
-import type { EmployeeResponse } from "../../api/types";
+import PersonIcon from "@mui/icons-material/Person";
+import WorkIcon from "@mui/icons-material/Work";
+import SettingsIcon from "@mui/icons-material/Settings";
 
-const steps = ["Personal Details", "Employment Details", "System Information"];
+import type { EmployeeResponse } from "../../api/types";
 
 interface Props {
   open: boolean;
@@ -27,152 +27,305 @@ interface Props {
 
 const Item = ({ label, value }: { label: string; value?: string | number | null }) => (
   <Paper
-    variant="outlined"
+    elevation={0}
     sx={{
+      flex: 1,
       p: 2,
-      height: "100%",
+      borderRadius: 3,
+      border: "1px solid",
+      borderColor: "grey.200",
+      bgcolor: "#fafafa",
+      transition: "all .2s ease",
+
+      "&:hover": {
+        bgcolor: "#f0f7ff",
+        borderColor: "primary.main",
+        transform: "translateY(-2px)",
+      },
     }}
   >
-    <Typography variant="caption" color="text.secondary">
+    <Typography
+      variant="caption"
+      sx={{
+        color: "text.secondary",
+        textTransform: "uppercase",
+        letterSpacing: 0.8,
+        fontWeight: 700,
+      }}
+    >
       {label}
     </Typography>
 
-    <Typography variant="body1" sx={{ fontWeight: "fontWeightMedium" }}>
+    <Typography
+      variant="body1"
+      sx={{
+        mt: 0.7,
+        fontWeight: 600,
+      }}
+    >
       {value || "-"}
     </Typography>
   </Paper>
 );
 
 export default function EmployeeDetailsDialog({ open, employee, onClose }: Props) {
-  const [activeStep, setActiveStep] = useState(0);
-
   if (!employee) return null;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Employee Details</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="lg"
+      fullWidth
+      slotProps={{
+        paper: {
+          sx: {
+            maxWidth: 1100,
+            borderRadius: 4,
+            overflow: "hidden",
+          },
+        },
+      }}
+    >
+      <DialogTitle
+        sx={{
+          p: 0,
+          bgcolor: "primary.main",
+          color: "white",
+        }}
+      >
+        <Box
+          sx={{
+            p: 3,
+          }}
+        >
+          <Stack
+            sx={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            <Stack
+              sx={{
+                flexDirection: "row",
+                gap: 2,
+              }}
+            >
+              {" "}
+              <Avatar
+                sx={{
+                  width: 64,
+                  height: 64,
+                  bgcolor: "white",
+                  color: "primary.main",
+                  fontWeight: 700,
+                  fontSize: 24,
+                }}
+              >
+                {employee.firstName?.charAt(0)}
+                {employee.lastName?.charAt(0)}
+              </Avatar>
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  {employee.firstName} {employee.lastName}
+                </Typography>
 
-      <DialogContent>
-        <Stepper activeStep={activeStep} sx={{ mb: 4, mt: 1 }}>
-          {steps.map((step) => (
-            <Step key={step}>
-              <StepLabel>{step}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    opacity: 0.9,
+                  }}
+                >
+                  {employee.positionName || "No Position"} •{" "}
+                  {employee.departmentName || "No Department"}
+                </Typography>
 
-        {activeStep === 0 && (
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="First Name" value={employee.firstName} />
-            </Grid>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    opacity: 0.8,
+                  }}
+                >
+                  {employee.email}
+                </Typography>
+              </Box>
+            </Stack>
+            <Chip
+              label={employee.status}
+              color={
+                employee.status === "ACTIVE"
+                  ? "success"
+                  : employee.status === "INACTIVE"
+                    ? "default"
+                    : "warning"
+              }
+              sx={{
+                fontWeight: 700,
+                fontSize: 14,
+              }}
+            />
+          </Stack>
+        </Box>
+      </DialogTitle>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Middle Name" value={employee.middleName} />
-            </Grid>
+      <DialogContent
+        dividers
+        sx={{
+          p: 3,
+        }}
+      >
+        <Stack spacing={4}>
+          {/* PERSONAL INFORMATION */}
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Last Name" value={employee.lastName} />
-            </Grid>
+          <Box>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                gap: 2,
+              }}
+            >
+              {" "}
+              <PersonIcon color="primary" />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
+                Personal Information
+              </Typography>
+            </Stack>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Gender" value={employee.gender} />
-            </Grid>
+            <Stack spacing={2}>
+              <Stack direction="row" spacing={2}>
+                <Item label="First Name" value={employee.firstName} />
 
-            <Grid size={12}>
-              <Item label="Email" value={employee.email} />
-            </Grid>
+                <Item label="Middle Name" value={employee.middleName} />
 
-            <Grid size={12}>
-              <Item label="Phone Number" value={employee.phoneNumber} />
-            </Grid>
+                <Item label="Last Name" value={employee.lastName} />
+              </Stack>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="National ID" value={employee.nationalId} />
-            </Grid>
+              <Stack direction="row" spacing={2}>
+                <Item label="Gender" value={employee.gender} />
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Date of Birth" value={employee.dateOfBirth} />
-            </Grid>
-          </Grid>
-        )}
+                <Item label="Date of Birth" value={employee.dateOfBirth} />
 
-        {activeStep === 1 && (
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Employee Number" value={employee.employeeNumber} />
-            </Grid>
+                <Item label="National ID" value={employee.nationalId} />
+              </Stack>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Role" value={employee.role} />
-            </Grid>
+              <Stack direction="row" spacing={2}>
+                <Item label="Email Address" value={employee.email} />
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Department" value={employee.departmentName} />
-            </Grid>
+                <Item label="Phone Number" value={employee.phoneNumber} />
+              </Stack>
+            </Stack>
+          </Box>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Position" value={employee.positionName} />
-            </Grid>
+          <Divider />
+          <Box>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                gap: 2,
+              }}
+            >
+              {" "}
+              <WorkIcon color="primary" />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
+                Employment Information
+              </Typography>
+            </Stack>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Supervisor" value={employee.supervisorName} />
-            </Grid>
+            <Stack spacing={2}>
+              <Stack direction="row" spacing={2}>
+                <Item label="Employee Number" value={employee.employeeNumber} />
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Hire Date" value={employee.hireDate} />
-            </Grid>
+                <Item label="Role" value={employee.role} />
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Confirmation Date" value={employee.confirmationDate} />
-            </Grid>
+                <Item label="Status" value={employee.status} />
+              </Stack>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Exit Date" value={employee.exitDate} />
-            </Grid>
-          </Grid>
-        )}
+              <Stack direction="row" spacing={2}>
+                <Item label="Department" value={employee.departmentName} />
 
-        {activeStep === 2 && (
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Status" value={employee.status} />
-            </Grid>
+                <Item label="Position" value={employee.positionName} />
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Employee ID" value={employee.id} />
-            </Grid>
+                <Item label="Supervisor" value={employee.supervisorName} />
+              </Stack>
 
-            <Grid size={12}>
-              <Divider sx={{ my: 1 }} />
-            </Grid>
+              <Stack direction="row" spacing={2}>
+                <Item label="Hire Date" value={employee.hireDate} />
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Created At" value={employee.createdAt} />
-            </Grid>
+                <Item label="Confirmation Date" value={employee.confirmationDate} />
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Item label="Updated At" value={employee.updatedAt} />
-            </Grid>
-          </Grid>
-        )}
+                <Item label="Exit Date" value={employee.exitDate} />
+              </Stack>
+            </Stack>
+          </Box>
+
+          <Divider />
+
+          <Box>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                gap: 2,
+              }}
+            >
+              {" "}
+              <SettingsIcon color="primary" />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
+                System Information
+              </Typography>
+            </Stack>
+
+            <Stack spacing={2}>
+              <Stack direction="row" spacing={2}>
+                <Item label="Employee ID" value={employee.id} />
+
+                <Item label="Created At" value={employee.createdAt} />
+
+                <Item label="Updated At" value={employee.updatedAt} />
+              </Stack>
+            </Stack>
+          </Box>
+        </Stack>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+      <DialogActions
+        sx={{
+          px: 3,
+          py: 2,
+          bgcolor: "#fafafa",
+          borderTop: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        <Button variant="outlined" onClick={onClose}>
+          Close
+        </Button>
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Button disabled={activeStep === 0} onClick={() => setActiveStep((s) => s - 1)}>
-          Back
-        </Button>
-
-        <Button
-          variant="contained"
-          disabled={activeStep === steps.length - 1}
-          onClick={() => setActiveStep((s) => s + 1)}
-        >
-          Next
+        <Button variant="contained" color="primary">
+          Edit Employee
         </Button>
       </DialogActions>
     </Dialog>

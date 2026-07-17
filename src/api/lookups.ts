@@ -9,7 +9,6 @@ export interface Option {
   id: string;
   label: string;
 }
-
 const MOCK_DEPARTMENTS: Option[] = [
   { id: "d1b1f7d0-1111-4a1a-9c1a-000000000001", label: "Engineering" },
   { id: "d1b1f7d0-1111-4a1a-9c1a-000000000002", label: "Human Resources" },
@@ -18,17 +17,17 @@ const MOCK_DEPARTMENTS: Option[] = [
 ];
 
 const MOCK_POSITIONS: Option[] = [
-  { id: "p2c2f7d0-2222-4a1a-9c1a-000000000001", label: "Software Engineer I" },
-  { id: "p2c2f7d0-2222-4a1a-9c1a-000000000002", label: "Software Engineer II" },
-  { id: "p2c2f7d0-2222-4a1a-9c1a-000000000003", label: "Tech Lead" },
-  { id: "p2c2f7d0-2222-4a1a-9c1a-000000000004", label: "HR Officer" },
-  { id: "p2c2f7d0-2222-4a1a-9c1a-000000000005", label: "Payroll Manager" },
+  { id: "a2c2f7d0-2222-4a1a-9c1a-000000000001", label: "Software Engineer I" },
+  { id: "a2c2f7d0-2222-4a1a-9c1a-000000000002", label: "Software Engineer II" },
+  { id: "a2c2f7d0-2222-4a1a-9c1a-000000000003", label: "Tech Lead" },
+  { id: "a2c2f7d0-2222-4a1a-9c1a-000000000004", label: "HR Officer" },
+  { id: "a2c2f7d0-2222-4a1a-9c1a-000000000005", label: "Payroll Manager" },
 ];
 
 const MOCK_SUPERVISORS: Option[] = [
-  { id: "s3d3f7d0-3333-4a1a-9c1a-000000000001", label: "Jane Mwangi — Tech Lead" },
-  { id: "s3d3f7d0-3333-4a1a-9c1a-000000000002", label: "Peter Otieno — HR Admin" },
-  { id: "s3d3f7d0-3333-4a1a-9c1a-000000000003", label: "Amina Yusuf — Finance Manager" },
+  { id: "b3d3f7d0-3333-4a1a-9c1a-000000000001", label: "Jane Mwangi — Tech Lead" },
+  { id: "b3d3f7d0-3333-4a1a-9c1a-000000000002", label: "Peter Otieno — HR Admin" },
+  { id: "b3d3f7d0-3333-4a1a-9c1a-000000000003", label: "Amina Yusuf — Finance Manager" },
 ];
 
 function useMockLookup(data: Option[]) {

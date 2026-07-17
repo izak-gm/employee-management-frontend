@@ -18,7 +18,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { getMyLeaves, getLeaveById, withdrawLeave  } from "../../api/leaves";
+import { getMyLeaves, getLeaveById, withdrawLeave } from "../../api/leaves";
 import AddIcon from "@mui/icons-material/Add";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -61,27 +61,27 @@ const ManageLeavesView = () => {
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, _setRefreshKey] = useState(0);
-const fetchLeaves = async () => {
-  const leaves = await getMyLeaves();
-  setLeaves(leaves);
-};
+  const fetchLeaves = async () => {
+    const leaves = await getMyLeaves();
+    setLeaves(leaves);
+  };
 
-useEffect(() => {
-  fetchLeaves();
-}, [refreshKey]);
+  useEffect(() => {
+    fetchLeaves();
+  }, [refreshKey]);
 
-const visibleLeaves =
-  statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
+  const visibleLeaves =
+    statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
 
-const handleViewLeave = async (id: string) => {
-  try {
-    const leave = await getLeaveById(id);
-    setSelectedLeave(leave);
-    setDetailsOpen(true);
-  } catch (err) {
-    console.error(err);
-  }
-};
+  const handleViewLeave = async (id: string) => {
+    try {
+      const leave = await getLeaveById(id);
+      setSelectedLeave(leave);
+      setDetailsOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleWithdraw = async () => {
     if (!leaveToWithdraw) return;
 
@@ -102,7 +102,7 @@ const handleViewLeave = async (id: string) => {
     setLeaveToWithdraw(id);
     setWithdrawOpen(true);
   };
-  
+
   return (
     <Box>
       <Stack

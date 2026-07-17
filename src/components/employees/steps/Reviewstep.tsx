@@ -6,11 +6,10 @@ import Paper from "@mui/material/Paper";
 import type { CreateEmployeeForm } from "../../../schemas/employeeSchema";
 import { useDepartments, usePositions, useSupervisors } from "../../../api/lookups";
 
-
 function Field({ label, value }: { label: string; value?: string | null }) {
   return (
     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-      <Typography variant="caption" color="text.secondary" sx={{display:"block"}}>
+      <Typography variant="caption" color="text.secondary" sx={{ display: "block" }}>
         {label}
       </Typography>
       <Typography variant="body2">{value?.trim() ? value : "—"}</Typography>

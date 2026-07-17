@@ -52,27 +52,27 @@ const ManageLeavesView = () => {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, setRefreshKey] = useState(0);
 
-useEffect(() => {
-  getAllLeaves().then(setLeaves);
-}, [refreshKey]);
+  useEffect(() => {
+    getAllLeaves().then(setLeaves);
+  }, [refreshKey]);
 
-const handleAction = async (id: string, status: "APPROVED" | "REJECTED") => {
-  await adminActionLeave(id, { status });
-  setRefreshKey((k) => k + 1);
-};
+  const handleAction = async (id: string, status: "APPROVED" | "REJECTED") => {
+    await adminActionLeave(id, { status });
+    setRefreshKey((k) => k + 1);
+  };
 
-const visibleLeaves =
-  statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
+  const visibleLeaves =
+    statusFilter === "ALL" ? leaves : leaves.filter((l) => l.status === statusFilter);
 
-const handleViewLeave = async (id: string) => {
-  try {
-    const leave = await getLeaveById(id);
-    setSelectedLeave(leave);
-    setDetailsOpen(true);
-  } catch (err) {
-    console.error(err);
-  }
-};
+  const handleViewLeave = async (id: string) => {
+    try {
+      const leave = await getLeaveById(id);
+      setSelectedLeave(leave);
+      setDetailsOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <Box>
       <Stack
@@ -188,7 +188,6 @@ const handleViewLeave = async (id: string) => {
           setSelectedLeave(null);
         }}
       />
-      
     </Box>
   );
 };

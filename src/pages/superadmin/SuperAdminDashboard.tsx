@@ -23,13 +23,7 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import {
-  getAllLeaves,
-  getMyNotifications,
-  coverAction,
-  adminActionLeave,
- 
-} from "../../api/leaves";
+import { getAllLeaves, getMyNotifications, coverAction, adminActionLeave } from "../../api/leaves";
 import {
   StatCard,
   Donut,
@@ -39,7 +33,7 @@ import {
   isOnLeaveToday,
   isUpcoming,
 } from "../../components/dashboard/DashboardWidgets";
-import {  getDashboardStats, type DashboardStatsResponse, type LeaveResponse } from "../../api";
+import { getDashboardStats, type DashboardStatsResponse, type LeaveResponse } from "../../api";
 import PendingLeaveReviewDialog from "../../components/leaves/PendingLeaveReviewDialog";
 
 const TYPE_COLORS: Record<string, string> = {
@@ -51,43 +45,42 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 const SuperAdminDashboard = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const [stats, setStats] = useState<DashboardStatsResponse | null>(null);
-const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
-const [pendingAdminLeaves, setPendingAdminLeaves] = useState<LeaveResponse[]>([]);
-const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
-const [refreshKey, setRefreshKey] = useState(0);
+  const [stats, setStats] = useState<DashboardStatsResponse | null>(null);
+  const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
+  const [pendingAdminLeaves, setPendingAdminLeaves] = useState<LeaveResponse[]>([]);
+  const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-const [reviewOpen, setReviewOpen] = useState(false);
-const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
-const [reviewLoading, setReviewLoading] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [selectedLeave, setSelectedLeave] = useState<LeaveResponse | null>(null);
+  const [reviewLoading, setReviewLoading] = useState(false);
 
-useEffect(() => {
-  const loadDashboard = async () => {
-    try {
-      const dashboardStats = await getDashboardStats();
-      setStats(dashboardStats);
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const dashboardStats = await getDashboardStats();
+        setStats(dashboardStats);
 
-      const leaves = await getAllLeaves();
-      setAllLeaves(leaves);
-      setPendingAdminLeaves(leaves.filter((leave) => leave.status === "PENDING_ADMIN"));
+        const leaves = await getAllLeaves();
+        setAllLeaves(leaves);
+        setPendingAdminLeaves(leaves.filter((leave) => leave.status === "PENDING_ADMIN"));
 
-      const notifications = await getMyNotifications();
-      setCoverRequests(notifications.filter((leave) => leave.status === "PENDING_COVER"));
-    } catch (err) {
-      console.error(err);
-    }
+        const notifications = await getMyNotifications();
+        setCoverRequests(notifications.filter((leave) => leave.status === "PENDING_COVER"));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadDashboard();
+  }, [refreshKey]);
+
+  const handleCoverAction = async (id: string, accept: boolean) => {
+    await coverAction(id, { accept });
+    setRefreshKey((k) => k + 1);
   };
-
-  loadDashboard();
-}, [refreshKey]);
-
-const handleCoverAction = async (id: string, accept: boolean) => {
-  await coverAction(id, { accept });
-  setRefreshKey((k) => k + 1);
-};
-
 
   const derived = useMemo(() => {
     const onLeaveNow = allLeaves.filter(
@@ -141,22 +134,22 @@ const handleCoverAction = async (id: string, accept: boolean) => {
     setReviewOpen(true);
   };
 
-const handleAdminDecision = async (status: "APPROVED" | "REJECTED") => {
-  if (!selectedLeave?.id) return;
+  const handleAdminDecision = async (status: "APPROVED" | "REJECTED") => {
+    if (!selectedLeave?.id) return;
 
-  setReviewLoading(true);
+    setReviewLoading(true);
 
-  try {
-    await adminActionLeave(selectedLeave.id, { status });
+    try {
+      await adminActionLeave(selectedLeave.id, { status });
 
-    setReviewOpen(false);
-    setSelectedLeave(null);
+      setReviewOpen(false);
+      setSelectedLeave(null);
 
-    setRefreshKey((k) => k + 1);
-  } finally {
-    setReviewLoading(false);
-  }
-};
+      setRefreshKey((k) => k + 1);
+    } finally {
+      setReviewLoading(false);
+    }
+  };
   return (
     <DashboardLayout title="Super Admin Dashboard">
       {pendingAdminLeaves.length > 0 && (

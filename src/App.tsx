@@ -46,7 +46,7 @@ function App() {
             {/* Employee Management */}
             <Route element={<RoleRoute allowedRoles={["SUPERADMIN", "HR_ADMIN"]} />}>
               <Route path="/employees" element={<ManageEmployeesPage />} />
-              <Route path="/employees/create" element={<AddEmployeePage/>} />
+              <Route path="/employees/create" element={<AddEmployeePage />} />
               <Route path="/employees/:id/edit" element={<div>Edit Employee</div>} />
             </Route>
 

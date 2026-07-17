@@ -15,7 +15,15 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 
 import { extractErrorMessage } from "../../api/errorUtils";
 import { useAuth } from "../../context/AuthContext";
-import { getMyProfile, getActiveEmployees, getMyBalance, getMyLeaves, updateLeave, applyForLeave, type LeaveBalanceResponse } from "../../api";
+import {
+  getMyProfile,
+  getActiveEmployees,
+  getMyBalance,
+  getMyLeaves,
+  updateLeave,
+  applyForLeave,
+  type LeaveBalanceResponse,
+} from "../../api";
 
 const ALL_TYPES = ["ANNUAL", "SICK", "PATERNITY", "MATERNITY", "COMPASSIONATE"];
 
@@ -46,61 +54,61 @@ const ApplyLeavePage = () => {
   } | null>(null);
 
   const readyRef = useRef(false);
-useEffect(() => {
-  const loadData = async () => {
-    try {
-      const employee = await getMyProfile();
-      setEmployee(employee);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const employee = await getMyProfile();
+        setEmployee(employee);
 
-      const employees = await getActiveEmployees();
-      setActive(employees.filter((e: any) => e.id !== id));
+        const employees = await getActiveEmployees();
+        setActive(employees.filter((e: any) => e.id !== id));
 
-      const leaveBalances = await getMyBalance();
-      setBalances(leaveBalances);
+        const leaveBalances = await getMyBalance();
+        setBalances(leaveBalances);
 
-      if (editId) {
+        if (editId) {
+          const leaves = await getMyLeaves();
+
+          const leave = leaves.find((l: any) => l.id === editId);
+
+          if (leave) {
+            setLeaveType(leave.leaveType ?? "ANNUAL");
+            setStartDate(leave.startDate ?? "");
+            setEndDate(leave.endDate ?? "");
+            setReason(leave.reason ?? "");
+          }
+        }
+
+        readyRef.current = true;
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadData();
+  }, [id, editId]);
+
+  useEffect(() => {
+    if (!editId || active.length === 0) return;
+
+    const loadCover = async () => {
+      try {
         const leaves = await getMyLeaves();
 
         const leave = leaves.find((l: any) => l.id === editId);
 
-        if (leave) {
-          setLeaveType(leave.leaveType ?? "ANNUAL");
-          setStartDate(leave.startDate ?? "");
-          setEndDate(leave.endDate ?? "");
-          setReason(leave.reason ?? "");
-        }
+        if (!leave) return;
+
+        const selectedCover = active.find((e: any) => e.id === leave.coverEmployeeId);
+
+        setCover(selectedCover ?? null);
+      } catch (err) {
+        console.error(err);
       }
+    };
 
-      readyRef.current = true;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  loadData();
-}, [id, editId]);
-
-useEffect(() => {
-  if (!editId || active.length === 0) return;
-
-  const loadCover = async () => {
-    try {
-      const leaves = await getMyLeaves();
-
-      const leave = leaves.find((l: any) => l.id === editId);
-
-      if (!leave) return;
-
-      const selectedCover = active.find((e: any) => e.id === leave.coverEmployeeId);
-
-      setCover(selectedCover ?? null);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  loadCover();
-}, [editId, active]);
+    loadCover();
+  }, [editId, active]);
   const TYPES = ALL_TYPES.filter((type) => {
     if (!employee?.gender) return true;
 

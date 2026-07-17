@@ -75,10 +75,7 @@ export async function applyForLeave(payload: LeaveRequest): Promise<LeaveRespons
 }
 
 /** Employee: edit a leave application that is still pending. */
-export async function updateLeave(
-  leaveId: string,
-  payload: LeaveRequest
-): Promise<LeaveResponse> {
+export async function updateLeave(leaveId: string, payload: LeaveRequest): Promise<LeaveResponse> {
   const { data } = await apiClient.put<LeaveResponse>(`/api/v1/leaves/${leaveId}`, payload);
   return data;
 }
@@ -101,11 +98,11 @@ export async function adminActionLeave(
  */
 export async function coverAction(
   leaveId: string,
-  payload: CoverActionRequest
+  payload: CoverActionRequest,
 ): Promise<LeaveResponse> {
   const { data } = await apiClient.put<LeaveResponse>(
     `/api/v1/leaves/${leaveId}/cover-action`,
-    payload
+    payload,
   );
   return data;
 }

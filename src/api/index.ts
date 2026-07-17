@@ -12,13 +12,7 @@ export type * from "./types";
 export { ApiError, tokenStorage } from "./client";
 
 // Auth
-export {
-  login,
-  logout,
-  forgotPassword,
-  resetPassword,
-  setupPassword,
-} from "./auth";
+export { login, logout, forgotPassword, resetPassword, setupPassword } from "./auth";
 
 // Employees
 export {

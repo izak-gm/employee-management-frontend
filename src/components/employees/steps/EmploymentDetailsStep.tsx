@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Typography from "@mui/material/Typography";
 import { useDepartments, usePositions, useSupervisors } from "../../../api/lookups";
 import { ROLES, EMPLOYMENT_TYPES } from "../../../schemas/employeeSchema";
-import   type {CreateEmployeeForm } from "../../../schemas/employeeSchema";
+import type { CreateEmployeeForm } from "../../../schemas/employeeSchema";
 
 const ROLE_LABELS: Record<(typeof ROLES)[number], string> = {
   SUPERADMIN: "Super Admin",

@@ -23,11 +23,9 @@ export const personalDetailsSchema = z.object({
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Enter a valid email address"),
 
-  phoneNumber: z
-    .string()
-    .refine(isValidPhoneNumber, {
-      message: "Enter a valid phone number",
-    }),
+  phoneNumber: z.string().refine(isValidPhoneNumber, {
+    message: "Enter a valid phone number",
+  }),
 
   gender: z.enum(GENDERS),
 

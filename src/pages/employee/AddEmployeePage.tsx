@@ -17,7 +17,6 @@ const AddEmployeePage = () => {
       navigate("/employees");
     }, 1800);
   };
-
   return (
     <DashboardLayout title="Add Employee">
       <Stack spacing={3}>
@@ -27,41 +26,55 @@ const AddEmployeePage = () => {
           </Button>
         </Box>
 
-        <Card elevation={2}>
-          <CardContent sx={{ p: 4 }}>
-            <Stack spacing={3}>
-              <Box>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontWeight: 700,
-                  }}
-                >
-                  Register Employee
-                </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <Card
+            elevation={2}
+            sx={{
+              width: "100%",
+              maxWidth: 900, // adjust to your preferred width
+            }}
+          >
+            <CardContent sx={{ p: 4 }}>
+              <Stack spacing={3}>
+                <Box>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontWeight: 700,
+                    }}
+                  >
+                    Register Employee
+                  </Typography>
 
-                <Typography variant="body2" color="text.secondary">
-                  Fill in the employee information below. An invitation email will automatically be
-                  sent for password setup.
-                </Typography>
-              </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    Fill in the employee information below. An invitation email will automatically
+                    be sent for password setup.
+                  </Typography>
+                </Box>
 
-              <Alert severity="info">
-                The employee will receive an email containing a secure link to create their
-                password.
-              </Alert>
-
-              {success && (
-                <Alert severity="success">
-                  Employee created successfully. An invitation email has been sent. Redirecting to
-                  Employees...
+                <Alert severity="info">
+                  The employee will receive an email containing a secure link to create their
+                  password.
                 </Alert>
-              )}
 
-              <CreateEmployeeForm onSuccess={handleSuccess} />
-            </Stack>
-          </CardContent>
-        </Card>
+                {success && (
+                  <Alert severity="success">
+                    Employee created successfully. An invitation email has been sent. Redirecting to
+                    Employees...
+                  </Alert>
+                )}
+
+                <CreateEmployeeForm onSuccess={handleSuccess} />
+              </Stack>
+            </CardContent>
+          </Card>
+        </Box>
       </Stack>
     </DashboardLayout>
   );

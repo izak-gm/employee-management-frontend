@@ -33,11 +33,21 @@ export class ApiError extends Error {
     this.body = body;
   }
 
-  get isUnauthorized() { return this.status === 401; }
-  get isForbidden()    { return this.status === 403; }
-  get isNotFound()     { return this.status === 404; }
-  get isConflict()     { return this.status === 409; }
-  get isValidation()   { return this.status === 422; }
+  get isUnauthorized() {
+    return this.status === 401;
+  }
+  get isForbidden() {
+    return this.status === 403;
+  }
+  get isNotFound() {
+    return this.status === 404;
+  }
+  get isConflict() {
+    return this.status === 409;
+  }
+  get isValidation() {
+    return this.status === 422;
+  }
 }
 
 // ─── Axios instance ────────────────────────────────────────────────────────────
@@ -61,7 +71,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // ─── Response interceptor — normalise errors ───────────────────────────────────
@@ -85,7 +95,7 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(new ApiError(message, status, data));
-  }
+  },
 );
 
 export default apiClient;
