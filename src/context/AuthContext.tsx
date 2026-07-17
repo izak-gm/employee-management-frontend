@@ -1,7 +1,8 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
-import type { DecodedToken, Role } from "../types/auth.type";
+import type { DecodedToken } from "../types/auth.type";
+import type { Role } from "../api";
 
 interface AuthContextType {
   token: string | null;
@@ -15,7 +16,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const VALID_ROLES: Role[] = ["HR_ADMIN", "SUPERADMIN", "SOFTWARE_ENGINEER","TECH_LEAD","INTERN"];
+const VALID_ROLES: Role[] = ["HR_ADMIN", "SUPERADMIN", "SOFTWARE_ENGINEER", "TECH_LEAD", "INTERN"];
 
 const extractRole = (role: string | undefined): Role | null => {
   if (!role) return null;

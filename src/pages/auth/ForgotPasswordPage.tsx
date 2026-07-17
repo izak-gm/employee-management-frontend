@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Box, TextField, Button, Typography, Alert, Link, Paper } from "@mui/material";
-import { forgotPassword } from "../../api/authApi";
+import { forgotPassword } from "../../api/auth";
 import { extractErrorMessage } from "../../api/errorUtils";
 
 const ForgotPasswordPage = () => {

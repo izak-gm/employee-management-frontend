@@ -25,13 +25,10 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import {
   getPendingLeaves,
   getAllLeaves,
-  getDashboardStats,
   getMyNotifications,
   adminActionLeave,
   coverAction,
-  type LeaveResponse,
-  type DashboardStats,
-} from "../../api/leaveApi";
+} from "../../api/leaves";
 import {
   StatCard,
   Donut,
@@ -41,6 +38,7 @@ import {
   isOnLeaveToday,
   isUpcoming,
 } from "../../components/dashboard/DashboardWidgets";
+import { getDashboardStats, type DashboardStatsResponse, type LeaveResponse } from "../../api";
 
 const TYPE_COLORS: Record<string, string> = {
   ANNUAL: "#0F2A4A",
@@ -54,26 +52,31 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [pending, setPending] = useState<LeaveResponse[]>([]);
   const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
-  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [stats, setStats] = useState<DashboardStatsResponse | null>(null);
   const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    getPendingLeaves().then((r) => setPending(r.data.filter((l) => l.status === "PENDING_ADMIN")));
-    getAllLeaves().then((r) => setAllLeaves(r.data));
-    getDashboardStats().then((r) => setStats(r.data));
-    getMyNotifications().then((r) =>
-      setCoverRequests(r.data.filter((l) => l.status === "PENDING_COVER")),
+    getPendingLeaves().then((leaves) =>
+      setPending(leaves.filter((l) => l.status === "PENDING_ADMIN")),
+    );
+
+    getAllLeaves().then(setAllLeaves);
+
+    getDashboardStats().then(setStats);
+
+    getMyNotifications().then((leaves) =>
+      setCoverRequests(leaves.filter((l) => l.status === "PENDING_COVER")),
     );
   }, [refreshKey]);
 
-  const handleAction = async (id: string, status: "APPROVED" | "REJECTED") => {
-    await adminActionLeave(id, status);
+  const handleCoverAction = async (id: string, accept: boolean) => {
+    await coverAction(id, { accept });
     setRefreshKey((k) => k + 1);
   };
 
-  const handleCoverAction = async (id: string, accept: boolean) => {
-    await coverAction(id, accept);
+  const handleAction = async (id: string, status: "APPROVED" | "REJECTED") => {
+    await adminActionLeave(id, { status });
     setRefreshKey((k) => k + 1);
   };
 

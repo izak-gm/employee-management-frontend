@@ -14,7 +14,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { setupPassword } from "../../api/authApi";
+import { setupPassword } from "../../api/auth";
 import { extractErrorMessage } from "../../api/errorUtils";
 
 const getStrength = (p: string) => {

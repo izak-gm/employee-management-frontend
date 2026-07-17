@@ -22,9 +22,9 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 
-import NotificationBell from "../NotificationBell";
 import Sidebar from "./Sidebar.";
-import type { Role } from "../../types/auth.type";
+import type { Role } from "../../api";
+import NotificationBell from "../common/NotificationBell";
 
 const roleLabel: Record<Role, string> = {
   SUPERADMIN: "Super Admin",

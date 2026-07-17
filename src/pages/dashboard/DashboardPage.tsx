@@ -2,7 +2,7 @@ import { useAuth } from "../../context/AuthContext";
 
 import SuperAdminDashboard from "../superadmin/SuperAdminDashboard";
 import AdminDashboard from "../admin/AdminDashboard";
-import EmployeeDashboard from "../user/EmployeeDashboard";
+import EmployeeDashboard from "../employee/dashboard/EmployeeDashboard";
 
 const DashboardPage = () => {
   const { role } = useAuth();

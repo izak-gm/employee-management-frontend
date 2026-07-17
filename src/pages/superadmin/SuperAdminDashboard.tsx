@@ -23,14 +23,7 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import {
-  getDashboardStats,
-  getAllLeaves,
-  getMyNotifications,
-  coverAction,
-  type LeaveResponse,
-  type DashboardStats,
-} from "../../api/leaveApi";
+import { getAllLeaves, getMyNotifications, coverAction, adminActionLeave } from "../../api/leaves";
 import {
   StatCard,
   Donut,
@@ -40,8 +33,8 @@ import {
   isOnLeaveToday,
   isUpcoming,
 } from "../../components/dashboard/DashboardWidgets";
-import PendingLeaveReviewDialog from "../../components/dialogs/PendingLeaveReviewDialog";
-import { adminActionLeave } from "../../api/leaveApi";
+import { getDashboardStats, type DashboardStatsResponse, type LeaveResponse } from "../../api";
+import PendingLeaveReviewDialog from "../../components/leaves/PendingLeaveReviewDialog";
 
 const TYPE_COLORS: Record<string, string> = {
   ANNUAL: "#0F2A4A",
@@ -53,7 +46,8 @@ const TYPE_COLORS: Record<string, string> = {
 
 const SuperAdminDashboard = () => {
   const navigate = useNavigate();
-  const [stats, setStats] = useState<DashboardStats | null>(null);
+
+  const [stats, setStats] = useState<DashboardStatsResponse | null>(null);
   const [allLeaves, setAllLeaves] = useState<LeaveResponse[]>([]);
   const [pendingAdminLeaves, setPendingAdminLeaves] = useState<LeaveResponse[]>([]);
   const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
@@ -64,23 +58,27 @@ const SuperAdminDashboard = () => {
   const [reviewLoading, setReviewLoading] = useState(false);
 
   useEffect(() => {
-    getDashboardStats().then((r) => setStats(r.data));
-    getAllLeaves().then((r) => {
-      setAllLeaves(r.data);
-      getAllLeaves().then((r) => {
-        setAllLeaves(r.data);
+    const loadDashboard = async () => {
+      try {
+        const dashboardStats = await getDashboardStats();
+        setStats(dashboardStats);
 
-        setPendingAdminLeaves(r.data.filter((l) => l.status === "PENDING_ADMIN"));
-      });
+        const leaves = await getAllLeaves();
+        setAllLeaves(leaves);
+        setPendingAdminLeaves(leaves.filter((leave) => leave.status === "PENDING_ADMIN"));
 
-      getMyNotifications().then((r) =>
-        setCoverRequests(r.data.filter((l) => l.status === "PENDING_COVER")),
-      );
-    });
+        const notifications = await getMyNotifications();
+        setCoverRequests(notifications.filter((leave) => leave.status === "PENDING_COVER"));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadDashboard();
   }, [refreshKey]);
 
   const handleCoverAction = async (id: string, accept: boolean) => {
-    await coverAction(id, accept);
+    await coverAction(id, { accept });
     setRefreshKey((k) => k + 1);
   };
 
@@ -137,12 +135,12 @@ const SuperAdminDashboard = () => {
   };
 
   const handleAdminDecision = async (status: "APPROVED" | "REJECTED") => {
-    if (!selectedLeave) return;
+    if (!selectedLeave?.id) return;
 
     setReviewLoading(true);
 
     try {
-      await adminActionLeave(selectedLeave.id!, status);
+      await adminActionLeave(selectedLeave.id, { status });
 
       setReviewOpen(false);
       setSelectedLeave(null);

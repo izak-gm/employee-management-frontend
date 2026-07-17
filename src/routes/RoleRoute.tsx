@@ -1,7 +1,7 @@
 // src/routes/RoleRoute.tsx
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import type { Role } from "../types/auth.type";
+import type { Role } from "../api";
 
 const RoleRoute = ({ allowedRoles }: { allowedRoles: Role[] }) => {
   const { role } = useAuth();

@@ -15,7 +15,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { login as loginApi } from "../../api/authApi";
+import { login as loginApi } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import { extractErrorMessage } from "../../api/errorUtils";
 import { jwtDecode } from "jwt-decode";
@@ -37,7 +37,7 @@ const LoginPage = () => {
     try {
       const res = await loginApi({ email, password });
 
-      const token = res.data.token;
+      const token = res.token;
 
       if (!token) {
         setError("No token returned from the server.");

@@ -22,3 +22,31 @@ body {
 body {
   margin: 0;
 }
+/* src/index.css */
+
+.phone-input-mui {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+  border: 1px solid rgba(0,0,0,0.23);
+  border-radius: 4px;
+  padding: 8px 14px;
+  box-sizing: border-box;
+}
+
+.phone-input-mui:hover {
+  border-color: rgba(0,0,0,0.87);
+}
+
+.phone-input-mui:focus-within {
+  border: 2px solid #1976d2;
+}
+
+.phone-input-mui .PhoneInputInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+}

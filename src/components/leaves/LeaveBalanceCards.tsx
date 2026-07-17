@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Grid, Paper, Typography, LinearProgress } from "@mui/material";
-import { getMyBalance, type LeaveBalance } from "../api/leaveApi";
+import { getMyBalance, type LeaveBalanceResponse } from "../../api";
 
 const COLORS: Record<string, string> = {
   ANNUAL: "#0F2A4A",
@@ -11,9 +11,10 @@ const COLORS: Record<string, string> = {
 };
 
 const LeaveBalanceCards = () => {
-  const [balances, setBalances] = useState<LeaveBalance[]>([]);
+  const [balances, setBalances] = useState<LeaveBalanceResponse[]>([]);
+
   useEffect(() => {
-    getMyBalance().then((r) => setBalances(r.data));
+    getMyBalance().then(setBalances);
   }, []);
 
   return (

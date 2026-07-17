@@ -3,13 +3,14 @@ import { Badge, IconButton, Menu, MenuItem, Typography, Box, Divider } from "@mu
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { getMyNotifications, coverAction, type LeaveResponse } from "../api/leaveApi";
+import type { LeaveResponse } from "../../api/types";
+import { getMyNotifications, coverAction } from "../../api/leaves";
 
 const NotificationBell = () => {
   const [items, setItems] = useState<LeaveResponse[]>([]);
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
 
-  const load = () => getMyNotifications().then((r) => setItems(r.data));
+  const load = () => getMyNotifications().then(setItems);
   useEffect(() => {
     load();
     const t = setInterval(load, 30000);
@@ -17,7 +18,7 @@ const NotificationBell = () => {
   }, []);
 
   const handle = async (id: string, accept: boolean) => {
-    await coverAction(id, accept);
+    await coverAction(id, { accept });
     load();
   };
 
