@@ -23,43 +23,34 @@ import WorkIcon from "@mui/icons-material/Work";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "../../components/layout/DashboardLayout";
-import {
-  getMyLeaves,
-  getMyBalance,
-  getMyNotifications,
-  coverAction,
-  type LeaveResponse,
-  type LeaveBalance,
-} from "../../api/leaveApi";
-import { useAuth } from "../../context/AuthContext";
-import {
-  StatCard,
-  isOnLeaveToday,
-  isUpcoming,
-  daysBetweenInclusive,
-} from "../../components/dashboard/DashboardWidgets";
+import {  getMyLeaves, getMyBalance, getMyNotifications, coverAction, type LeaveResponse, type LeaveBalanceResponse } from "../../../api";
+import { isOnLeaveToday, isUpcoming, StatCard, daysBetweenInclusive } from "../../../components/dashboard/DashboardWidgets";
+import DashboardLayout from "../../../components/layout/DashboardLayout";
+import { useAuth } from "../../../context/AuthContext";
 
 const EmployeeDashboard = () => {
   const { email } = useAuth();
   const navigate = useNavigate();
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
-  const [balances, setBalances] = useState<LeaveBalance[]>([]);
+  const [balances, setBalances] = useState<LeaveBalanceResponse[]>([]);
   const [coverRequests, setCoverRequests] = useState<LeaveResponse[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  useEffect(() => {
-    getMyLeaves().then((r) => setLeaves(r.data));
-    getMyBalance().then((r) => setBalances(r.data));
-    getMyNotifications().then((r) =>
-      setCoverRequests(r.data.filter((l) => l.status === "PENDING_COVER")),
-    );
-  }, [refreshKey]);
+useEffect(() => {
+  getMyLeaves().then(setLeaves);
 
-  const handleCoverAction = async (id: string, accept: boolean) => {
-    await coverAction(id, accept);
-    setRefreshKey((k) => k + 1);
-  };
+  getMyBalance().then(setBalances);
+
+  getMyNotifications().then((notifications) =>
+    setCoverRequests(notifications.filter((l) => l.status === "PENDING_COVER")),
+  );
+}, [refreshKey]);
+
+const handleCoverAction = async (id: string, accept: boolean) => {
+  await coverAction(id, { accept });
+
+  setRefreshKey((k) => k + 1);
+};
 
   const stats = useMemo(() => {
     const year = new Date().getFullYear();

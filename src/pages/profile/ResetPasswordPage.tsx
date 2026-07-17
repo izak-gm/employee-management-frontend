@@ -18,7 +18,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
-import { updateMyProfile } from "../../api/employeeApi";
+import { updateMyProfile } from "../../api/employees";
 import { extractErrorMessage } from "../../api/errorUtils";
 
 const getStrength = (password: string): { score: number; label: string; color: string } => {

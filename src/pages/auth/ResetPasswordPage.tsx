@@ -14,8 +14,8 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { resetPasswordViaToken } from "../../api/authApi";
 import { extractErrorMessage } from "../../api/errorUtils";
+import { resetPassword } from "../../api";
 
 const getStrength = (p: string) => {
   let s = 0;
@@ -62,7 +62,7 @@ const ResetPasswordTokenPage = () => {
     }
     setLoading(true);
     try {
-      await resetPasswordViaToken({ token, password });
+      await resetPassword({ token, password });
       setSuccess(true);
       setTimeout(() => navigate("/login"), 2500);
     } catch (err) {

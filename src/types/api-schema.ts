@@ -386,37 +386,98 @@ export interface components {
         };
         UpdateEmployee: {
             firstName?: string;
+            middleName?: string;
             lastName?: string;
-            phoneNumber?: string;
             /** Format: email */
             email?: string;
+            phoneNumber?: string;
+            /** @enum {string} */
+            gender?: "MALE" | "FEMALE";
+            password?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
             /** @enum {string} */
             role?: "SUPERADMIN" | "HR_ADMIN" | "HR_OFFICER" | "PAYROLL_MANAGER" | "FINANCE_MANAGER" | "TECH_LEAD" | "SOFTWARE_ENGINEER" | "INTERN";
             /** @enum {string} */
-            gender?: "MALE" | "FEMALE";
+            status?: "INVITED" | "ACTIVE" | "INACTIVE";
+            /** Format: date */
+            hireDate?: string;
+            /** Format: date */
+            confirmationDate?: string;
+            /** Format: date */
+            exitDate?: string;
+            /** Format: uuid */
+            departmentId?: string;
+            /** Format: uuid */
+            positionId?: string;
+            /** Format: uuid */
+            supervisorId?: string;
         };
         EmployeeResponse: {
             /** Format: uuid */
             id?: string;
+            employeeNumber?: string;
             firstName?: string;
+            middleName?: string;
             lastName?: string;
             email?: string;
             phoneNumber?: string;
             /** @enum {string} */
+            gender?: "MALE" | "FEMALE";
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            /** @enum {string} */
             role?: "SUPERADMIN" | "HR_ADMIN" | "HR_OFFICER" | "PAYROLL_MANAGER" | "FINANCE_MANAGER" | "TECH_LEAD" | "SOFTWARE_ENGINEER" | "INTERN";
             /** @enum {string} */
-            gender?: "MALE" | "FEMALE";
+            status?: "INVITED" | "ACTIVE" | "INACTIVE";
+            /** Format: date */
+            hireDate?: string;
+            /** Format: date */
+            confirmationDate?: string;
+            /** Format: date */
+            exitDate?: string;
+            /** Format: uuid */
+            departmentId?: string;
+            departmentName?: string;
+            /** Format: uuid */
+            positionId?: string;
+            positionName?: string;
+            /** Format: uuid */
+            supervisorId?: string;
+            supervisorName?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
         };
         CreateEmployeeRequest: {
             firstName: string;
+            middleName?: string;
             lastName: string;
             /** Format: email */
             email: string;
             phoneNumber: string;
             /** @enum {string} */
-            role: "SUPERADMIN" | "HR_ADMIN" | "HR_OFFICER" | "PAYROLL_MANAGER" | "FINANCE_MANAGER" | "TECH_LEAD" | "SOFTWARE_ENGINEER" | "INTERN";
-            /** @enum {string} */
             gender: "MALE" | "FEMALE";
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            /** @enum {string} */
+            role: "SUPERADMIN" | "HR_ADMIN" | "HR_OFFICER" | "PAYROLL_MANAGER" | "FINANCE_MANAGER" | "TECH_LEAD" | "SOFTWARE_ENGINEER" | "INTERN";
+            /** Format: date */
+            hireDate: string;
+            /** Format: date */
+            confirmationDate?: string;
+            /** @enum {string} */
+            employment_type?: "PERMANENT" | "CONTRACT" | "INTERN" | "PART_TIME" | "CASUAL";
+            /** Format: uuid */
+            departmentId?: string;
+            /** Format: uuid */
+            positionId?: string;
+            /** Format: uuid */
+            supervisorId?: string;
         };
         SetPasswordRequest: {
             token: string;

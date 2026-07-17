@@ -180,3 +180,41 @@
     border-right-color: var(--border);
   }
 }
+.phone-input-mui {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  border-radius: 4px;
+  padding: 8.5px 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: transparent;
+  transition: border-color 0.15s ease;
+}
+
+.phone-input-mui:hover {
+  border-color: rgba(0, 0, 0, 0.87);
+}
+
+.phone-input-mui:focus-within {
+  border-color: #1976d2;
+  border-width: 2px;
+  padding: 7.5px 13px;
+}
+
+.phone-input-mui.phone-input-error {
+  border-color: #d32f2f;
+}
+
+.phone-input-mui .PhoneInputInput {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: inherit;
+  flex: 1;
+  background: transparent;
+}
+
+.phone-input-mui .PhoneInputCountry {
+  margin-right: 8px;
+}

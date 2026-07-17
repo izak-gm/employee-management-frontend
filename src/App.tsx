@@ -14,11 +14,11 @@ import ViewProfilePage from "./pages/profile/ViewProfilePage";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import ResetPasswordPage from "./pages/profile/ResetPasswordPage";
 
-import ManageEmployeesPage from "./pages/views/ManageEmployeesPage";
 import AllLeavesPage from "./pages/leaves/AllLeavesPage";
 import MyLeavePage from "./pages/leaves/MyLeavePage";
 import LeaveApplicationForm from "./components/leaves/LeaveApplicationForm";
 import AddEmployeePage from "./pages/employee/AddEmployeePage";
+import ManageEmployeesPage from "./pages/employee/ManageEmployeesPage";
 
 function App() {
   return (

@@ -1,20 +1,18 @@
-import { useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAddAlt";
-import EmployeeTable from "../EmployeeTable";
-import UserFormDialog from "../UserFormDialog";
-import type { EmployeeResponse, Role, Gender } from "../../types/auth.type";
 import { useNavigate } from "react-router-dom";
+import type { Role, Gender } from "../../api";
+import EmployeeTable from "./EmployeeTable";
 
 interface Props {
   availableRoles: Role[];
   availableGenders: Gender[];
 }
 
-const ManageEmployeesView = ({ availableRoles, availableGenders }: Props) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingEmployee, setEditingEmployee] = useState<EmployeeResponse | null>(null);
-  const [refreshKey, setRefreshKey] = useState(0);
+const ManageEmployeesView = ({
+  availableRoles: _availableRoles,
+  availableGenders: _availableGenders,
+}: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -40,25 +38,7 @@ const ManageEmployeesView = ({ availableRoles, availableGenders }: Props) => {
         </Button>
       </Stack>
 
-      <EmployeeTable
-        key={refreshKey}
-        onEdit={(emp) => {
-          setEditingEmployee(emp);
-          setDialogOpen(true);
-        }}
-      />
-
-      <UserFormDialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        onSaved={() => {
-          setRefreshKey((k) => k + 1);
-          setDialogOpen(false);
-        }}
-        editingEmployee={editingEmployee}
-        availableRoles={availableRoles}
-        availableGenders={availableGenders}
-      />
+      <EmployeeTable onEdit={(employee) => navigate(`/employees/${employee.id}/edit`)} />
     </Box>
   );
 };

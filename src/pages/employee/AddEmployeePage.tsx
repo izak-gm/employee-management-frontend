@@ -3,7 +3,7 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import { Alert, Box, Button, Card, CardContent, Stack, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import EmployeeForm from "../../components/employees/EmployeeForm";
+import CreateEmployeeForm from "../../components/employees/CreateEmployeeForm";
 
 const AddEmployeePage = () => {
   const navigate = useNavigate();
@@ -58,20 +58,7 @@ const AddEmployeePage = () => {
                 </Alert>
               )}
 
-              <EmployeeForm
-                availableRoles={[
-                  "SUPERADMIN",
-                  "HR_ADMIN",
-                  "HR_OFFICER",
-                  "PAYROLL_MANAGER",
-                  "FINANCE_MANAGER",
-                  "TECH_LEAD",
-                  "SOFTWARE_ENGINEER",
-                  "INTERN",
-                ]}
-                availableGenders={["MALE", "FEMALE"]}
-                onSuccess={handleSuccess}
-              />
+              <CreateEmployeeForm onSuccess={handleSuccess} />
             </Stack>
           </CardContent>
         </Card>

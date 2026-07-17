@@ -11,8 +11,8 @@ import {
   Grid,
 } from "@mui/material";
 
-import type { LeaveResponse } from "../../api/leaveApi";
 import { formatDateTime } from "../../util/dateUtils";
+import type { LeaveResponse } from "../../api";
 
 interface Props {
   open: boolean;
