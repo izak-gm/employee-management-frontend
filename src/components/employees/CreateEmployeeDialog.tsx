@@ -18,6 +18,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 import type { EmployeeResponse } from "../../api/types";
+import { formatDate } from "../../util/dateUtils";
 
 interface Props {
   open: boolean;
@@ -292,17 +293,14 @@ export default function EmployeeDetailsDialog({ open, employee, onClose }: Props
                   fontWeight: 700,
                 }}
               >
-                System Information
+                Additional Information
               </Typography>
             </Stack>
 
             <Stack spacing={2}>
               <Stack direction="row" spacing={2}>
-                <Item label="Employee ID" value={employee.id} />
-
-                <Item label="Created At" value={employee.createdAt} />
-
-                <Item label="Updated At" value={employee.updatedAt} />
+                <Item label="Hiring Date" value={formatDate( employee.hireDate)} />
+                <Item label="Confirmation Date At" value={formatDate( employee.confirmationDate)} />
               </Stack>
             </Stack>
           </Box>
@@ -320,12 +318,6 @@ export default function EmployeeDetailsDialog({ open, employee, onClose }: Props
       >
         <Button variant="outlined" onClick={onClose}>
           Close
-        </Button>
-
-        <Box sx={{ flexGrow: 1 }} />
-
-        <Button variant="contained" color="primary">
-          Edit Employee
         </Button>
       </DialogActions>
     </Dialog>
