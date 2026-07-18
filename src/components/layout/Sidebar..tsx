@@ -8,13 +8,8 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-
 import LogoutIcon from "@mui/icons-material/Logout";
-
-import { useNavigate } from "react-router-dom";
-
 import { useAuth } from "../../context/AuthContext";
-
 import SidebarMenu from "./SidebarMenu";
 import { menuItems } from "./menu";
 
@@ -22,8 +17,6 @@ const DRAWER_WIDTH = 280;
 
 const Sidebar = () => {
   const { role, email, logout } = useAuth();
-
-  const navigate = useNavigate();
 
   return (
     <Drawer
