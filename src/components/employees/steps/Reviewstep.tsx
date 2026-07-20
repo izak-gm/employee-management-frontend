@@ -4,7 +4,9 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import type { CreateEmployeeForm } from "../../../schemas/employeeSchema";
-import { useDepartments, usePositions, useSupervisors } from "../../../api/lookups";
+import { useDepartments } from "../../../hooks/useDepartments";
+import { usePositions } from "../../../hooks/usePositions";
+import { useActiveEmployees } from "../../../hooks/useEmployees";
 
 function Field({ label, value }: { label: string; value?: string | null }) {
   return (
@@ -21,14 +23,22 @@ export default function ReviewStep() {
   const { getValues } = useFormContext<CreateEmployeeForm>();
   const values = getValues();
 
-  const { data: departments } = useDepartments();
-  const { data: positions } = usePositions();
-  const { data: supervisors } = useSupervisors();
+const { data: departments = [] } = useDepartments();
+const { data: positions = [] } = usePositions();
+const { data: supervisors = [] } = useActiveEmployees();
 
-  const departmentLabel = departments.find((d) => d.id === values.departmentId)?.label;
-  const positionLabel = positions.find((p) => p.id === values.positionId)?.label;
-  const supervisorLabel = supervisors.find((s) => s.id === values.supervisorId)?.label;
+const departmentLabel =
+  departments.find((d) => d.id === values.departmentId)?.name ?? "-";
 
+const positionLabel =
+  positions.find((p) => p.id === values.positionId)?.name ?? "-";
+
+const supervisor = supervisors.find((s) => s.id === values.supervisorId);
+
+const supervisorLabel = supervisor
+  ? [supervisor.firstName, supervisor.middleName, supervisor.lastName].filter(Boolean).join(" ")
+  : "-";
+  
   return (
     <Grid container spacing={2}>
       <Grid size={12}>

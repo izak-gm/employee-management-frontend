@@ -1,7 +1,6 @@
 /**
  * This file was auto-generated from openapi-typescript.
  * Do not make direct changes to this file.
- * Source: openapi.ts (provided schema)
  */
 
 // ─── Enums ────────────────────────────────────────────────────────────────────
@@ -25,7 +24,12 @@ export type EmployeeStatus = "INVITED" | "ACTIVE" | "INACTIVE";
 export type LeaveType = "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
 
 export type LeaveStatus =
-  "PENDING_COVER" | "COVER_DECLINED" | "PENDING_ADMIN" | "APPROVED" | "REJECTED" | "WITHDRAWN";
+  | "PENDING_COVER"
+  | "COVER_DECLINED"
+  | "PENDING_ADMIN"
+  | "APPROVED"
+  | "REJECTED"
+  | "WITHDRAWN";
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 
@@ -56,6 +60,36 @@ export interface ResetPasswordRequest {
 
 export interface MessageResponse {
   message?: string;
+}
+
+// ─── Department ───────────────────────────────────────────────────────────────
+
+export interface DepartmentRequest {
+  name: string;
+  description?: string;
+}
+
+export interface DepartmentResponse {
+  /** Format: uuid */
+  id?: string;
+  name?: string;
+  description?: string;
+  active?: boolean;
+}
+
+// ─── Position ─────────────────────────────────────────────────────────────────
+
+export interface PositionRequest {
+  name: string;
+  description?: string;
+}
+
+export interface PositionResponse {
+  /** Format: uuid */
+  id?: string;
+  name?: string;
+  description?: string;
+  active?: boolean;
 }
 
 // ─── Employee ─────────────────────────────────────────────────────────────────
@@ -92,8 +126,9 @@ export interface UpdateEmployee {
   /** Format: email */
   email?: string;
   phoneNumber?: string;
-  password?: string;
   gender?: Gender;
+  /** Added in latest schema */
+  password?: string;
   /** Format: date */
   dateOfBirth?: string;
   nationalId?: string;
