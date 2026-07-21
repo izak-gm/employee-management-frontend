@@ -101,7 +101,25 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-
+  {
+    label: "PayrollProfile",
+    icon: <PaymentsIcon />,
+    roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
+    children: [
+      {
+        label: "Add PayrollProfile",
+        path: "/payroll-profile/create",
+        icon: <ReceiptLongIcon />,
+        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
+      },
+      {
+        label: "Edit PayrollProfile",
+        path: "/payroll-profile/edit",
+        icon: <ReceiptLongIcon />,
+        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
+      },
+    ],
+  },
   {
     label: "Payroll",
     icon: <PaymentsIcon />,
