@@ -4,1426 +4,2687 @@
  */
 
 export interface paths {
-    "/api/v1/positions/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findPositionById"];
-        put: operations["updatePosition"];
-        post?: never;
-        delete: operations["deletePosition"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/api/v1/positions/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/{leaveId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getLeaveById"];
-        put: operations["updateLeave"];
-        post?: never;
-        delete: operations["deleteLeave"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["findPositionById"];
+    put: operations["updatePosition"];
+    post?: never;
+    delete: operations["deletePosition"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/{payrollId}/reverse": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/{leaveId}/cover-action": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["coverAction"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["reverse"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/{payrollId}/mark-paid": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/{leaveId}/action": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["actionLeave"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["markAsPaid"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/{payrollId}/approve": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/employees/update-profile/{employeeId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updateEmployee"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["approve"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/profiles/{profileId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/employees/update-profile/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updateMyProfile"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["update"];
+    post?: never;
+    delete: operations["deactivate"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/earning-types/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/departments/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findDepartmentById"];
-        put: operations["updateDepartment"];
-        post?: never;
-        delete: operations["deleteDepartment"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["getEarningTypeById"];
+    put: operations["updateEarningType"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/deduction-types/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/positions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findPositionsAll"];
-        put?: never;
-        post: operations["createPosition"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["getDeductionTypeById"];
+    put: operations["updateDeductionType"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/{leaveId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getAllLeaves"];
-        put?: never;
-        post: operations["applyForLeave"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["getLeaveById"];
+    put: operations["updateLeave"];
+    post?: never;
+    delete: operations["deleteLeave"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/{leaveId}/cover-action": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/employees/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["createEmployee"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["coverAction"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/{leaveId}/action": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/departments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findAllDepartment"];
-        put?: never;
-        post: operations["createDepartment"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["actionLeave"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/employees/update-profile/{employeeId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/auth/setup-password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["setupPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["updateEmployee"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/employees/update-profile/me": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/auth/reset-password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["resetPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put: operations["updateMyProfile"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/departments/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/auth/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["login"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["findDepartmentById"];
+    put: operations["updateDepartment"];
+    post?: never;
+    delete: operations["deleteDepartment"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/positions": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/auth/forgot-password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["forgotPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["findPositionsAll"];
+    put?: never;
+    post: operations["createPosition"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/{payrollId}/resend-payslip": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/pending": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPendingLeaves"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations["resendPayslip"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/profiles": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/notifications": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["myNotifications"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations["create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/generate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/my": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getMyLeaves"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations["generate"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/earning-types": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/balance": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["myBalance"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["getAllEarningTypes"];
+    put?: never;
+    post: operations["createEarningType"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/deduction-types": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/employees": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getEmployeesByIds"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["getAllDeductionTypes"];
+    put?: never;
+    post: operations["createDeductionType"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/employees/{employeeId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getEmployeeById"];
-        put?: never;
-        post?: never;
-        delete: operations["deleteEmployee"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["getAllLeaves"];
+    put?: never;
+    post: operations["applyForLeave"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/employees/create": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/employees/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getMyProfile"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations["createEmployee"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/departments": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/employees/active": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getActiveEmployees"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations["findAllDepartment"];
+    put?: never;
+    post: operations["createDepartment"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/setup-password": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/dashboard/stats": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getDashboardStats"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations["setupPassword"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/reset-password": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/leaves/{leaveId}/withdraw": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: operations["withdrawLeave"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations["resetPassword"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/login": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    get?: never;
+    put?: never;
+    post: operations["login"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/forgot-password": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["forgotPassword"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/earning-types/{id}/deactivate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations["deactivateEarningType"];
+    trace?: never;
+  };
+  "/api/v1/payroll/earning-types/{id}/activate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations["activateEarningType"];
+    trace?: never;
+  };
+  "/api/v1/payroll/deduction-types/{id}/deactivate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations["deactivateDeductionType"];
+    trace?: never;
+  };
+  "/api/v1/payroll/deduction-types/{id}/activate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations["activateDeductionType"];
+    trace?: never;
+  };
+  "/api/v1/payroll": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getByMonthAndYear"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/{payrollId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getById"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/{payrollId}/payslip": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadPayslip"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/profiles/employee/{employeeId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getByEmployee"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/me": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getMyPayrolls"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/me/{month}/{year}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getMyPayrollForPeriod"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/me/{month}/{year}/payslip": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadMyPayslip"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/earning-types/active": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getActiveEarningTypes"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/deduction-types/active": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getActiveDeductionTypes"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/pending": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getPendingLeaves"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/notifications": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["myNotifications"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/my": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getMyLeaves"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/balance": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["myBalance"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/employees": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getEmployeesByIds"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/employees/{employeeId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getEmployeeById"];
+    put?: never;
+    post?: never;
+    delete: operations["deleteEmployee"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/employees/me": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getMyProfile"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/employees/active": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getActiveEmployees"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/dashboard/stats": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getDashboardStats"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/leaves/{leaveId}/withdraw": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete: operations["withdrawLeave"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        PositionRequest: {
-            name: string;
-            description?: string;
-        };
-        PositionResponse: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            description?: string;
-            active?: boolean;
-        };
-        LeaveRequest: {
-            /** @enum {string} */
-            leaveType: "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
-            /** Format: date */
-            startDate: string;
-            /** Format: date */
-            endDate: string;
-            reason?: string;
-            /** Format: uuid */
-            coverEmployeeId: string;
-        };
-        LeaveResponse: {
-            /** Format: uuid */
-            id?: string;
-            /** Format: uuid */
-            employeeId?: string;
-            employeeFullName?: string;
-            /** Format: uuid */
-            coverEmployeeId?: string;
-            coverEmployeeFullName?: string;
-            /** @enum {string} */
-            leaveType?: "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
-            /** @enum {string} */
-            status?: "PENDING_COVER" | "COVER_DECLINED" | "PENDING_ADMIN" | "APPROVED" | "REJECTED" | "WITHDRAWN";
-            /** Format: date */
-            startDate?: string;
-            /** Format: date */
-            endDate?: string;
-            reason?: string;
-            approvedByFullName?: string;
-            /** Format: date-time */
-            createdAt?: string;
-        };
-        CoverActionRequest: {
-            accept: boolean;
-        };
-        LeaveActionRequest: {
-            /** @enum {string} */
-            status: "PENDING_COVER" | "COVER_DECLINED" | "PENDING_ADMIN" | "APPROVED" | "REJECTED" | "WITHDRAWN";
-        };
-        UpdateEmployee: {
-            firstName?: string;
-            middleName?: string;
-            lastName?: string;
-            /** Format: email */
-            email?: string;
-            phoneNumber?: string;
-            /** @enum {string} */
-            gender?: "MALE" | "FEMALE";
-            password?: string;
-            /** Format: date */
-            dateOfBirth?: string;
-            nationalId?: string;
-            /** @enum {string} */
-            role?: "SUPERADMIN" | "HR_ADMIN" | "HR_OFFICER" | "PAYROLL_MANAGER" | "FINANCE_MANAGER" | "TECH_LEAD" | "SOFTWARE_ENGINEER" | "INTERN";
-            /** @enum {string} */
-            status?: "INVITED" | "ACTIVE" | "INACTIVE";
-            /** Format: date */
-            hireDate?: string;
-            /** Format: date */
-            confirmationDate?: string;
-            /** Format: date */
-            exitDate?: string;
-            /** Format: uuid */
-            departmentId?: string;
-            /** Format: uuid */
-            positionId?: string;
-            /** Format: uuid */
-            supervisorId?: string;
-        };
-        EmployeeResponse: {
-            /** Format: uuid */
-            id?: string;
-            employeeNumber?: string;
-            firstName?: string;
-            middleName?: string;
-            lastName?: string;
-            email?: string;
-            phoneNumber?: string;
-            /** @enum {string} */
-            gender?: "MALE" | "FEMALE";
-            /** Format: date */
-            dateOfBirth?: string;
-            nationalId?: string;
-            /** @enum {string} */
-            role?: "SUPERADMIN" | "HR_ADMIN" | "HR_OFFICER" | "PAYROLL_MANAGER" | "FINANCE_MANAGER" | "TECH_LEAD" | "SOFTWARE_ENGINEER" | "INTERN";
-            /** @enum {string} */
-            status?: "INVITED" | "ACTIVE" | "INACTIVE";
-            /** Format: date */
-            hireDate?: string;
-            /** Format: date */
-            confirmationDate?: string;
-            /** Format: date */
-            exitDate?: string;
-            /** Format: uuid */
-            departmentId?: string;
-            departmentName?: string;
-            /** Format: uuid */
-            positionId?: string;
-            positionName?: string;
-            /** Format: uuid */
-            supervisorId?: string;
-            supervisorName?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-        };
-        DepartmentRequest: {
-            name: string;
-            description?: string;
-        };
-        DepartmentResponse: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            description?: string;
-            active?: boolean;
-        };
-        CreateEmployeeRequest: {
-            firstName: string;
-            middleName?: string;
-            lastName: string;
-            /** Format: email */
-            email: string;
-            phoneNumber: string;
-            /** @enum {string} */
-            gender: "MALE" | "FEMALE";
-            /** Format: date */
-            dateOfBirth?: string;
-            nationalId?: string;
-            /** @enum {string} */
-            role: "SUPERADMIN" | "HR_ADMIN" | "HR_OFFICER" | "PAYROLL_MANAGER" | "FINANCE_MANAGER" | "TECH_LEAD" | "SOFTWARE_ENGINEER" | "INTERN";
-            /** Format: date */
-            hireDate: string;
-            /** Format: date */
-            confirmationDate?: string;
-            /** @enum {string} */
-            employment_type?: "PERMANENT" | "CONTRACT" | "INTERN" | "PART_TIME" | "CASUAL";
-            /** Format: uuid */
-            departmentId?: string;
-            /** Format: uuid */
-            positionId?: string;
-            /** Format: uuid */
-            supervisorId?: string;
-        };
-        SetPasswordRequest: {
-            token: string;
-            password: string;
-        };
-        MessageResponse: {
-            message?: string;
-        };
-        ResetPasswordRequest: {
-            token: string;
-            password: string;
-        };
-        LoginRequest: {
-            /** Format: email */
-            email: string;
-            password: string;
-        };
-        AuthResponse: {
-            token?: string;
-        };
-        ForgotPasswordRequest: {
-            /** Format: email */
-            email: string;
-        };
-        LeaveBalanceResponse: {
-            /** @enum {string} */
-            leaveType?: "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
-            /** Format: int32 */
-            maxDays?: number;
-            /** Format: int32 */
-            usedDays?: number;
-            /** Format: int32 */
-            remainingDays?: number;
-            unlimited?: boolean;
-        };
-        EmployeeRequest: {
-            filter?: string;
-            /** Format: int32 */
-            page?: number;
-            /** Format: int32 */
-            size?: number;
-        };
-        DashboardStatsResponse: {
-            /** Format: int64 */
-            totalEmployees?: number;
-            /** Format: int64 */
-            activeEmployees?: number;
-            /** Format: int64 */
-            invitedEmployees?: number;
-            /** Format: int64 */
-            inactiveEmployees?: number;
-            /** Format: int64 */
-            totalAdmins?: number;
-            /** Format: int64 */
-            totalSuperAdmins?: number;
-            /** Format: int64 */
-            pendingLeaves?: number;
-            /** Format: int64 */
-            approvedLeaves?: number;
-            /** Format: int64 */
-            rejectedLeaves?: number;
-            /** Format: int64 */
-            totalLeaves?: number;
-        };
+  schemas: {
+    PositionRequest: {
+      name: string;
+      description?: string;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    PositionResponse: {
+      /** Format: uuid */
+      id?: string;
+      name?: string;
+      description?: string;
+      active?: boolean;
+    };
+    ReversePayrollRequest: {
+      reason: string;
+    };
+    PayrollDeductionResponse: {
+      /** Format: uuid */
+      id?: string;
+      deductionType?: string;
+      statutory?: boolean;
+      amount?: number;
+      remarks?: string;
+    };
+    PayrollEarningResponse: {
+      /** Format: uuid */
+      id?: string;
+      earningType?: string;
+      taxable?: boolean;
+      amount?: number;
+      remarks?: string;
+    };
+    PayrollResponse: {
+      /** Format: uuid */
+      id?: string;
+      payrollNumber?: string;
+      /** Format: uuid */
+      employeeId?: string;
+      employeeNumber?: string;
+      employeeFullName?: string;
+      department?: string;
+      position?: string;
+      /** Format: int32 */
+      payrollMonth?: number;
+      /** Format: int32 */
+      payrollYear?: number;
+      /** Format: date */
+      payrollDate?: string;
+      grossPay?: number;
+      taxablePay?: number;
+      totalEarnings?: number;
+      totalDeductions?: number;
+      netPay?: number;
+      paye?: number;
+      nssf?: number;
+      shif?: number;
+      housingLevy?: number;
+      employerNssf?: number;
+      employerShif?: number;
+      earnings?: components["schemas"]["PayrollEarningResponse"][];
+      deductions?: components["schemas"]["PayrollDeductionResponse"][];
+      /** @enum {string} */
+      status?: "DRAFT" | "GENERATED" | "APPROVED" | "PAID" | "REVERSED";
+      generatedBy?: string;
+      /** Format: date-time */
+      generatedAt?: string;
+      approvedBy?: string;
+      /** Format: date-time */
+      approvedAt?: string;
+      reversedBy?: string;
+      /** Format: date-time */
+      reversedAt?: string;
+      reversalReason?: string;
+      /** Format: date */
+      paymentDate?: string;
+      paymentReference?: string;
+      remarks?: string;
+    };
+    MarkAsPaidRequest: {
+      paymentReference: string;
+    };
+    PayrollProfileRequest: {
+      /** Format: uuid */
+      employeeId: string;
+      basicSalary: number;
+      houseAllowance?: number;
+      transportAllowance?: number;
+      medicalAllowance?: number;
+      otherAllowance?: number;
+      pensionContribution?: number;
+      bankName: string;
+      bankBranch?: string;
+      accountNumber: string;
+      kraPin: string;
+      shifNumber: string;
+      nssfNumber: string;
+      /** Format: date */
+      effectiveFrom?: string;
+      /** Format: date */
+      effectiveTo?: string;
+    };
+    PayrollProfileResponse: {
+      /** Format: uuid */
+      id?: string;
+      /** Format: uuid */
+      employeeId?: string;
+      employeeNumber?: string;
+      employeeFullName?: string;
+      department?: string;
+      position?: string;
+      basicSalary?: number;
+      houseAllowance?: number;
+      transportAllowance?: number;
+      medicalAllowance?: number;
+      otherAllowance?: number;
+      pensionContribution?: number;
+      grossSalary?: number;
+      bankName?: string;
+      bankBranch?: string;
+      accountNumber?: string;
+      kraPin?: string;
+      shifNumber?: string;
+      nssfNumber?: string;
+      active?: boolean;
+      /** Format: date */
+      effectiveFrom?: string;
+    };
+    EarningTypeRequest: {
+      name: string;
+      description?: string;
+      taxable: boolean;
+      fixed: boolean;
+      /** Format: int32 */
+      displayOrder?: number;
+    };
+    EarningTypeResponse: {
+      /** Format: uuid */
+      id?: string;
+      name?: string;
+      description?: string;
+      taxable?: boolean;
+      fixed?: boolean;
+      active?: boolean;
+      /** Format: int32 */
+      displayOrder?: number;
+    };
+    DeductionTypeRequest: {
+      name: string;
+      description?: string;
+      statutory: boolean;
+      taxable: boolean;
+      /** @enum {string} */
+      calculationType: "FIXED" | "PERCENTAGE" | "MANUAL" | "FORMULA";
+      fixedAmount?: number;
+      percentage?: number;
+      /** Format: int32 */
+      displayOrder?: number;
+    };
+    DeductionTypeResponse: {
+      /** Format: uuid */
+      id?: string;
+      name?: string;
+      description?: string;
+      statutory?: boolean;
+      taxable?: boolean;
+      active?: boolean;
+      /** @enum {string} */
+      calculationType?: "FIXED" | "PERCENTAGE" | "MANUAL" | "FORMULA";
+      fixedAmount?: number;
+      percentage?: number;
+      /** Format: int32 */
+      displayOrder?: number;
+    };
+    LeaveRequest: {
+      /** @enum {string} */
+      leaveType: "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
+      /** Format: date */
+      startDate: string;
+      /** Format: date */
+      endDate: string;
+      reason?: string;
+      /** Format: uuid */
+      coverEmployeeId: string;
+    };
+    LeaveResponse: {
+      /** Format: uuid */
+      id?: string;
+      /** Format: uuid */
+      employeeId?: string;
+      employeeFullName?: string;
+      /** Format: uuid */
+      coverEmployeeId?: string;
+      coverEmployeeFullName?: string;
+      /** @enum {string} */
+      leaveType?: "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
+      /** @enum {string} */
+      status?:
+        | "PENDING_COVER"
+        | "COVER_DECLINED"
+        | "PENDING_ADMIN"
+        | "APPROVED"
+        | "REJECTED"
+        | "WITHDRAWN";
+      /** Format: date */
+      startDate?: string;
+      /** Format: date */
+      endDate?: string;
+      reason?: string;
+      approvedByFullName?: string;
+      /** Format: date-time */
+      createdAt?: string;
+    };
+    CoverActionRequest: {
+      accept: boolean;
+    };
+    LeaveActionRequest: {
+      /** @enum {string} */
+      status:
+        | "PENDING_COVER"
+        | "COVER_DECLINED"
+        | "PENDING_ADMIN"
+        | "APPROVED"
+        | "REJECTED"
+        | "WITHDRAWN";
+    };
+    UpdateEmployee: {
+      firstName?: string;
+      middleName?: string;
+      lastName?: string;
+      /** Format: email */
+      email?: string;
+      phoneNumber?: string;
+      /** @enum {string} */
+      gender?: "MALE" | "FEMALE";
+      password?: string;
+      /** Format: date */
+      dateOfBirth?: string;
+      nationalId?: string;
+      /** @enum {string} */
+      role?:
+        | "SUPERADMIN"
+        | "HR_ADMIN"
+        | "HR_OFFICER"
+        | "PAYROLL_MANAGER"
+        | "FINANCE_MANAGER"
+        | "TECH_LEAD"
+        | "SOFTWARE_ENGINEER"
+        | "INTERN";
+      /** @enum {string} */
+      status?: "INVITED" | "ACTIVE" | "INACTIVE";
+      /** Format: date */
+      hireDate?: string;
+      /** Format: date */
+      confirmationDate?: string;
+      /** Format: date */
+      exitDate?: string;
+      /** Format: uuid */
+      departmentId?: string;
+      /** Format: uuid */
+      positionId?: string;
+      /** Format: uuid */
+      supervisorId?: string;
+    };
+    EmployeeResponse: {
+      /** Format: uuid */
+      id?: string;
+      employeeNumber?: string;
+      firstName?: string;
+      middleName?: string;
+      lastName?: string;
+      email?: string;
+      phoneNumber?: string;
+      /** @enum {string} */
+      gender?: "MALE" | "FEMALE";
+      /** Format: date */
+      dateOfBirth?: string;
+      nationalId?: string;
+      /** @enum {string} */
+      role?:
+        | "SUPERADMIN"
+        | "HR_ADMIN"
+        | "HR_OFFICER"
+        | "PAYROLL_MANAGER"
+        | "FINANCE_MANAGER"
+        | "TECH_LEAD"
+        | "SOFTWARE_ENGINEER"
+        | "INTERN";
+      /** @enum {string} */
+      status?: "INVITED" | "ACTIVE" | "INACTIVE";
+      /** Format: date */
+      hireDate?: string;
+      /** Format: date */
+      confirmationDate?: string;
+      /** Format: date */
+      exitDate?: string;
+      /** Format: uuid */
+      departmentId?: string;
+      departmentName?: string;
+      /** Format: uuid */
+      positionId?: string;
+      positionName?: string;
+      /** Format: uuid */
+      supervisorId?: string;
+      supervisorName?: string;
+      /** Format: date-time */
+      createdAt?: string;
+      /** Format: date-time */
+      updatedAt?: string;
+    };
+    DepartmentRequest: {
+      name: string;
+      description?: string;
+    };
+    DepartmentResponse: {
+      /** Format: uuid */
+      id?: string;
+      name?: string;
+      description?: string;
+      active?: boolean;
+    };
+    GeneratePayrollRequest: {
+      /** Format: int32 */
+      month: number;
+      /** Format: int32 */
+      year: number;
+      employeeIds?: string[];
+    };
+    PayrollSummaryResponse: {
+      /** Format: uuid */
+      id?: string;
+      payrollNumber?: string;
+      /** Format: uuid */
+      employeeId?: string;
+      employeeFullName?: string;
+      employeeNumber?: string;
+      department?: string;
+      /** Format: int32 */
+      payrollMonth?: number;
+      /** Format: int32 */
+      payrollYear?: number;
+      grossPay?: number;
+      netPay?: number;
+      totalDeductions?: number;
+      /** @enum {string} */
+      status?: "DRAFT" | "GENERATED" | "APPROVED" | "PAID" | "REVERSED";
+      /** Format: date */
+      payrollDate?: string;
+      /** Format: date */
+      paymentDate?: string;
+      personalRelief?: number;
+      incomeTax?: number;
+      statutoryDeductions?: number;
+      payAfterStatutoryDeductions?: number;
+    };
+    CreateEmployeeRequest: {
+      firstName: string;
+      middleName?: string;
+      lastName: string;
+      /** Format: email */
+      email: string;
+      phoneNumber: string;
+      /** @enum {string} */
+      gender: "MALE" | "FEMALE";
+      /** Format: date */
+      dateOfBirth?: string;
+      nationalId?: string;
+      /** @enum {string} */
+      role:
+        | "SUPERADMIN"
+        | "HR_ADMIN"
+        | "HR_OFFICER"
+        | "PAYROLL_MANAGER"
+        | "FINANCE_MANAGER"
+        | "TECH_LEAD"
+        | "SOFTWARE_ENGINEER"
+        | "INTERN";
+      /** Format: date */
+      hireDate: string;
+      /** Format: date */
+      confirmationDate?: string;
+      /** @enum {string} */
+      employment_type?: "PERMANENT" | "CONTRACT" | "INTERN" | "PART_TIME" | "CASUAL";
+      /** Format: uuid */
+      departmentId?: string;
+      /** Format: uuid */
+      positionId?: string;
+      /** Format: uuid */
+      supervisorId?: string;
+    };
+    SetPasswordRequest: {
+      token: string;
+      password: string;
+    };
+    MessageResponse: {
+      message?: string;
+    };
+    ResetPasswordRequest: {
+      token: string;
+      password: string;
+    };
+    LoginRequest: {
+      /** Format: email */
+      email: string;
+      password: string;
+    };
+    AuthResponse: {
+      token?: string;
+    };
+    ForgotPasswordRequest: {
+      /** Format: email */
+      email: string;
+    };
+    LeaveBalanceResponse: {
+      /** @enum {string} */
+      leaveType?: "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
+      /** Format: int32 */
+      maxDays?: number;
+      /** Format: int32 */
+      usedDays?: number;
+      /** Format: int32 */
+      remainingDays?: number;
+      unlimited?: boolean;
+    };
+    EmployeeRequest: {
+      filter?: string;
+      /** Format: int32 */
+      page?: number;
+      /** Format: int32 */
+      size?: number;
+    };
+    DashboardStatsResponse: {
+      /** Format: int64 */
+      totalEmployees?: number;
+      /** Format: int64 */
+      activeEmployees?: number;
+      /** Format: int64 */
+      invitedEmployees?: number;
+      /** Format: int64 */
+      inactiveEmployees?: number;
+      /** Format: int64 */
+      totalAdmins?: number;
+      /** Format: int64 */
+      totalSuperAdmins?: number;
+      /** Format: int64 */
+      pendingLeaves?: number;
+      /** Format: int64 */
+      approvedLeaves?: number;
+      /** Format: int64 */
+      rejectedLeaves?: number;
+      /** Format: int64 */
+      totalLeaves?: number;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    findPositionById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PositionResponse"];
-                };
-            };
-        };
+  findPositionById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
     };
-    updatePosition: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PositionRequest"];
-            };
+        content: {
+          "*/*": components["schemas"]["PositionResponse"];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PositionResponse"];
-                };
-            };
-        };
+      };
     };
-    deletePosition: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  updatePosition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
     };
-    getLeaveById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                leaveId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PositionRequest"];
+      };
     };
-    updateLeave: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                leaveId: string;
-            };
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LeaveRequest"];
-            };
+        content: {
+          "*/*": components["schemas"]["PositionResponse"];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"];
-                };
-            };
-        };
+      };
     };
-    deleteLeave: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                leaveId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MessageResponse"];
-                };
-            };
-        };
+  };
+  deletePosition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
     };
-    coverAction: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                leaveId: string;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CoverActionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"];
-                };
-            };
-        };
+        content?: never;
+      };
     };
-    actionLeave: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                leaveId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LeaveActionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"];
-                };
-            };
-        };
+  };
+  reverse: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
     };
-    updateEmployee: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                employeeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateEmployee"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeResponse"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ReversePayrollRequest"];
+      };
     };
-    updateMyProfile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateEmployee"];
-            };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeResponse"];
-                };
-            };
-        };
+      };
     };
-    findDepartmentById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DepartmentResponse"];
-                };
-            };
-        };
+  };
+  markAsPaid: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
     };
-    updateDepartment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DepartmentRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DepartmentResponse"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["MarkAsPaidRequest"];
+      };
     };
-    deleteDepartment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"];
         };
+      };
     };
-    findPositionsAll: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PositionResponse"][];
-                };
-            };
-        };
+  };
+  approve: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
     };
-    createPosition: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PositionRequest"];
-            };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PositionResponse"];
-                };
-            };
-        };
+      };
     };
-    getAllLeaves: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"][];
-                };
-            };
-        };
+  };
+  update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        profileId: string;
+      };
+      cookie?: never;
     };
-    applyForLeave: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LeaveRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PayrollProfileRequest"];
+      };
     };
-    createEmployee: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateEmployeeRequest"];
-            };
+        content: {
+          "*/*": components["schemas"]["PayrollProfileResponse"];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeResponse"];
-                };
-            };
-        };
+      };
     };
-    findAllDepartment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DepartmentResponse"][];
-                };
-            };
-        };
+  };
+  deactivate: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        profileId: string;
+      };
+      cookie?: never;
     };
-    createDepartment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DepartmentRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DepartmentResponse"];
-                };
-            };
-        };
+        content?: never;
+      };
     };
-    setupPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SetPasswordRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MessageResponse"];
-                };
-            };
-        };
+  };
+  getEarningTypeById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
     };
-    resetPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ResetPasswordRequest"];
-            };
+        content: {
+          "*/*": components["schemas"]["EarningTypeResponse"];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MessageResponse"];
-                };
-            };
-        };
+      };
     };
-    login: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AuthResponse"];
-                };
-            };
-        };
+  };
+  updateEarningType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
     };
-    forgotPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ForgotPasswordRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MessageResponse"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["EarningTypeRequest"];
+      };
     };
-    getPendingLeaves: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"][];
-                };
-            };
+        content: {
+          "*/*": components["schemas"]["EarningTypeResponse"];
         };
+      };
     };
-    myNotifications: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"][];
-                };
-            };
-        };
+  };
+  getDeductionTypeById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
     };
-    getMyLeaves: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"][];
-                };
-            };
+        content: {
+          "*/*": components["schemas"]["DeductionTypeResponse"];
         };
+      };
     };
-    myBalance: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveBalanceResponse"][];
-                };
-            };
-        };
+  };
+  updateDeductionType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
     };
-    getEmployeesByIds: {
-        parameters: {
-            query: {
-                ids?: string[];
-                employeeRequest: components["schemas"]["EmployeeRequest"];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeResponse"][];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DeductionTypeRequest"];
+      };
     };
-    getEmployeeById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                employeeId: string;
-            };
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeResponse"];
-                };
-            };
+        content: {
+          "*/*": components["schemas"]["DeductionTypeResponse"];
         };
+      };
     };
-    deleteEmployee: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                employeeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MessageResponse"];
-                };
-            };
-        };
+  };
+  getLeaveById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        leaveId: string;
+      };
+      cookie?: never;
     };
-    getMyProfile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeResponse"];
-                };
-            };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"];
         };
+      };
     };
-    getActiveEmployees: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeResponse"][];
-                };
-            };
-        };
+  };
+  updateLeave: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        leaveId: string;
+      };
+      cookie?: never;
     };
-    getDashboardStats: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DashboardStatsResponse"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LeaveRequest"];
+      };
     };
-    withdrawLeave: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                leaveId: string;
-            };
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LeaveResponse"];
-                };
-            };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"];
         };
+      };
     };
+  };
+  deleteLeave: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        leaveId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["MessageResponse"];
+        };
+      };
+    };
+  };
+  coverAction: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        leaveId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CoverActionRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"];
+        };
+      };
+    };
+  };
+  actionLeave: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        leaveId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LeaveActionRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"];
+        };
+      };
+    };
+  };
+  updateEmployee: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        employeeId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateEmployee"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EmployeeResponse"];
+        };
+      };
+    };
+  };
+  updateMyProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateEmployee"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EmployeeResponse"];
+        };
+      };
+    };
+  };
+  findDepartmentById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DepartmentResponse"];
+        };
+      };
+    };
+  };
+  updateDepartment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DepartmentRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DepartmentResponse"];
+        };
+      };
+    };
+  };
+  deleteDepartment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  findPositionsAll: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PositionResponse"][];
+        };
+      };
+    };
+  };
+  createPosition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PositionRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PositionResponse"];
+        };
+      };
+    };
+  };
+  resendPayslip: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PayrollProfileRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollProfileResponse"];
+        };
+      };
+    };
+  };
+  generate: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["GeneratePayrollRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollSummaryResponse"][];
+        };
+      };
+    };
+  };
+  getAllEarningTypes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EarningTypeResponse"][];
+        };
+      };
+    };
+  };
+  createEarningType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["EarningTypeRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EarningTypeResponse"];
+        };
+      };
+    };
+  };
+  getAllDeductionTypes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DeductionTypeResponse"][];
+        };
+      };
+    };
+  };
+  createDeductionType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DeductionTypeRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DeductionTypeResponse"];
+        };
+      };
+    };
+  };
+  getAllLeaves: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"][];
+        };
+      };
+    };
+  };
+  applyForLeave: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LeaveRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"];
+        };
+      };
+    };
+  };
+  createEmployee: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateEmployeeRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EmployeeResponse"];
+        };
+      };
+    };
+  };
+  findAllDepartment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DepartmentResponse"][];
+        };
+      };
+    };
+  };
+  createDepartment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DepartmentRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DepartmentResponse"];
+        };
+      };
+    };
+  };
+  setupPassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SetPasswordRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["MessageResponse"];
+        };
+      };
+    };
+  };
+  resetPassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ResetPasswordRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["MessageResponse"];
+        };
+      };
+    };
+  };
+  login: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LoginRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["AuthResponse"];
+        };
+      };
+    };
+  };
+  forgotPassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ForgotPasswordRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["MessageResponse"];
+        };
+      };
+    };
+  };
+  deactivateEarningType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  activateEarningType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deactivateDeductionType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  activateDeductionType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getByMonthAndYear: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollSummaryResponse"][];
+        };
+      };
+    };
+  };
+  getById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"];
+        };
+      };
+    };
+  };
+  downloadPayslip: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  getByEmployee: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        employeeId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollProfileResponse"];
+        };
+      };
+    };
+  };
+  getMyPayrolls: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollSummaryResponse"][];
+        };
+      };
+    };
+  };
+  getMyPayrollForPeriod: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        month: number;
+        year: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"];
+        };
+      };
+    };
+  };
+  downloadMyPayslip: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        month: number;
+        year: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  getActiveEarningTypes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EarningTypeResponse"][];
+        };
+      };
+    };
+  };
+  getActiveDeductionTypes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DeductionTypeResponse"][];
+        };
+      };
+    };
+  };
+  getPendingLeaves: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"][];
+        };
+      };
+    };
+  };
+  myNotifications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"][];
+        };
+      };
+    };
+  };
+  getMyLeaves: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"][];
+        };
+      };
+    };
+  };
+  myBalance: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveBalanceResponse"][];
+        };
+      };
+    };
+  };
+  getEmployeesByIds: {
+    parameters: {
+      query: {
+        ids?: string[];
+        employeeRequest: components["schemas"]["EmployeeRequest"];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EmployeeResponse"][];
+        };
+      };
+    };
+  };
+  getEmployeeById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        employeeId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EmployeeResponse"];
+        };
+      };
+    };
+  };
+  deleteEmployee: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        employeeId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["MessageResponse"];
+        };
+      };
+    };
+  };
+  getMyProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EmployeeResponse"];
+        };
+      };
+    };
+  };
+  getActiveEmployees: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["EmployeeResponse"][];
+        };
+      };
+    };
+  };
+  getDashboardStats: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["DashboardStatsResponse"];
+        };
+      };
+    };
+  };
+  withdrawLeave: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        leaveId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["LeaveResponse"];
+        };
+      };
+    };
+  };
 }

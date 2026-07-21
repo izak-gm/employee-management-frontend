@@ -24,12 +24,7 @@ export type EmployeeStatus = "INVITED" | "ACTIVE" | "INACTIVE";
 export type LeaveType = "ANNUAL" | "SICK" | "PATERNITY" | "MATERNITY" | "COMPASSIONATE";
 
 export type LeaveStatus =
-  | "PENDING_COVER"
-  | "COVER_DECLINED"
-  | "PENDING_ADMIN"
-  | "APPROVED"
-  | "REJECTED"
-  | "WITHDRAWN";
+  "PENDING_COVER" | "COVER_DECLINED" | "PENDING_ADMIN" | "APPROVED" | "REJECTED" | "WITHDRAWN";
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 

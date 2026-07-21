@@ -1,4 +1,4 @@
-import {  useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -34,13 +34,13 @@ export default function EmploymentDetailsStep() {
     register,
     formState: { errors },
   } = useFormContext<CreateEmployeeForm>();
-  
-const { data: departments = [], isPending: loadingDepartments } = useDepartments();
 
-const { data: positions = [], isPending: loadingPositions } = usePositions();
+  const { data: departments = [], isPending: loadingDepartments } = useDepartments();
+
+  const { data: positions = [], isPending: loadingPositions } = usePositions();
 
   const { data: supervisors = [], isPending: loadingSupervisors } = useActiveEmployees();
-  
+
   return (
     <Grid container spacing={3}>
       <Grid size={12}>

@@ -23,22 +23,20 @@ export default function ReviewStep() {
   const { getValues } = useFormContext<CreateEmployeeForm>();
   const values = getValues();
 
-const { data: departments = [] } = useDepartments();
-const { data: positions = [] } = usePositions();
-const { data: supervisors = [] } = useActiveEmployees();
+  const { data: departments = [] } = useDepartments();
+  const { data: positions = [] } = usePositions();
+  const { data: supervisors = [] } = useActiveEmployees();
 
-const departmentLabel =
-  departments.find((d) => d.id === values.departmentId)?.name ?? "-";
+  const departmentLabel = departments.find((d) => d.id === values.departmentId)?.name ?? "-";
 
-const positionLabel =
-  positions.find((p) => p.id === values.positionId)?.name ?? "-";
+  const positionLabel = positions.find((p) => p.id === values.positionId)?.name ?? "-";
 
-const supervisor = supervisors.find((s) => s.id === values.supervisorId);
+  const supervisor = supervisors.find((s) => s.id === values.supervisorId);
 
-const supervisorLabel = supervisor
-  ? [supervisor.firstName, supervisor.middleName, supervisor.lastName].filter(Boolean).join(" ")
-  : "-";
-  
+  const supervisorLabel = supervisor
+    ? [supervisor.firstName, supervisor.middleName, supervisor.lastName].filter(Boolean).join(" ")
+    : "-";
+
   return (
     <Grid container spacing={2}>
       <Grid size={12}>
