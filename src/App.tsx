@@ -81,12 +81,7 @@ function App() {
             <Route
               element={
                 <RoleRoute
-                  allowedRoles={[
-                    "SUPERADMIN",
-                    "HR_ADMIN",
-                    "PAYROLL_MANAGER",
-                    "FINANCE_MANAGER",
-                  ]}
+                  allowedRoles={["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"]}
                 />
               }
             >
@@ -96,12 +91,7 @@ function App() {
             <Route
               element={
                 <RoleRoute
-                  allowedRoles={[
-                    "SUPERADMIN",
-                    "HR_ADMIN",
-                    "PAYROLL_MANAGER",
-                    "FINANCE_MANAGER",
-                  ]}
+                  allowedRoles={["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"]}
                 />
               }
             >

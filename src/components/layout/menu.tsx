@@ -129,21 +129,21 @@ export const menuItems: MenuItem[] = [
         label: "Payslips",
         path: "/payroll/payslips",
         icon: <AccountBalanceWalletIcon />,
-        roles: [
-          "SUPERADMIN",
-          "HR_ADMIN",
-          "PAYROLL_MANAGER"
-        ],
+        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
       },
       {
         label: "My Payroll",
         path: "/payroll/me",
         icon: <PaymentsIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "SOFTWARE_ENGINEER",
+        roles: [
+          "SUPERADMIN",
+          "HR_ADMIN",
+          "PAYROLL_MANAGER",
+          "SOFTWARE_ENGINEER",
           "TECH_LEAD",
-          "INTERN",],
+          "INTERN",
+        ],
       },
-
     ],
   },
 

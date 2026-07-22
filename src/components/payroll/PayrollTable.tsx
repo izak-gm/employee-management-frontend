@@ -80,9 +80,7 @@ export default function PayrollTable({
         <Typography variant="body1" sx={{ fontWeight: 600, color: NAVY, mb: 0.5 }}>
           No payroll runs for this period
         </Typography>
-        <Typography variant="body2">
-          Generate payroll to see records here.
-        </Typography>
+        <Typography variant="body2">Generate payroll to see records here.</Typography>
       </Box>
     );
   }
@@ -92,25 +90,43 @@ export default function PayrollTable({
       <Table sx={{ minWidth: 900 }}>
         <TableHead>
           <TableRow sx={{ "& th": { borderBottom: `2px solid ${BORDER}`, py: 1.5 } }}>
-            <TableCell sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}>
+            <TableCell
+              sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}
+            >
               Employee
             </TableCell>
-            <TableCell sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}>
+            <TableCell
+              sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}
+            >
               Department
             </TableCell>
-            <TableCell align="right" sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}>
+            <TableCell
+              align="right"
+              sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}
+            >
               Gross pay
             </TableCell>
-            <TableCell align="right" sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}>
+            <TableCell
+              align="right"
+              sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}
+            >
               Deductions
             </TableCell>
-            <TableCell align="right" sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}>
+            <TableCell
+              align="right"
+              sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}
+            >
               Net pay
             </TableCell>
-            <TableCell sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}>
+            <TableCell
+              sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}
+            >
               Status
             </TableCell>
-            <TableCell align="right" sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}>
+            <TableCell
+              align="right"
+              sx={{ color: SLATE, fontWeight: 700, fontSize: 12, textTransform: "uppercase" }}
+            >
               Actions
             </TableCell>
           </TableRow>
@@ -169,38 +185,50 @@ export default function PayrollTable({
 
       <Menu anchorEl={menuAnchor} open={!!menuAnchor} onClose={closeMenu}>
         <MenuItem onClick={() => runAction(onView)}>
-          <ListItemIcon><VisibilityOutlinedIcon fontSize="small" /></ListItemIcon>
+          <ListItemIcon>
+            <VisibilityOutlinedIcon fontSize="small" />
+          </ListItemIcon>
           <ListItemText>View details</ListItemText>
         </MenuItem>
 
         {activeRow?.status === "GENERATED" && (
           <MenuItem onClick={() => runAction(onApprove)}>
-            <ListItemIcon><CheckCircleIcon fontSize="small" sx={{ color: "#B8862E" }} /></ListItemIcon>
+            <ListItemIcon>
+              <CheckCircleIcon fontSize="small" sx={{ color: "#B8862E" }} />
+            </ListItemIcon>
             <ListItemText>Approve</ListItemText>
           </MenuItem>
         )}
 
         {activeRow?.status === "APPROVED" && (
           <MenuItem onClick={() => runAction(onMarkPaid)}>
-            <ListItemIcon><PaymentsOutlinedIcon fontSize="small" sx={{ color: "#1E6B4E" }} /></ListItemIcon>
+            <ListItemIcon>
+              <PaymentsOutlinedIcon fontSize="small" sx={{ color: "#1E6B4E" }} />
+            </ListItemIcon>
             <ListItemText>Mark as paid</ListItemText>
           </MenuItem>
         )}
 
         {activeRow?.status === "APPROVED" && (
           <MenuItem onClick={() => runAction(onReverse)}>
-            <ListItemIcon><UndoIcon fontSize="small" sx={{ color: "#B3261E" }} /></ListItemIcon>
+            <ListItemIcon>
+              <UndoIcon fontSize="small" sx={{ color: "#B3261E" }} />
+            </ListItemIcon>
             <ListItemText>Reverse</ListItemText>
           </MenuItem>
         )}
 
         <MenuItem onClick={() => runAction(onResend)}>
-          <ListItemIcon><EmailOutlinedIcon fontSize="small" /></ListItemIcon>
+          <ListItemIcon>
+            <EmailOutlinedIcon fontSize="small" />
+          </ListItemIcon>
           <ListItemText>Resend payslip</ListItemText>
         </MenuItem>
 
         <MenuItem onClick={() => runAction(onDownload)}>
-          <ListItemIcon><DownloadIcon fontSize="small" /></ListItemIcon>
+          <ListItemIcon>
+            <DownloadIcon fontSize="small" />
+          </ListItemIcon>
           <ListItemText>Download payslip</ListItemText>
         </MenuItem>
       </Menu>

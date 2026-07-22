@@ -39,8 +39,18 @@ interface Props {
 }
 
 const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 export default function GeneratePayrollDialog({
@@ -69,20 +79,20 @@ export default function GeneratePayrollDialog({
     }
   }, [open, defaultMonth, defaultYear, clearError]);
 
-const handleGenerate = async () => {
-  clearError();
+  const handleGenerate = async () => {
+    clearError();
 
-  const result = await generate({
-    month,
-    year,
-    employeeIds: selectedEmployees.length > 0 ? selectedEmployees.map((e) => e.id) : undefined,
-  });
+    const result = await generate({
+      month,
+      year,
+      employeeIds: selectedEmployees.length > 0 ? selectedEmployees.map((e) => e.id) : undefined,
+    });
 
-  if (!result) return;
+    if (!result) return;
 
-  onGenerated(result);
-  onClose();
-};
+    onGenerated(result);
+    onClose();
+  };
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ fontWeight: 700, color: NAVY, pb: 1 }}>Generate payroll</DialogTitle>
@@ -132,7 +142,12 @@ const handleGenerate = async () => {
           onChange={(_, value) => setSelectedEmployees(value)}
           renderValue={(value, getItemProps) =>
             value.map((option, index) => (
-              <Chip {...getItemProps({index})} key={option.id} label={option.label} size="small" />
+              <Chip
+                {...getItemProps({ index })}
+                key={option.id}
+                label={option.label}
+                size="small"
+              />
             ))
           }
           renderInput={(params) => (

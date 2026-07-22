@@ -48,7 +48,9 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pr: 1 }}>
+      <DialogTitle
+        sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pr: 1 }}
+      >
         <Typography sx={{ fontWeight: 700, color: NAVY }}>Payroll details</Typography>
         <IconButton size="small" onClick={onClose}>
           <CloseIcon fontSize="small" />
@@ -64,7 +66,6 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
           <Typography color="error">{error}</Typography>
         ) : payroll ? (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-
             {/* Header card */}
             <Box
               sx={{
@@ -74,7 +75,9 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
                 p: 2.5,
               }}
             >
-              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+              <Box
+                sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}
+              >
                 <Box>
                   <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                     {payroll.employeeFullName}
@@ -103,13 +106,19 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
               </Typography>
               {payroll.earnings?.map((e) => (
                 <Box key={e.id} sx={{ display: "flex", justifyContent: "space-between", py: 0.5 }}>
-                  <Typography variant="body2" sx={{ color: SLATE }}>{e.earningType}</Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>{fmt(e.amount)}</Typography>
+                  <Typography variant="body2" sx={{ color: SLATE }}>
+                    {e.earningType}
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    {fmt(e.amount)}
+                  </Typography>
                 </Box>
               ))}
               <Divider sx={{ my: 1 }} />
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography variant="body2" sx={{ fontWeight: 700, color: NAVY }}>Gross pay</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 700, color: NAVY }}>
+                  Gross pay
+                </Typography>
                 <Typography variant="body2" sx={{ fontWeight: 700, color: NAVY }}>
                   KES {fmt(payroll.grossPay)}
                 </Typography>
@@ -123,7 +132,9 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
               </Typography>
               {payroll.deductions?.map((d) => (
                 <Box key={d.id} sx={{ display: "flex", justifyContent: "space-between", py: 0.5 }}>
-                  <Typography variant="body2" sx={{ color: SLATE }}>{d.deductionType}</Typography>
+                  <Typography variant="body2" sx={{ color: SLATE }}>
+                    {d.deductionType}
+                  </Typography>
                   <Typography variant="body2" sx={{ fontWeight: 600, color: DANGER }}>
                     −{fmt(d.amount)}
                   </Typography>
@@ -131,7 +142,9 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
               ))}
               <Divider sx={{ my: 1 }} />
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography variant="body2" sx={{ fontWeight: 700, color: NAVY }}>Total deductions</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 700, color: NAVY }}>
+                  Total deductions
+                </Typography>
                 <Typography variant="body2" sx={{ fontWeight: 700, color: DANGER }}>
                   −KES {fmt(payroll.totalDeductions)}
                 </Typography>
@@ -139,7 +152,16 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
             </Box>
 
             {/* Net pay */}
-            <Box sx={{ bgcolor: "#E7F3EE", borderRadius: 2, p: 2.5, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box
+              sx={{
+                bgcolor: "#E7F3EE",
+                borderRadius: 2,
+                p: 2.5,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#1E6B4E" }}>
                 Net pay
               </Typography>
@@ -181,9 +203,18 @@ export default function PayrollDetailDialog({ open, payrollId, onClose }: Props)
           onClick={handleDownload}
           disabled={isProcessing || !payroll}
           startIcon={
-            isProcessing ? <CircularProgress size={16} color="inherit" /> : <DownloadIcon fontSize="small" />
+            isProcessing ? (
+              <CircularProgress size={16} color="inherit" />
+            ) : (
+              <DownloadIcon fontSize="small" />
+            )
           }
-          sx={{ bgcolor: NAVY, textTransform: "none", fontWeight: 600, "&:hover": { bgcolor: "#1E3A5F" } }}
+          sx={{
+            bgcolor: NAVY,
+            textTransform: "none",
+            fontWeight: 600,
+            "&:hover": { bgcolor: "#1E3A5F" },
+          }}
         >
           Download PDF
         </Button>

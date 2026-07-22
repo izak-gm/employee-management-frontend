@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  Paper,
-  Button,
-  CircularProgress,
-  Alert,
-} from "@mui/material";
+import { Box, Container, Typography, Paper, Button, CircularProgress, Alert } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
 import { useMyPayrolls, useMyPayslipDownload } from "../../hooks/useMyPayroll";
@@ -20,8 +12,18 @@ const SLATE = "#5B6B7F";
 const BORDER = "#E4E8ED";
 
 const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const fmt = (n?: number) =>

@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 import type { DecodedToken } from "../types/auth.type";
-import {  tokenStorage, type Role } from "../api";
+import { tokenStorage, type Role } from "../api";
 
 interface AuthContextType {
   token: string | null;

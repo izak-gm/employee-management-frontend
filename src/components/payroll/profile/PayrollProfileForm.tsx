@@ -140,21 +140,16 @@ export default function PayrollProfileForm({
     return watched.reduce((sum, v) => sum + (Number(v) || 0), 0);
   }, [watched]);
 
-  const fmt = (n: number) =>
-    new Intl.NumberFormat("en-KE", { maximumFractionDigits: 0 }).format(n);
+  const fmt = (n: number) => new Intl.NumberFormat("en-KE", { maximumFractionDigits: 0 }).format(n);
 
   const onSubmit = async (values: PayrollProfileFormValues) => {
     setSuccessMsg(null);
     const payload = toRequest(values);
 
-    const result = isEditMode
-      ? await update(profileId as string, payload)
-      : await create(payload);
+    const result = isEditMode ? await update(profileId as string, payload) : await create(payload);
 
     if (result) {
-      setSuccessMsg(
-        isEditMode ? "Payroll profile updated." : "Payroll profile created."
-      );
+      setSuccessMsg(isEditMode ? "Payroll profile updated." : "Payroll profile created.");
       onSaved?.(result);
       if (!isEditMode) reset(PAYROLL_PROFILE_DEFAULTS);
     }
@@ -170,12 +165,8 @@ export default function PayrollProfileForm({
         {/* ── Main column ────────────────────────────────────────────── */}
         <Grid size={{ xs: 12, md: 8 }}>
           <Stack spacing={3}>
-
             {/* Employee selection */}
-            <Paper
-              variant="outlined"
-              sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}
-            >
+            <Paper variant="outlined" sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}>
               <SectionHeading icon={<BadgeIcon />} title="Employee" />
               <Controller
                 name="employeeId"
@@ -208,10 +199,7 @@ export default function PayrollProfileForm({
             </Paper>
 
             {/* Salary & allowances */}
-            <Paper
-              variant="outlined"
-              sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}
-            >
+            <Paper variant="outlined" sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}>
               <SectionHeading
                 icon={<PaymentsIcon />}
                 title="Salary & allowances"
@@ -273,10 +261,7 @@ export default function PayrollProfileForm({
             </Paper>
 
             {/* Bank details */}
-            <Paper
-              variant="outlined"
-              sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}
-            >
+            <Paper variant="outlined" sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}>
               <SectionHeading icon={<AccountBalanceIcon />} title="Bank details" />
               <Grid container spacing={2.5}>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -312,10 +297,7 @@ export default function PayrollProfileForm({
             </Paper>
 
             {/* Statutory numbers */}
-            <Paper
-              variant="outlined"
-              sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}
-            >
+            <Paper variant="outlined" sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}>
               <SectionHeading icon={<BadgeIcon />} title="Statutory identifiers" />
               <Grid container spacing={2.5}>
                 <Grid size={{ xs: 12, sm: 4 }}>
@@ -357,10 +339,7 @@ export default function PayrollProfileForm({
             </Paper>
 
             {/* Effective dates */}
-            <Paper
-              variant="outlined"
-              sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}
-            >
+            <Paper variant="outlined" sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 3 }}>
               <SectionHeading
                 icon={<CalendarMonthIcon />}
                 title="Effective period"
@@ -399,7 +378,9 @@ export default function PayrollProfileForm({
             )}
             {successMsg && <Alert severity="success">{successMsg}</Alert>}
 
-<Box sx={{ display: "flex", flexDirection: "row", gap: 1.5, justifyContent: "flex-end" }}>
+            <Box
+              sx={{ display: "flex", flexDirection: "row", gap: 1.5, justifyContent: "flex-end" }}
+            >
               {onCancel && (
                 <Button variant="text" onClick={onCancel} sx={{ color: TOKENS.slate }}>
                   Cancel
@@ -419,11 +400,7 @@ export default function PayrollProfileForm({
                   "&:hover": { bgcolor: TOKENS.navySoft },
                 }}
               >
-                {isSaving
-                  ? "Saving…"
-                  : isEditMode
-                  ? "Save changes"
-                  : "Create payroll profile"}
+                {isSaving ? "Saving…" : isEditMode ? "Save changes" : "Create payroll profile"}
               </Button>
             </Box>
           </Stack>
@@ -463,16 +440,15 @@ export default function PayrollProfileForm({
                 variant="caption"
                 sx={{ display: "block", mt: 2, color: "rgba(255,255,255,0.6)" }}
               >
-                Statutory deductions (PAYE, NSSF, SHIF, Housing Levy) are calculated
-                automatically when payroll is generated.
+                Statutory deductions (PAYE, NSSF, SHIF, Housing Levy) are calculated automatically
+                when payroll is generated.
               </Typography>
             </Paper>
 
-            <Paper
-              variant="outlined"
-              sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 2.5 }}
-            >
-<Box sx={{ display: "flex", flexDirection: "row", gap: 1, alignItems: "center", mb: 1 }}>
+            <Paper variant="outlined" sx={{ borderColor: TOKENS.border, borderRadius: 2, p: 2.5 }}>
+              <Box
+                sx={{ display: "flex", flexDirection: "row", gap: 1, alignItems: "center", mb: 1 }}
+              >
                 <Chip
                   size="small"
                   label={isEditMode ? "Editing profile" : "New profile"}
@@ -485,9 +461,9 @@ export default function PayrollProfileForm({
                 />
               </Box>
               <Typography variant="body2" sx={{ color: TOKENS.slate, lineHeight: 1.6 }}>
-                Pay varies per individual and is not derived from job position. Set the
-                basic salary and allowances once here — they carry forward to every
-                payroll run until this profile is updated.
+                Pay varies per individual and is not derived from job position. Set the basic salary
+                and allowances once here — they carry forward to every payroll run until this
+                profile is updated.
               </Typography>
             </Paper>
           </Box>
@@ -509,8 +485,7 @@ function SectionHeading({
   caption?: string;
 }) {
   return (
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 1, alignItems: "flex-start", mb: 1 }}>
-
+    <Box sx={{ display: "flex", flexDirection: "row", gap: 1, alignItems: "flex-start", mb: 1 }}>
       <Box
         sx={{
           color: TOKENS.navy,
@@ -567,9 +542,7 @@ function MoneyField({
         input: {
           startAdornment: (
             <InputAdornment position="start">
-              <Typography sx={{ color: TOKENS.slateLight, fontSize: 14 }}>
-                KES
-              </Typography>
+              <Typography sx={{ color: TOKENS.slateLight, fontSize: 14 }}>KES</Typography>
             </InputAdornment>
           ),
         },
@@ -598,8 +571,16 @@ function SummaryRow({
   fmt: (n: number) => string;
 }) {
   return (
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 1, alignItems: "center",justifyContent: "space-between", mb: 1 }}>
-
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        gap: 1,
+        alignItems: "center",
+        justifyContent: "space-between",
+        mb: 1,
+      }}
+    >
       <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.65)" }}>
         {label}
       </Typography>

@@ -9,8 +9,7 @@ const GOLD_SOFT = "#F5EDE0";
 const SUCCESS = "#1E6B4E";
 const SUCCESS_SOFT = "#E7F3EE";
 
-const fmt = (n: number) =>
-  new Intl.NumberFormat("en-KE", { maximumFractionDigits: 0 }).format(n);
+const fmt = (n: number) => new Intl.NumberFormat("en-KE", { maximumFractionDigits: 0 }).format(n);
 
 interface Props {
   rows: PayrollSummaryResponse[];
@@ -24,11 +23,41 @@ export default function PayrollSummaryCards({ rows }: Props) {
   const paidCount = rows.filter((r) => r.status === "PAID").length;
 
   const cards = [
-    { label: "Employees paid", value: rows.length.toString(), sub: `${paidCount} disbursed`, accent: NAVY, bg: "#fff" },
-    { label: "Total gross pay", value: `KES ${fmt(totalGross)}`, sub: "before deductions", accent: NAVY, bg: "#fff" },
-    { label: "Total deductions", value: `KES ${fmt(totalDeductions)}`, sub: "PAYE, NSSF, SHIF, Levy", accent: "#B3261E", bg: "#fff" },
-    { label: "Total net pay", value: `KES ${fmt(totalNet)}`, sub: "amount disbursed", accent: SUCCESS, bg: SUCCESS_SOFT },
-    { label: "Pending approval", value: pendingApproval.toString(), sub: "awaiting review", accent: GOLD, bg: GOLD_SOFT },
+    {
+      label: "Employees paid",
+      value: rows.length.toString(),
+      sub: `${paidCount} disbursed`,
+      accent: NAVY,
+      bg: "#fff",
+    },
+    {
+      label: "Total gross pay",
+      value: `KES ${fmt(totalGross)}`,
+      sub: "before deductions",
+      accent: NAVY,
+      bg: "#fff",
+    },
+    {
+      label: "Total deductions",
+      value: `KES ${fmt(totalDeductions)}`,
+      sub: "PAYE, NSSF, SHIF, Levy",
+      accent: "#B3261E",
+      bg: "#fff",
+    },
+    {
+      label: "Total net pay",
+      value: `KES ${fmt(totalNet)}`,
+      sub: "amount disbursed",
+      accent: SUCCESS,
+      bg: SUCCESS_SOFT,
+    },
+    {
+      label: "Pending approval",
+      value: pendingApproval.toString(),
+      sub: "awaiting review",
+      accent: GOLD,
+      bg: GOLD_SOFT,
+    },
   ];
 
   return (
@@ -54,7 +83,10 @@ export default function PayrollSummaryCards({ rows }: Props) {
           <Typography variant="caption" sx={{ color: SLATE, fontWeight: 600 }}>
             {c.label}
           </Typography>
-          <Typography variant="h6" sx={{ fontWeight: 700, color: c.accent, mt: 0.5, lineHeight: 1.2 }}>
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 700, color: c.accent, mt: 0.5, lineHeight: 1.2 }}
+          >
             {c.value}
           </Typography>
           <Typography variant="caption" sx={{ color: SLATE }}>

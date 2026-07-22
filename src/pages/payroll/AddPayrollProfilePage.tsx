@@ -23,7 +23,7 @@ export default function AddPayrollProfilePage() {
   const [searchParams] = useSearchParams();
   const preselectedEmployeeId = searchParams.get("employeeId") ?? undefined;
 
-const { data: employees = [], isPending } = useActiveEmployees();
+  const { data: employees = [], isPending } = useActiveEmployees();
   const employeeOptions = useMemo(
     () =>
       employees.map((e) => ({
@@ -31,7 +31,7 @@ const { data: employees = [], isPending } = useActiveEmployees();
         label: [e.firstName, e.lastName].filter(Boolean).join(" "),
         department: e.departmentName,
       })),
-    [employees]
+    [employees],
   );
 
   const handleSaved = (profile: PayrollProfileResponse) => {

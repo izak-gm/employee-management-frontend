@@ -24,10 +24,8 @@ export default function EditPayrollProfilePage() {
   const navigate = useNavigate();
   const { employeeId } = useParams<{ employeeId: string }>();
 
-  const { data: profile, isLoading, error, hasProfile } = usePayrollProfile(
-    employeeId ?? null
-  );
-  const { data: employees=[], isLoading: loadingEmployees } = useActiveEmployees();
+  const { data: profile, isLoading, error, hasProfile } = usePayrollProfile(employeeId ?? null);
+  const { data: employees = [], isLoading: loadingEmployees } = useActiveEmployees();
 
   const employeeOptions = useMemo(
     () =>
@@ -36,11 +34,10 @@ export default function EditPayrollProfilePage() {
         label: [e.firstName, e.lastName].filter(Boolean).join(" "),
         department: e.departmentName,
       })),
-    [employees]
+    [employees],
   );
 
-  const employeeName =
-    employeeOptions.find((e) => e.id === employeeId)?.label ?? "Employee";
+  const employeeName = employeeOptions.find((e) => e.id === employeeId)?.label ?? "Employee";
 
   const handleSaved = (updated: PayrollProfileResponse) => {
     navigate(`/payroll/profiles/${updated.employeeId}`, { replace: true });
