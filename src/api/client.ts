@@ -12,7 +12,7 @@ import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "a
 
 // ─── Token storage ─────────────────────────────────────────────────────────────
 
-const TOKEN_KEY = "auth_token";
+const TOKEN_KEY = "token";
 
 export const tokenStorage = {
   get: (): string | null => localStorage.getItem(TOKEN_KEY),

@@ -25,9 +25,9 @@ import {
   payrollProfileSchema,
   PAYROLL_PROFILE_DEFAULTS,
   type PayrollProfileFormValues,
-} from "../../schemas/payrollProfileSchema";
-import { usePayrollProfileActions } from "../../hooks/usePayrollProfile";
-import type { PayrollProfileRequest, PayrollProfileResponse } from "../../api/types/payroll";
+} from "../../../schemas/payrollProfileSchema";
+import { usePayrollProfileActions } from "../../../hooks/usePayrollProfile";
+import type { PayrollProfileRequest, PayrollProfileResponse } from "../../../api/types/payroll";
 
 // ── Design tokens — medium corporate, Pinterest-referenced ────────────────────
 // Navy anchor + slate surfaces + a single warm gold accent for emphasis only.

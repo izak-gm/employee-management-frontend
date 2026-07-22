@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import PayrollProfileForm from "../../components/payroll/PayrollProfileForm";
+import PayrollProfileForm from "../../components/payroll/profile/PayrollProfileForm";
 import { usePayrollProfile } from "../../hooks/usePayrollProfile";
 import { useActiveEmployees } from "../../hooks/useEmployees"; // existing hook in your app
 import type { PayrollProfileResponse } from "../../api/types/payroll";
