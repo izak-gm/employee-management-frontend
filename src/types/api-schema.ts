@@ -28,7 +28,7 @@ export interface paths {
       cookie?: never;
     };
     get?: never;
-    put: operations["reverse"];
+    put: operations["reversePayroll"];
     post?: never;
     delete?: never;
     options?: never;
@@ -60,7 +60,7 @@ export interface paths {
       cookie?: never;
     };
     get?: never;
-    put: operations["approve"];
+    put: operations["approvePayroll"];
     post?: never;
     delete?: never;
     options?: never;
@@ -75,10 +75,10 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get?: never;
-    put: operations["update"];
+    get: operations["getProfileById"];
+    put: operations["updateProfile"];
     post?: never;
-    delete: operations["deactivate"];
+    delete: operations["deactivateProfile"];
     options?: never;
     head?: never;
     patch?: never;
@@ -251,9 +251,9 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get?: never;
+    get: operations["getAllPayrollProfiles"];
     put?: never;
-    post: operations["create"];
+    post: operations["createProfile"];
     delete?: never;
     options?: never;
     head?: never;
@@ -269,7 +269,7 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    post: operations["generate"];
+    post: operations["generatePayroll"];
     delete?: never;
     options?: never;
     head?: never;
@@ -507,7 +507,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["getById"];
+    get: operations["getPayrollById"];
     put?: never;
     post?: never;
     delete?: never;
@@ -532,7 +532,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/v1/payroll/profiles/employee/{employeeId}": {
+  "/api/v1/payroll/profiles/employee/{id}": {
     parameters: {
       query?: never;
       header?: never;
@@ -1319,7 +1319,7 @@ export interface operations {
       };
     };
   };
-  reverse: {
+  reversePayroll: {
     parameters: {
       query?: never;
       header?: never;
@@ -1371,7 +1371,7 @@ export interface operations {
       };
     };
   };
-  approve: {
+  approvePayroll: {
     parameters: {
       query?: never;
       header?: never;
@@ -1393,7 +1393,29 @@ export interface operations {
       };
     };
   };
-  update: {
+  getProfileById: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        profileId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollProfileResponse"];
+        };
+      };
+    };
+  };
+  updateProfile: {
     parameters: {
       query?: never;
       header?: never;
@@ -1419,7 +1441,7 @@ export interface operations {
       };
     };
   };
-  deactivate: {
+  deactivateProfile: {
     parameters: {
       query?: never;
       header?: never;
@@ -1839,7 +1861,27 @@ export interface operations {
       };
     };
   };
-  create: {
+  getAllPayrollProfiles: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollProfileResponse"][];
+        };
+      };
+    };
+  };
+  createProfile: {
     parameters: {
       query?: never;
       header?: never;
@@ -1863,7 +1905,7 @@ export interface operations {
       };
     };
   };
-  generate: {
+  generatePayroll: {
     parameters: {
       query?: never;
       header?: never;
@@ -2286,7 +2328,7 @@ export interface operations {
       };
     };
   };
-  getById: {
+  getPayrollById: {
     parameters: {
       query?: never;
       header?: never;
@@ -2335,7 +2377,7 @@ export interface operations {
       query?: never;
       header?: never;
       path: {
-        employeeId: string;
+        id: string;
       };
       cookie?: never;
     };
