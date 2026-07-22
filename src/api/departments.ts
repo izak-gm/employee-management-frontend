@@ -32,7 +32,7 @@ export async function createDepartment(payload: DepartmentRequest): Promise<Depa
 /** Update an existing department by UUID. */
 export async function updateDepartment(
   id: string,
-  payload: DepartmentRequest
+  payload: DepartmentRequest,
 ): Promise<DepartmentResponse> {
   const { data } = await apiClient.put<DepartmentResponse>(`/api/v1/departments/${id}`, payload);
   return data;

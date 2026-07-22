@@ -2,7 +2,7 @@
  * api/index.ts — single import point for the entire API layer.
  *
  * Usage:
- *   import { createEmployee, login, getAllDepartments } from "@/api";
+ *   import { createEmployee, login, generatePayroll } from "@/api";
  */
 
 // Types
@@ -12,13 +12,7 @@ export type * from "./types";
 export { ApiError, tokenStorage } from "./client";
 
 // Auth
-export {
-  login,
-  logout,
-  forgotPassword,
-  resetPassword,
-  setupPassword,
-} from "./auth";
+export { login, logout, forgotPassword, resetPassword, setupPassword } from "./auth";
 
 // Employees
 export {
@@ -68,3 +62,50 @@ export {
 
 // Dashboard
 export { getDashboardStats } from "./dashboard";
+
+// ── Payroll ────────────────────────────────────────────────────────────────
+
+export {
+  generatePayroll,
+  approvePayroll,
+  markPayrollAsPaid,
+  reversePayroll,
+  getPayrollsByMonthAndYear,
+  getPayrollById,
+  resendPayslip,
+  downloadPayslip,
+  getMyPayrolls,
+  getMyPayrollForPeriod,
+  downloadMyPayslip,
+  triggerPayslipDownload,
+} from "./payrolls/payroll";
+
+// Payroll Profiles
+export {
+  createPayrollProfile,
+  updatePayrollProfile,
+  deactivatePayrollProfile,
+  getPayrollProfileByEmployee,
+} from "./payrolls/payrollProfiles";
+
+// Earning Types
+export {
+  getAllEarningTypes,
+  getActiveEarningTypes,
+  getEarningTypeById,
+  createEarningType,
+  updateEarningType,
+  deactivateEarningType,
+  activateEarningType,
+} from "./payrolls/earningTypes";
+
+// Deduction Types
+export {
+  getAllDeductionTypes,
+  getActiveDeductionTypes,
+  getDeductionTypeById,
+  createDeductionType,
+  updateDeductionType,
+  deactivateDeductionType,
+  activateDeductionType,
+} from "./payrolls/deductionTypes";

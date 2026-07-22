@@ -32,7 +32,7 @@ export async function createPosition(payload: PositionRequest): Promise<Position
 /** Update an existing position by UUID. */
 export async function updatePosition(
   id: string,
-  payload: PositionRequest
+  payload: PositionRequest,
 ): Promise<PositionResponse> {
   const { data } = await apiClient.put<PositionResponse>(`/api/v1/positions/${id}`, payload);
   return data;

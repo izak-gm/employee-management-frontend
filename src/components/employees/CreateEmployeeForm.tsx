@@ -38,9 +38,9 @@ const DEFAULT_VALUES: CreateEmployeeForm = {
   hireDate: "",
   confirmationDate: "",
   employment_type: undefined,
-  departmentId: "",
-  positionId: "",
-  supervisorId: "",
+  // departmentId: undefined,
+  // positionId: undefined,
+  // supervisorId: undefined,
 };
 
 interface Props {

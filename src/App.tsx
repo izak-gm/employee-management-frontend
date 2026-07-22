@@ -19,6 +19,10 @@ import MyLeavePage from "./pages/leaves/MyLeavePage";
 import LeaveApplicationForm from "./components/leaves/LeaveApplicationForm";
 import AddEmployeePage from "./pages/employee/AddEmployeePage";
 import ManageEmployeesPage from "./pages/employee/ManageEmployeesPage";
+import AddPayrollProfilePage from "./pages/payroll/AddPayrollProfilePage";
+import EditPayrollProfilePage from "./pages/payroll/EditPayrollProfilePage";
+import PayrollListPage from "./pages/payroll/PayrollListPage";
+import MyPayrollPage from "./pages/payroll/MyPayrollPage";
 
 function App() {
   return (
@@ -71,6 +75,28 @@ function App() {
             >
               <Route path="/leaves" element={<MyLeavePage />} />
               <Route path="/leaves/apply" element={<LeaveApplicationForm />} />
+            </Route>
+            {/* Payrolls */}
+            {/* Payroll Profile */}
+            <Route
+              element={
+                <RoleRoute
+                  allowedRoles={["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"]}
+                />
+              }
+            >
+              <Route path="/payroll-profile/create" element={<AddPayrollProfilePage />} />
+              <Route path="/payroll-profile/edit" element={<EditPayrollProfilePage />} />
+            </Route>
+            <Route
+              element={
+                <RoleRoute
+                  allowedRoles={["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"]}
+                />
+              }
+            >
+              <Route path="/payroll/payslips" element={<PayrollListPage />} />
+              <Route path="/payroll/me" element={<MyPayrollPage />} />
             </Route>
           </Route>
         </Routes>
