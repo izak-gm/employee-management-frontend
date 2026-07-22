@@ -82,7 +82,9 @@ export {
 
 // Payroll Profiles
 export {
+  getAllPayrollProfiles,
   createPayrollProfile,
+  getPayrollProfileById,
   updatePayrollProfile,
   deactivatePayrollProfile,
   getPayrollProfileByEmployee,
