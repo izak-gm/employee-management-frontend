@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 import type { DecodedToken } from "../types/auth.type";
-import type { Role } from "../api";
+import { tokenStorage, type Role } from "../api";
 
 interface AuthContextType {
   token: string | null;
@@ -36,7 +36,7 @@ const decodeStoredToken = (token: string | null): DecodedToken | null => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const initialToken = localStorage.getItem("token");
+  const initialToken = tokenStorage.get();
   const [token, setToken] = useState<string | null>(initialToken);
   const [decoded, setDecoded] = useState<DecodedToken | null>(decodeStoredToken(initialToken));
 
@@ -46,13 +46,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       logout();
       return;
     }
-    localStorage.setItem("token", newToken);
+    tokenStorage.set(newToken);
     setToken(newToken);
     setDecoded(payload);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    tokenStorage.clear();
     setToken(null);
     setDecoded(null);
   };

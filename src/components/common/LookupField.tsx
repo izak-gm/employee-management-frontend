@@ -42,7 +42,7 @@ export function LookupField({
             }
             isOptionEqualToValue={(a, b) => a.id === b.id}
             value={options.find((o) => o.id === field.value) ?? null}
-            onChange={(_, value) => field.onChange(value?.id ?? "")}
+            onChange={(_, value) => field.onChange(value?.id || undefined)}
             renderInput={(params) => (
               <TextField
                 {...params}

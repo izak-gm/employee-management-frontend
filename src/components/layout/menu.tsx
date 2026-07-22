@@ -101,28 +101,40 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-
+  {
+    label: "PayrollProfile",
+    icon: <PaymentsIcon />,
+    roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
+    children: [
+      {
+        label: "Add PayrollProfile",
+        path: "/payroll-profile/create",
+        icon: <ReceiptLongIcon />,
+        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
+      },
+      {
+        label: "Edit PayrollProfile",
+        path: "/payroll-profile/edit",
+        icon: <ReceiptLongIcon />,
+        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
+      },
+    ],
+  },
   {
     label: "Payroll",
     icon: <PaymentsIcon />,
     roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
     children: [
       {
-        label: "Payroll Dashboard",
-        path: "/payroll",
-        icon: <PaymentsIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
-      },
-      {
-        label: "Generate Payroll",
-        path: "/payroll/generate",
-        icon: <ReceiptLongIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
-      },
-      {
         label: "Payslips",
         path: "/payroll/payslips",
         icon: <AccountBalanceWalletIcon />,
+        roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER"],
+      },
+      {
+        label: "My Payroll",
+        path: "/payroll/me",
+        icon: <PaymentsIcon />,
         roles: [
           "SUPERADMIN",
           "HR_ADMIN",

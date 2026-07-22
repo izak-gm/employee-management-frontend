@@ -59,8 +59,8 @@ const ViewProfilePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        await getMyProfile();
-        setProfile(profile);
+        const myprofile = await getMyProfile();
+        setProfile(myprofile);
       } finally {
         setLoading(false);
       }

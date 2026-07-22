@@ -299,8 +299,8 @@ export default function EmployeeDetailsDialog({ open, employee, onClose }: Props
 
             <Stack spacing={2}>
               <Stack direction="row" spacing={2}>
-                <Item label="Hiring Date" value={formatDate( employee.hireDate)} />
-                <Item label="Confirmation Date At" value={formatDate( employee.confirmationDate)} />
+                <Item label="Hiring Date" value={formatDate(employee.hireDate)} />
+                <Item label="Confirmation Date At" value={formatDate(employee.confirmationDate)} />
               </Stack>
             </Stack>
           </Box>
