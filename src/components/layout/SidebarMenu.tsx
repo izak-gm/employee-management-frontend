@@ -67,8 +67,8 @@ const SidebarMenu = ({ items, role }: Props) => {
                 pl: 2 + depth * 2,
                 mb: 0.5,
                 borderRadius: 2,
-                color: active || childActive ? "#fff" : "rgba(255,255,255,0.75)",
-                bgcolor: active || childActive ? "rgba(201,162,39,0.18)" : "transparent",
+                color: active ? "#fff" : "rgba(255,255,255,0.75)",
+                bgcolor: active ? "rgba(201,162,39,0.18)" : "transparent",
                 "&:hover": {
                   bgcolor: "rgba(255,255,255,0.08)",
                 },

@@ -23,6 +23,9 @@ import AddPayrollProfilePage from "./pages/payroll/AddPayrollProfilePage";
 import EditPayrollProfilePage from "./pages/payroll/EditPayrollProfilePage";
 import PayrollListPage from "./pages/payroll/PayrollListPage";
 import MyPayrollPage from "./pages/payroll/MyPayrollPage";
+import PayrollProfileDetailsPage from "./pages/payroll/PayrollProfileDetailsPage";
+import PayrollProfilesPage from "./pages/payroll/PayrollProfilesPage";
+import PayrollDashboardPage from "./pages/payroll/dashboard/PayrollDashboardPage";
 
 function App() {
   return (
@@ -85,8 +88,14 @@ function App() {
                 />
               }
             >
-              <Route path="/payroll-profile/create" element={<AddPayrollProfilePage />} />
-              <Route path="/payroll-profile/edit" element={<EditPayrollProfilePage />} />
+              <Route path="/payroll" element={<PayrollDashboardPage />} />
+              <Route path="/payroll/profiles" element={<PayrollProfilesPage />} />
+              <Route path="/payroll/profiles/new" element={<AddPayrollProfilePage />} />
+              <Route path="/payroll/profiles/:id" element={<PayrollProfileDetailsPage />} />
+              <Route
+                path="/payroll/profiles/:profileId/edit"
+                element={<EditPayrollProfilePage />}
+              />
             </Route>
             <Route
               element={
@@ -96,6 +105,23 @@ function App() {
               }
             >
               <Route path="/payroll/payslips" element={<PayrollListPage />} />
+            </Route>
+            <Route
+              element={
+                <RoleRoute
+                  allowedRoles={[
+                    "SUPERADMIN",
+                    "HR_ADMIN",
+                    "HR_OFFICER",
+                    "PAYROLL_MANAGER",
+                    "FINANCE_MANAGER",
+                    "TECH_LEAD",
+                    "SOFTWARE_ENGINEER",
+                    "INTERN",
+                  ]}
+                />
+              }
+            >
               <Route path="/payroll/me" element={<MyPayrollPage />} />
             </Route>
           </Route>

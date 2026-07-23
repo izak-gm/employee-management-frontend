@@ -1,6 +1,8 @@
 /**
  * api/payrollProfiles.ts
  * Endpoints:
+ *  *   GET    /api/v1/payroll/profiles/{profileId}    — get by profile id
+ *   GET    /api/v1/payroll/profiles                — list all
  *   POST   /api/v1/payroll/profiles                        — create
  *   PUT    /api/v1/payroll/profiles/{profileId}             — update
  *   DELETE /api/v1/payroll/profiles/{profileId}             — deactivate
@@ -9,6 +11,20 @@
 
 import apiClient from "../client";
 import type { PayrollProfileRequest, PayrollProfileResponse } from "../types/payroll";
+
+/** Get all payroll profiles (admin list / data grid) */
+export async function getAllPayrollProfiles(): Promise<PayrollProfileResponse[]> {
+  const { data } = await apiClient.get<PayrollProfileResponse[]>("/api/v1/payroll/profiles");
+  return data;
+}
+
+/** Get a single payroll profile by its profile ID */
+export async function getPayrollProfileById(profileId: string): Promise<PayrollProfileResponse> {
+  const { data } = await apiClient.get<PayrollProfileResponse>(
+    `/api/v1/payroll/profiles/${profileId}`,
+  );
+  return data;
+}
 
 /** Create a new payroll profile for an employee (salary, bank, KRA PIN etc.) */
 export async function createPayrollProfile(
