@@ -90,7 +90,7 @@ function App() {
             >
               <Route path="/payroll" element={<PayrollDashboardPage />} />
               <Route path="/payroll/profiles" element={<PayrollProfilesPage />} />
-              <Route path="/payroll/profile/new" element={<AddPayrollProfilePage />} />
+              <Route path="/payroll/profiles/new" element={<AddPayrollProfilePage />} />
               <Route path="/payroll/profiles/:id" element={<PayrollProfileDetailsPage />} />
               <Route
                 path="/payroll/profiles/:profileId/edit"

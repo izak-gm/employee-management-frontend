@@ -122,34 +122,14 @@ export const menuItems: MenuItem[] = [
         icon: <ReceiptLongIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
       },
+
       {
-        label: "Payroll Profiles",
+        label: "Payrolls",
+        path: "/payroll/profiles",
         icon: <ReceiptLongIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
-        children: [
-          // This is all payrolls
-          {
-            label: "Payrolls",
-            path: "/payroll/profiles",
-            icon: <ReceiptLongIcon />,
-            roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
-          },
-          // Add
-          {
-            label: "Add Payroll Profile",
-            path: "/payroll/profile/new",
-            icon: <ReceiptLongIcon />,
-            roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
-          },
-          // Edit
-          {
-            label: "Edit Payroll Profiles",
-            path: "/payroll/profiles/:profileId/edit",
-            icon: <ReceiptLongIcon />,
-            roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
-          },
-        ],
       },
+
       {
         label: "Payslips",
         path: "/payroll/payslips",
