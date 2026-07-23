@@ -21,8 +21,8 @@ const SLATE = "#5B6B7F";
 
 export default function AddPayrollProfilePage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const preselectedEmployeeId = searchParams.get("employeeId") ?? undefined;
+  // const [searchParams] = useSearchParams();
+  // const preselectedEmployeeId = searchParams.get("employeeId") ?? undefined;
 
   const { data: employees = [], isPending } = useActiveEmployees();
   const employeeOptions = useMemo(
@@ -36,7 +36,7 @@ export default function AddPayrollProfilePage() {
   );
 
   const handleSaved = (profile: PayrollProfileResponse) => {
-    navigate(`/payroll/profiles/${profile.employeeId}`, { replace: true });
+    navigate(`/payroll/profiles/${profile.id}`, { replace: true });
   };
 
   return (

@@ -26,6 +26,8 @@ import MyPayrollPage from "./pages/payroll/MyPayrollPage";
 import PayrollProfileDetailsPage from "./pages/payroll/PayrollProfileDetailsPage";
 import PayrollProfilesPage from "./pages/payroll/PayrollProfilesPage";
 import PayrollDashboardPage from "./pages/payroll/dashboard/PayrollDashboardPage";
+import DepartmentsPage from "./pages/departments/DepartmentPage";
+import PositionsPage from "./pages/departments/PositionPage";
 
 function App() {
   return (
@@ -90,7 +92,7 @@ function App() {
             >
               <Route path="/payroll" element={<PayrollDashboardPage />} />
               <Route path="/payroll/profiles" element={<PayrollProfilesPage />} />
-              <Route path="/payroll/profile/new" element={<AddPayrollProfilePage />} />
+              <Route path="/payroll/profiles/new" element={<AddPayrollProfilePage />} />
               <Route path="/payroll/profiles/:id" element={<PayrollProfileDetailsPage />} />
               <Route
                 path="/payroll/profiles/:profileId/edit"
@@ -123,6 +125,20 @@ function App() {
               }
             >
               <Route path="/payroll/me" element={<MyPayrollPage />} />
+            </Route>
+            <Route
+              element={
+                <RoleRoute
+                  allowedRoles={[
+                    "SUPERADMIN",
+                    "HR_ADMIN",
+                  
+                  ]}
+                />
+              }
+            >
+              <Route path="/departments" element={<DepartmentsPage />} />
+              <Route path="/positions" element={<PositionsPage />} />
             </Route>
           </Route>
         </Routes>

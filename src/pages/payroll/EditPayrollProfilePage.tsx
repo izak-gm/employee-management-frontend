@@ -37,9 +37,7 @@ export default function EditPayrollProfilePage() {
       })),
     [employees],
   );
-
   const employeeName = employeeOptions.find((e) => e.id === id)?.label ?? "Employee Profile";
-
   const handleSaved = (updated: PayrollProfileResponse) => {
     navigate(`/payroll/profiles/${updated.id}/edit`, { replace: true });
   };

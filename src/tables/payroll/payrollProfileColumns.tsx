@@ -39,11 +39,19 @@ export const payrollProfileColumns = (navigate: ReturnType<typeof useNavigate>):
     headerName: "Basic Salary",
     width: 170,
     type: "number",
-    valueFormatter: ({ value }) => currency.format(Number(value ?? 0)),
+    valueFormatter: (value) => {
+      if (value == null) return "";
+      return currency.format(Number(value));
+    },
   },
   {
     field: "bankName",
     headerName: "Bank",
+    width: 180,
+  },
+  {
+    field: "bankBranch",
+    headerName: "Bank Branch",
     width: 180,
   },
   {
