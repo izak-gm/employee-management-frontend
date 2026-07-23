@@ -183,6 +183,25 @@ export const menuItems: MenuItem[] = [
   // },
 
   {
+    label: "Settings",
+    icon: <BeachAccessIcon />,
+    roles: ["SUPERADMIN", "HR_ADMIN"],
+    children: [
+      {
+        label: "Departments",
+        path: "/departments",
+        icon: <BeachAccessIcon />,
+        roles: ["SUPERADMIN", "HR_ADMIN"],
+      },
+      {
+        label: "Position",
+        path: "/positions",
+        icon: <CalendarMonthIcon />,
+        roles: ["SUPERADMIN", "HR_ADMIN"],
+      },
+    ],
+  },
+  {
     label: "My Profile",
     path: "/profile",
     icon: <PersonIcon />,
