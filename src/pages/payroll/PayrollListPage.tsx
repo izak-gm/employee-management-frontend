@@ -83,7 +83,7 @@ export default function PayrollListPage() {
   } = usePayrollBatchActions();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [bulkReverseOpen, setBulkReverseOpen] = useState(false);
-const [deleteRow, setDeleteRow] = useState<PayrollSummaryResponse | null>(null);
+  const [deleteRow, setDeleteRow] = useState<PayrollSummaryResponse | null>(null);
 
   const [generateOpen, setGenerateOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
@@ -181,15 +181,15 @@ const [deleteRow, setDeleteRow] = useState<PayrollSummaryResponse | null>(null);
     await downloadApprovedReport(year, month);
   };
 
-const handleDeleteConfirmed = async () => {
-  if (!deleteRow?.id) return;
-  const result = await remove(deleteRow.id);
-  if (result !== null) {
-    setFlash(`Deleted payroll ${deleteRow.payrollNumber}.`);
-    refreshAll();
-  }
-  setDeleteRow(null);
-};
+  const handleDeleteConfirmed = async () => {
+    if (!deleteRow?.id) return;
+    const result = await remove(deleteRow.id);
+    if (result !== null) {
+      setFlash(`Deleted payroll ${deleteRow.payrollNumber}.`);
+      refreshAll();
+    }
+    setDeleteRow(null);
+  };
   return (
     <DashboardLayout title="Payrolls">
       <Box sx={{ bgcolor: "#F7F8FA", minHeight: "100vh" }}>
