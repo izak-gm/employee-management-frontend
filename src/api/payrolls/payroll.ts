@@ -137,3 +137,7 @@ export function triggerPayslipDownload(blob: Blob, filename: string): void {
   link.remove();
   window.URL.revokeObjectURL(url);
 }
+
+export async function deletePayroll(payrollId: string): Promise<void> {
+  await apiClient.delete(`/api/v1/payroll/${payrollId}`);
+}
