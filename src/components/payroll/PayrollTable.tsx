@@ -20,6 +20,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import DownloadIcon from "@mui/icons-material/Download";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/Delete";
 
 import PayrollStatusChip from "./PayrollStatusChip";
 import type { PayrollSummaryResponse } from "../../api/types/payroll";
@@ -36,6 +37,7 @@ interface Props {
   onReverse: (row: PayrollSummaryResponse) => void;
   onResend: (row: PayrollSummaryResponse) => void;
   onDownload: (row: PayrollSummaryResponse) => void;
+  onDelete: (row: PayrollSummaryResponse) => void;
 }
 
 const fmt = (n?: number) =>
@@ -49,6 +51,7 @@ export default function PayrollTable({
   onReverse,
   onResend,
   onDownload,
+  onDelete,
 }: Props) {
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [activeRow, setActiveRow] = useState<PayrollSummaryResponse | null>(null);
@@ -215,6 +218,15 @@ export default function PayrollTable({
               <UndoIcon fontSize="small" sx={{ color: "#B3261E" }} />
             </ListItemIcon>
             <ListItemText>Reverse</ListItemText>
+          </MenuItem>
+        )}
+
+        {activeRow?.status === "GENERATED" && (
+          <MenuItem onClick={() => runAction(onDelete)}>
+            <ListItemIcon>
+              <DeleteOutlineIcon fontSize="small" sx={{ color: "#B3261E" }} />
+            </ListItemIcon>
+            <ListItemText>Delete</ListItemText>
           </MenuItem>
         )}
 

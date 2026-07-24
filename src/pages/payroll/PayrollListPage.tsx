@@ -33,6 +33,7 @@ import BulkReverseDialog from "../../components/payroll/BulkReverseDialog";
 
 import type { PayrollSummaryResponse } from "../../api/types/payroll";
 import DashboardLayout from "../../components/layout/DashboardLayout";
+import DeletePayrollDialog from "./DeletePayrollDialog";
 
 const NAVY = "#132A46";
 const SLATE = "#5B6B7F";
@@ -62,7 +63,7 @@ export default function PayrollListPage() {
 
   const { data: rows, isLoading, error, reload } = usePayrollList(month, year);
   const { data: employees = [] } = useActiveEmployees();
-  const { approve, download, resend, error: actionError } = usePayrollActions();
+  const { approve, download, resend, remove, error: actionError } = usePayrollActions();
 
   // ── Batch review state ──────────────────────────────────────────────────
   const {
@@ -82,6 +83,7 @@ export default function PayrollListPage() {
   } = usePayrollBatchActions();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [bulkReverseOpen, setBulkReverseOpen] = useState(false);
+const [deleteRow, setDeleteRow] = useState<PayrollSummaryResponse | null>(null);
 
   const [generateOpen, setGenerateOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
@@ -179,6 +181,15 @@ export default function PayrollListPage() {
     await downloadApprovedReport(year, month);
   };
 
+const handleDeleteConfirmed = async () => {
+  if (!deleteRow?.id) return;
+  const result = await remove(deleteRow.id);
+  if (result !== null) {
+    setFlash(`Deleted payroll ${deleteRow.payrollNumber}.`);
+    refreshAll();
+  }
+  setDeleteRow(null);
+};
   return (
     <DashboardLayout title="Payrolls">
       <Box sx={{ bgcolor: "#F7F8FA", minHeight: "100vh" }}>
@@ -451,6 +462,7 @@ export default function PayrollListPage() {
                   onReverse={setReverseRow}
                   onResend={handleResend}
                   onDownload={handleDownload}
+                  onDelete={setDeleteRow}
                 />
               </Paper>
             </>
@@ -501,6 +513,12 @@ export default function PayrollListPage() {
             const result = await reverseByIds({ payrollIds: selectedIds, reason });
             handleBulkReverseDone(result);
           }}
+        />
+        <DeletePayrollDialog
+          open={!!deleteRow}
+          payroll={deleteRow}
+          onClose={() => setDeleteRow(null)}
+          onConfirm={handleDeleteConfirmed}
         />
       </Box>
     </DashboardLayout>

@@ -558,7 +558,7 @@ export interface paths {
     get: operations["getPayrollById"];
     put?: never;
     post?: never;
-    delete?: never;
+    delete: operations["softDeletePayroll"];
     options?: never;
     head?: never;
     patch?: never;
@@ -2518,6 +2518,26 @@ export interface operations {
         content: {
           "*/*": components["schemas"]["PayrollResponse"];
         };
+      };
+    };
+  };
+  softDeletePayroll: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
