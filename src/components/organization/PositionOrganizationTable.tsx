@@ -1,18 +1,11 @@
 import { useMemo, useState } from "react";
 
-import {
-  Card,
-  CardContent,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import { DataGrid } from "@mui/x-data-grid";
-import {  type OrganizationRow } from "../../tables/department/departmentColumns";
+import { type OrganizationRow } from "../../tables/department/departmentColumns";
 import { positionColumns } from "../../tables/position/positionColumns";
 
 interface OrganizationTableProps<T extends OrganizationRow> {
@@ -33,15 +26,15 @@ export default function OrganizationTable<T extends OrganizationRow>({
 }: OrganizationTableProps<T>) {
   const [search, setSearch] = useState("");
 
-const filteredRows = useMemo(() => {
-  const value = search.trim().toLowerCase();
+  const filteredRows = useMemo(() => {
+    const value = search.trim().toLowerCase();
 
-  if (!value) return rows;
+    if (!value) return rows;
 
-  return rows.filter((row) =>
-    [row.name ?? "", row.description ?? ""].some((field) => field.toLowerCase().includes(value)),
-  );
-}, [rows, search]);
+    return rows.filter((row) =>
+      [row.name ?? "", row.description ?? ""].some((field) => field.toLowerCase().includes(value)),
+    );
+  }, [rows, search]);
 
   return (
     <Card

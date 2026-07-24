@@ -26,7 +26,10 @@ export interface MarkAsPaidRequest {
 export interface ReversePayrollRequest {
   reason: string;
 }
-
+export interface BulkReverseRequest {
+  payrollIds: string[];
+  reason: string;
+}
 export interface PayrollEarningResponse {
   /** Format: uuid */
   id?: string;
