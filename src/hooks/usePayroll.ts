@@ -23,6 +23,7 @@ import type {
   PayrollResponse,
   PayrollSummaryResponse,
 } from "../api/types/payroll";
+import { deletePayroll } from "../api/payrolls/payroll";
 
 // ── usePayrollList — list of payrolls for a given month/year ──────────────────
 
@@ -137,6 +138,11 @@ export function usePayrollActions() {
     [runAction],
   );
 
+  const remove = useCallback(
+    (payrollId: string) => runAction(() => deletePayroll(payrollId)),
+    [runAction],
+  );
+
   return {
     isProcessing,
     error,
@@ -147,5 +153,6 @@ export function usePayrollActions() {
     reverse,
     resend,
     download,
+    remove, // add this
   };
 }

@@ -126,17 +126,7 @@ function App() {
             >
               <Route path="/payroll/me" element={<MyPayrollPage />} />
             </Route>
-            <Route
-              element={
-                <RoleRoute
-                  allowedRoles={[
-                    "SUPERADMIN",
-                    "HR_ADMIN",
-                  
-                  ]}
-                />
-              }
-            >
+            <Route element={<RoleRoute allowedRoles={["SUPERADMIN", "HR_ADMIN"]} />}>
               <Route path="/departments" element={<DepartmentsPage />} />
               <Route path="/positions" element={<PositionsPage />} />
             </Route>

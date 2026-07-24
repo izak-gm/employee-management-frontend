@@ -308,6 +308,54 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/payroll/batch/{year}/{month}/approve": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["bulkApprove"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/batch/reverse": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["bulkReverse"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/batch/approve": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["bulkApproveByIds"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/leaves": {
     parameters: {
       query?: never;
@@ -510,7 +558,7 @@ export interface paths {
     get: operations["getPayrollById"];
     put?: never;
     post?: never;
-    delete?: never;
+    delete: operations["softDeletePayroll"];
     options?: never;
     head?: never;
     patch?: never;
@@ -596,6 +644,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/payroll/generated": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getGeneratedPayrolls"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/payroll/earning-types/active": {
     parameters: {
       query?: never;
@@ -620,6 +684,38 @@ export interface paths {
       cookie?: never;
     };
     get: operations["getActiveDeductionTypes"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/batch/{year}/{month}/report": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadBatchReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/batch/{year}/{month}/report/approved": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadApprovedBatchReport"];
     put?: never;
     post?: never;
     delete?: never;
@@ -1143,6 +1239,10 @@ export interface components {
       incomeTax?: number;
       statutoryDeductions?: number;
       payAfterStatutoryDeductions?: number;
+    };
+    BulkReverseRequest: {
+      payrollIds: string[];
+      reason: string;
     };
     CreateEmployeeRequest: {
       firstName: string;
@@ -2017,6 +2117,77 @@ export interface operations {
       };
     };
   };
+  bulkApprove: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        year: number;
+        month: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"][];
+        };
+      };
+    };
+  };
+  bulkReverse: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["BulkReverseRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"][];
+        };
+      };
+    };
+  };
+  bulkApproveByIds: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": string[];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollResponse"][];
+        };
+      };
+    };
+  };
   getAllLeaves: {
     parameters: {
       query?: never;
@@ -2350,6 +2521,26 @@ export interface operations {
       };
     };
   };
+  softDeletePayroll: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        payrollId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   downloadPayslip: {
     parameters: {
       query?: never;
@@ -2460,6 +2651,29 @@ export interface operations {
       };
     };
   };
+  getGeneratedPayrolls: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollSummaryResponse"][];
+        };
+      };
+    };
+  };
   getActiveEarningTypes: {
     parameters: {
       query?: never;
@@ -2496,6 +2710,52 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["DeductionTypeResponse"][];
+        };
+      };
+    };
+  };
+  downloadBatchReport: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        year: number;
+        month: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  downloadApprovedBatchReport: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        year: number;
+        month: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
         };
       };
     };

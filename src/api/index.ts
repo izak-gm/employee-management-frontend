@@ -80,6 +80,18 @@ export {
   triggerPayslipDownload,
 } from "./payrolls/payroll";
 
+// ── Payroll Batch (bulk approve/reverse + report) ───────────────────────────
+
+export {
+  getGeneratedPayrolls,
+  bulkApprove,
+  bulkApproveByIds,
+  bulkReverse,
+  downloadBatchReport,
+  downloadApprovedBatchReport,
+  triggerBatchReportDownload,
+} from "./payrolls/payrollBatch";
+
 // Payroll Profiles
 export {
   getAllPayrollProfiles,
