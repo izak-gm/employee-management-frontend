@@ -23,9 +23,10 @@ const SLATE = "#5B6B7F";
 
 export default function EditPayrollProfilePage() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  // Route is now /payroll/profiles/:profileId/edit — profileId is the PROFILE uuid, not employee uuid
+  const { profileId } = useParams<{ profileId: string }>();
 
-  const { data: profile, isLoading, error, hasProfile } = usePayrollProfile(id ?? null);
+  const { data: profile, isLoading, error, hasProfile } = usePayrollProfile(profileId ?? null);
   const { data: employees = [], isLoading: loadingEmployees } = useActiveEmployees();
 
   const employeeOptions = useMemo(
@@ -37,7 +38,13 @@ export default function EditPayrollProfilePage() {
       })),
     [employees],
   );
-  const employeeName = employeeOptions.find((e) => e.id === id)?.label ?? "Employee Profile";
+
+  // Resolve employee name from the loaded profile's employeeId, not the URL param
+  const employeeName = useMemo(() => {
+    if (!profile?.employeeId) return "Employee Profile";
+    return employeeOptions.find((e) => e.id === profile.employeeId)?.label ?? "Employee Profile";
+  }, [employeeOptions, profile]);
+
   const handleSaved = (updated: PayrollProfileResponse) => {
     navigate(`/payroll/profiles/${updated.id}/edit`, { replace: true });
   };
@@ -69,13 +76,7 @@ export default function EditPayrollProfilePage() {
               >
                 Payroll profiles
               </MuiLink>
-              <Typography
-                sx={{
-                  color: NAVY,
-                  fontSize: 13,
-                  fontWeight: 600,
-                }}
-              >
+              <Typography sx={{ color: NAVY, fontSize: 13, fontWeight: 600 }}>
                 {" "}
                 {employeeName}
               </Typography>
@@ -92,25 +93,19 @@ export default function EditPayrollProfilePage() {
 
         <Container maxWidth="lg" sx={{ py: 4 }}>
           {busy ? (
-            <Stack
-              sx={{
-                alignItems: "center",
-                py: 8,
-              }}
-            >
-              {" "}
+            <Stack sx={{ alignItems: "center", py: 8 }}>
               <CircularProgress size={28} sx={{ color: NAVY }} />
             </Stack>
           ) : error ? (
             <Alert severity="error">{error}</Alert>
           ) : !hasProfile ? (
             <Alert severity="info">
-              This employee doesn't have a payroll profile yet.{" "}
+              Payroll profile not found.{" "}
               <MuiLink
                 sx={{ cursor: "pointer", fontWeight: 600 }}
-                onClick={() => navigate(`/payroll/profiles/new?id=${id}`)}
+                onClick={() => navigate("/payroll/profiles")}
               >
-                Create one
+                Back to profiles
               </MuiLink>
               .
             </Alert>
