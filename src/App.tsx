@@ -28,6 +28,7 @@ import PayrollProfilesPage from "./pages/payroll/PayrollProfilesPage";
 import PayrollDashboardPage from "./pages/payroll/dashboard/PayrollDashboardPage";
 import DepartmentsPage from "./pages/departments/DepartmentPage";
 import PositionsPage from "./pages/departments/PositionPage";
+import PayrollReportsPage from "./pages/payroll/PayrollReportsPage";
 
 function App() {
   return (
@@ -107,6 +108,7 @@ function App() {
               }
             >
               <Route path="/payroll/payslips" element={<PayrollListPage />} />
+              <Route path="/payroll/reports" element={<PayrollReportsPage />} />
             </Route>
             <Route
               element={

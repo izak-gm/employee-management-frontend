@@ -125,3 +125,18 @@ export {
   deactivateDeductionType,
   activateDeductionType,
 } from "./payrolls/deductionTypes";
+
+export {
+  getPayrollSummary,
+  getPayeReport,
+  downloadPayeReportPdf,
+  getNssfReport,
+  downloadNssfReportPdf,
+  getShifReport,
+  downloadShifReportPdf,
+  getHousingLevyReport,
+  downloadHousingLevyReportPdf,
+  getBankTransferReport,
+  downloadBankTransferReportPdf,
+  triggerReportDownload,
+} from "./payrolls/payrollReports";
