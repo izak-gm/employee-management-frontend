@@ -596,6 +596,182 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/payroll/reports/summary": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getPayrollSummary"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/shif": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getShifReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/shif/pdf": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadShifReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/paye": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getPayeReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/paye/pdf": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadPayeReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/nssf": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getNssfReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/nssf/pdf": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadNssfReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/housing-levy": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getHousingLevyReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/housing-levy/pdf": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadHousingLevyReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/bank-transfer": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getBankTransferReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/payroll/reports/bank-transfer/pdf": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["downloadBankTransferReport"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/payroll/profiles/employee/{id}": {
     parameters: {
       query?: never;
@@ -1317,6 +1493,75 @@ export interface components {
     ForgotPasswordRequest: {
       /** Format: email */
       email: string;
+    };
+    PayrollSummaryTotals: {
+      /** Format: int32 */
+      month?: number;
+      /** Format: int32 */
+      year?: number;
+      /** Format: int32 */
+      employeeCount?: number;
+      totalGrossPay?: number;
+      totalTaxablePay?: number;
+      totalPaye?: number;
+      totalNssf?: number;
+      totalEmployerNssf?: number;
+      totalShif?: number;
+      totalEmployerShif?: number;
+      totalHousingLevy?: number;
+      totalPensionContribution?: number;
+      totalStatutoryDeductions?: number;
+      totalDeductions?: number;
+      totalNetPay?: number;
+    };
+    ShifReportLine: {
+      /** Format: uuid */
+      employeeId?: string;
+      employeeNumber?: string;
+      employeeFullName?: string;
+      shifNumber?: string;
+      employeeShif?: number;
+    };
+    PayeReportLine: {
+      /** Format: uuid */
+      employeeId?: string;
+      employeeNumber?: string;
+      employeeFullName?: string;
+      kraPin?: string;
+      taxablePay?: number;
+      incomeTax?: number;
+      personalRelief?: number;
+      paye?: number;
+    };
+    NssfReportLine: {
+      /** Format: uuid */
+      employeeId?: string;
+      employeeNumber?: string;
+      employeeFullName?: string;
+      nssfNumber?: string;
+      employeeNssf?: number;
+      employerNssf?: number;
+      totalNssf?: number;
+    };
+    HousingLevyReportLine: {
+      /** Format: uuid */
+      employeeId?: string;
+      employeeNumber?: string;
+      employeeFullName?: string;
+      grossPay?: number;
+      housingLevy?: number;
+      employerHouseLevy?: number;
+      totalHouseLevy?: number;
+    };
+    BankTransferReportLine: {
+      /** Format: uuid */
+      employeeId?: string;
+      employeeNumber?: string;
+      employeeFullName?: string;
+      bankName?: string;
+      bankBranch?: string;
+      accountNumber?: string;
+      netPay?: number;
     };
     LeaveBalanceResponse: {
       /** @enum {string} */
@@ -2588,6 +2833,259 @@ export interface operations {
       path: {
         payrollId: string;
       };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  getPayrollSummary: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollSummaryTotals"];
+        };
+      };
+    };
+  };
+  getShifReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ShifReportLine"][];
+        };
+      };
+    };
+  };
+  downloadShifReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  getPayeReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayeReportLine"][];
+        };
+      };
+    };
+  };
+  downloadPayeReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  getNssfReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["NssfReportLine"][];
+        };
+      };
+    };
+  };
+  downloadNssfReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  getHousingLevyReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["HousingLevyReportLine"][];
+        };
+      };
+    };
+  };
+  downloadHousingLevyReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": string;
+        };
+      };
+    };
+  };
+  getBankTransferReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["BankTransferReportLine"][];
+        };
+      };
+    };
+  };
+  downloadBankTransferReport: {
+    parameters: {
+      query: {
+        month: number;
+        year: number;
+      };
+      header?: never;
+      path?: never;
       cookie?: never;
     };
     requestBody?: never;
