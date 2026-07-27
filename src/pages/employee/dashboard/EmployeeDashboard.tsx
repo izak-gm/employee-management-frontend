@@ -165,7 +165,7 @@ const EmployeeDashboard = () => {
               <Button
                 variant="contained"
                 startIcon={<AddIcon />}
-                onClick={() => navigate("/employee/apply-leave")}
+                onClick={() => navigate("/leaves/apply")}
               >
                 Apply for Leave
               </Button>

@@ -215,7 +215,7 @@ const AdminDashboard = () => {
                 size="small"
                 variant="text"
                 startIcon={<BeachAccessIcon fontSize="small" />}
-                onClick={() => navigate("/employee/apply-leave")}
+                onClick={() => navigate("/leaves/apply")}
               >
                 Request time off
               </Button>
@@ -223,7 +223,7 @@ const AdminDashboard = () => {
                 size="small"
                 variant="outlined"
                 endIcon={<ArrowForwardIcon />}
-                onClick={() => navigate("/admin/leaves")}
+                onClick={() => navigate("/leaves")}
               >
                 Leaves
               </Button>
