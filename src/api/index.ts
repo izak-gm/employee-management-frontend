@@ -78,6 +78,8 @@ export {
   getMyPayrollForPeriod,
   downloadMyPayslip,
   triggerPayslipDownload,
+  deletePayroll,
+  regeneratePayroll,
 } from "./payrolls/payroll";
 
 // ── Payroll Batch (bulk approve/reverse + report) ───────────────────────────

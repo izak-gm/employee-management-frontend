@@ -18,6 +18,7 @@ import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 import DownloadIcon from "@mui/icons-material/Download";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import UndoIcon from "@mui/icons-material/Undo";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import { usePayrollList, usePayrollActions } from "../../hooks/usePayroll";
 import { useGeneratedPayrolls, usePayrollBatchActions } from "../../hooks/usePayrollBatch";
@@ -64,7 +65,6 @@ export default function PayrollListPage() {
   const { data: rows, isLoading, error, reload } = usePayrollList(month, year);
   const { data: employees = [] } = useActiveEmployees();
   const { approve, download, resend, remove, error: actionError } = usePayrollActions();
-
   // ── Batch review state ──────────────────────────────────────────────────
   const {
     data: generatedRows,
@@ -86,6 +86,7 @@ export default function PayrollListPage() {
   const [deleteRow, setDeleteRow] = useState<PayrollSummaryResponse | null>(null);
 
   const [generateOpen, setGenerateOpen] = useState(false);
+  const [regenerateOpen, setRegenerateOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [markPaidRow, setMarkPaidRow] = useState<PayrollSummaryResponse | null>(null);
   const [reverseRow, setReverseRow] = useState<PayrollSummaryResponse | null>(null);
@@ -190,6 +191,13 @@ export default function PayrollListPage() {
     }
     setDeleteRow(null);
   };
+
+  const handleRegenerated = (results: PayrollSummaryResponse[]) => {
+    setFlash(
+      `Regenerated ${results.length} payroll ${results.length === 1 ? "record" : "records"}.`,
+    );
+    refreshAll();
+  };
   return (
     <DashboardLayout title="Payrolls">
       <Box sx={{ bgcolor: "#F7F8FA", minHeight: "100vh" }}>
@@ -227,6 +235,19 @@ export default function PayrollListPage() {
                   }}
                 >
                   Payroll profiles
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<RefreshIcon fontSize="small" />}
+                  onClick={() => setRegenerateOpen(true)}
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: 600,
+                    borderColor: BORDER,
+                    color: NAVY,
+                  }}
+                >
+                  Regenerate payroll
                 </Button>
                 <Button
                   variant="contained"
@@ -479,6 +500,15 @@ export default function PayrollListPage() {
           onGenerated={handleGenerated}
         />
 
+        <GeneratePayrollDialog
+          open={regenerateOpen}
+          mode="regenerate"
+          onClose={() => setRegenerateOpen(false)}
+          employees={employeeOptions}
+          defaultMonth={month}
+          defaultYear={year}
+          onGenerated={handleRegenerated}
+        />
         <PayrollDetailDialog
           open={!!detailId}
           payrollId={detailId}

@@ -14,6 +14,7 @@ import {
   resendPayslip,
   downloadPayslip,
   triggerPayslipDownload,
+  regeneratePayroll,
   ApiError,
 } from "../api";
 import type {
@@ -143,6 +144,11 @@ export function usePayrollActions() {
     [runAction],
   );
 
+  const regenerate = useCallback(
+    (payload: GeneratePayrollRequest) => runAction(() => regeneratePayroll(payload)),
+    [runAction],
+  );
+
   return {
     isProcessing,
     error,
@@ -153,6 +159,7 @@ export function usePayrollActions() {
     reverse,
     resend,
     download,
-    remove, // add this
+    remove,
+    regenerate,
   };
 }
