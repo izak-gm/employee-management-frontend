@@ -95,6 +95,7 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
               <TableCell>Email</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Department</TableCell>
+              <TableCell>Position</TableCell>
               <TableCell>Role</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell align="center" width={150}>
@@ -134,6 +135,7 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
                   <TableCell>{emp.phoneNumber}</TableCell>
 
                   <TableCell>{emp.departmentName ?? "-"}</TableCell>
+                  <TableCell>{emp.positionName ?? "-"}</TableCell>
 
                   <TableCell>{formatRole(emp.role)}</TableCell>
 
@@ -147,29 +149,38 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
                   </TableCell>
 
                   <TableCell align="center">
-                    <Tooltip title="View Details">
-                      <IconButton color="primary" onClick={() => handleView(emp.id)}>
-                        <VisibilityOutlinedIcon />
-                      </IconButton>
-                    </Tooltip>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 0.5,
+                      }}
+                    >
+                      <Tooltip title="View Details">
+                        <IconButton color="primary" onClick={() => handleView(emp.id)}>
+                          <VisibilityOutlinedIcon />
+                        </IconButton>
+                      </Tooltip>
 
-                    <Tooltip title="Edit">
-                      <IconButton color="warning" onClick={() => onEdit(emp)}>
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
+                      <Tooltip title="Edit">
+                        <IconButton color="warning" onClick={() => onEdit(emp)}>
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
 
-                    <Tooltip title="Delete">
-                      <IconButton
-                        color="error"
-                        onClick={() => {
-                          setSelectedEmployee(emp);
-                          setDeleteOpen(true);
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
+                      <Tooltip title="Delete">
+                        <IconButton
+                          color="error"
+                          onClick={() => {
+                            setSelectedEmployee(emp);
+                            setDeleteOpen(true);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
                   </TableCell>
                 </TableRow>
               ))

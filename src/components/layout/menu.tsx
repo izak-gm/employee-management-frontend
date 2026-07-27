@@ -2,10 +2,6 @@ import type { ReactNode } from "react";
 
 import DashboardIcon from "@mui/icons-material/SpaceDashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-// import BusinessIcon from "@mui/icons-material/Business";
-// import BadgeIcon from "@mui/icons-material/Badge";
-
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -14,8 +10,6 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-// import AccessTimeIcon from "@mui/icons-material/AccessTime";
-// import AssessmentIcon from "@mui/icons-material/Assessment";
 import PersonIcon from "@mui/icons-material/Person";
 
 export interface MenuItem {
@@ -55,24 +49,6 @@ export const menuItems: MenuItem[] = [
         icon: <PeopleIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN"],
       },
-      {
-        label: "Add Employee",
-        path: "/employees/create",
-        icon: <PersonAddIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN"],
-      },
-      // {
-      //   label: "Departments",
-      //   path: "/departments",
-      //   icon: <BusinessIcon />,
-      //   roles: ["SUPERADMIN", "HR_ADMIN"],
-      // },
-      // {
-      //   label: "Positions",
-      //   path: "/positions",
-      //   icon: <BadgeIcon />,
-      //   roles: ["SUPERADMIN", "HR_ADMIN"],
-      // },
     ],
   },
 
@@ -91,7 +67,7 @@ export const menuItems: MenuItem[] = [
         label: "Apply Leave",
         path: "/leaves/apply",
         icon: <CalendarMonthIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN", "TECH_LEAD", "SOFTWARE_ENGINEER", "INTERN"],
+        roles: ["TECH_LEAD", "SOFTWARE_ENGINEER", "INTERN"],
       },
       {
         label: "Leave Requests",
@@ -154,33 +130,6 @@ export const menuItems: MenuItem[] = [
     ],
   },
 
-  // {
-  //   label: "Attendance",
-  //   icon: <AccessTimeIcon />,
-  //   roles: ["SUPERADMIN", "HR_ADMIN"],
-  //   children: [
-  //     {
-  //       label: "Attendance",
-  //       path: "/attendance",
-  //       icon: <AccessTimeIcon />,
-  //       roles: ["SUPERADMIN", "HR_ADMIN"],
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   label: "Reports",
-  //   icon: <AssessmentIcon />,
-  //   roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
-  //   children: [
-  //     {
-  //       label: "Reports",
-  //       path: "/reports",
-  //       icon: <AssessmentIcon />,
-  //       roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
-  //     },
-  //   ],
-  // },
 
   {
     label: "Settings",

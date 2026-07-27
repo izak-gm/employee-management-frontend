@@ -3,16 +3,9 @@ import {
   Box,
   Paper,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   MenuItem,
   TextField,
-  Stack,
   Button,
-  TableFooter,
   Dialog,
   DialogActions,
   DialogContent,
@@ -20,16 +13,11 @@ import {
 } from "@mui/material";
 import { getMyLeaves, getLeaveById, withdrawLeave } from "../../api/leaves";
 import AddIcon from "@mui/icons-material/Add";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import TablePagination from "@mui/material/TablePagination";
 import LeaveDetailsDialog from "./LeaveDetailsDialog";
 import { useNavigate } from "react-router-dom";
-import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import type { LeaveResponse } from "../../api";
-import StageChip from "../dashboard/StageChip";
+import { DataGrid } from "@mui/x-data-grid";
+import { createLeaveColumns } from "../../tables/leaves/leavesColumns";
 
 type StatusFilter =
   | "ALL"
@@ -56,8 +44,6 @@ const ManageLeavesView = () => {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [leaveToWithdraw, setLeaveToWithdraw] = useState<string | null>(null);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [leaves, setLeaves] = useState<LeaveResponse[]>([]);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [refreshKey, _setRefreshKey] = useState(0);
@@ -102,40 +88,49 @@ const ManageLeavesView = () => {
     setLeaveToWithdraw(id);
     setWithdrawOpen(true);
   };
-
+const columns = createLeaveColumns({
+  navigate,
+  handleViewLeave,
+  openWithdrawDialog,
+});
   return (
     <Box>
-      <Stack
-        direction="row"
+      <Typography variant="h5" sx={{ mb: 3 }}>
+        All Leaves
+      </Typography>
+
+      {/* Apply button */}
+      <Box
         sx={{
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-          flexWrap: "wrap",
-          gap: 2,
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 2,
         }}
       >
-        <Typography variant="h5">All Leaves</Typography>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={() => navigate("/employee/apply-leave")}
+          onClick={() => navigate("/leaves/apply")}
           sx={{
-            backgroundColor: "#009688", // Teal 500
+            backgroundColor: "#009688",
             "&:hover": {
-              backgroundColor: "#00796B", // Darker teal
+              backgroundColor: "#00796B",
             },
           }}
         >
           Apply Leave
         </Button>
+      </Box>
+
+      {/* Filter */}
+      <Box sx={{ mb: 3 }}>
         <TextField
           select
           size="small"
           label="Status"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-          sx={{ minWidth: 180 }}
+          sx={{ minWidth: 220 }}
         >
           {STATUS_FILTERS.map((f) => (
             <MenuItem key={f.value} value={f.value}>
@@ -143,83 +138,39 @@ const ManageLeavesView = () => {
             </MenuItem>
           ))}
         </TextField>
-      </Stack>
-
-      <Paper sx={{ border: "1px solid", borderColor: "divider" }}>
-        {visibleLeaves.length === 0 ? (
-          <Box sx={{ p: 4, textAlign: "center" }}>
-            <Typography color="text.secondary">No leave requests match this filter.</Typography>
-          </Box>
-        ) : (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Employee</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Dates</TableCell>
-                <TableCell>Cover</TableCell>
-                <TableCell>Stage</TableCell>
-                <TableCell align="right">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {visibleLeaves
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((l) => (
-                  <TableRow key={l.id}>
-                    <TableCell>{l.employeeFullName}</TableCell>
-                    <TableCell>{l.leaveType}</TableCell>
-                    <TableCell>{`${l.startDate ?? ""} → ${l.endDate ?? ""}`}</TableCell>
-                    <TableCell>{l.coverEmployeeFullName ?? "—"}</TableCell>
-                    <TableCell>
-                      <StageChip status={l.status} />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Tooltip title="View details">
-                        <IconButton color="primary" onClick={() => handleViewLeave(l.id!)}>
-                          <VisibilityOutlinedIcon />
-                        </IconButton>
-                      </Tooltip>
-                      {(l.status === "PENDING_COVER" || l.status === "COVER_DECLINED") && (
-                        <Tooltip title="Edit leave">
-                          <IconButton
-                            color="primary"
-                            onClick={() => navigate(`/employee/apply-leave?edit=${l.id}`)}
-                          >
-                            <EditOutlinedIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                      {(l.status === "PENDING_COVER" ||
-                        l.status === "PENDING_ADMIN" ||
-                        l.status === "COVER_DECLINED") && (
-                        <Tooltip title="Withdraw request">
-                          <IconButton color="warning" onClick={() => openWithdrawDialog(l.id!)}>
-                            <UndoOutlinedIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  count={visibleLeaves.length}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={(_, newPage) => setPage(newPage)}
-                  onRowsPerPageChange={(e) => {
-                    setRowsPerPage(parseInt(e.target.value, 10));
-                    setPage(0);
-                  }}
-                  rowsPerPageOptions={[5, 10, 20, 50]}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        )}
+      </Box>
+      <Paper
+        sx={{
+          border: "1px solid",
+          borderColor: "divider",
+          height: 650,
+        }}
+      >
+        <DataGrid
+          rows={visibleLeaves}
+          columns={columns}
+          getRowId={(row) => row.id!}
+          disableRowSelectionOnClick
+          pageSizeOptions={[5, 10, 20, 50]}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                page: 0,
+                pageSize: 10,
+              },
+            },
+          }}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeaders": {
+              fontWeight: 700,
+            },
+            "& .MuiDataGrid-cell": {
+              display: "flex",
+              alignItems: "center",
+            },
+          }}
+        />
       </Paper>
       <LeaveDetailsDialog
         open={detailsOpen}
