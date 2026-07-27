@@ -24,20 +24,6 @@ const NAVY = "#132A46";
 const SLATE = "#5B6B7F";
 const SURFACE = "#F7F8FA";
 
-interface EmployeeOption {
-  id: string;
-  label: string;
-}
-
-interface Props {
-  open: boolean;
-  onClose: () => void;
-  employees: EmployeeOption[];
-  defaultMonth: number;
-  defaultYear: number;
-  onGenerated: (results: PayrollSummaryResponse[]) => void;
-}
-
 const MONTH_NAMES = [
   "January",
   "February",
@@ -53,8 +39,23 @@ const MONTH_NAMES = [
   "December",
 ];
 
+interface EmployeeOption {
+  id: string;
+  label: string;
+}
+interface Props {
+  open: boolean;
+  mode?: "generate" | "regenerate";
+  onClose: () => void;
+  employees: EmployeeOption[];
+  defaultMonth: number;
+  defaultYear: number;
+  onGenerated: (results: PayrollSummaryResponse[]) => void;
+}
+
 export default function GeneratePayrollDialog({
   open,
+  mode = "generate",
   onClose,
   employees,
   defaultMonth,
@@ -64,12 +65,15 @@ export default function GeneratePayrollDialog({
   const [month, setMonth] = useState(defaultMonth);
   const [year, setYear] = useState(defaultYear);
   const [selectedEmployees, setSelectedEmployees] = useState<EmployeeOption[]>([]);
-  const { generate, isProcessing, error, clearError } = usePayrollActions();
+  const { generate, regenerate, isProcessing, error, clearError } = usePayrollActions();
+
+  const isRegenerate = mode === "regenerate";
 
   const years = useMemo(() => {
     const current = new Date().getFullYear();
     return [current - 1, current, current + 1];
   }, []);
+
   useEffect(() => {
     if (open) {
       setMonth(defaultMonth);
@@ -79,28 +83,29 @@ export default function GeneratePayrollDialog({
     }
   }, [open, defaultMonth, defaultYear, clearError]);
 
-  const handleGenerate = async () => {
+  const handleSubmit = async () => {
     clearError();
-
-    const result = await generate({
+    const payload = {
       month,
       year,
       employeeIds: selectedEmployees.length > 0 ? selectedEmployees.map((e) => e.id) : undefined,
-    });
-
+    };
+    const result = isRegenerate ? await regenerate(payload) : await generate(payload);
     if (!result) return;
-
     onGenerated(result);
     onClose();
   };
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ fontWeight: 700, color: NAVY, pb: 1 }}>Generate payroll</DialogTitle>
+      <DialogTitle sx={{ fontWeight: 700, color: NAVY, pb: 1 }}>
+        {isRegenerate ? "Regenerate payroll" : "Generate payroll"}
+      </DialogTitle>
 
       <DialogContent>
         <Typography variant="body2" sx={{ color: SLATE, mb: 3 }}>
-          Runs payroll for the selected period. Leave employees blank to generate for every active
-          employee with a payroll profile.
+          {isRegenerate
+            ? "Recalculates existing GENERATED payrolls for the selected period using each employee's current profile. Leave employees blank to regenerate every GENERATED payroll in this period."
+            : "Runs payroll for the selected period. Leave employees blank to generate for every active employee with a payroll profile."}
         </Typography>
 
         <Box sx={{ display: "flex", gap: 2, mb: 2.5 }}>
@@ -154,7 +159,11 @@ export default function GeneratePayrollDialog({
             <TextField
               {...params}
               label="Employees (optional)"
-              placeholder="Leave blank for all active employees"
+              placeholder={
+                isRegenerate
+                  ? "Leave blank for all GENERATED payrolls"
+                  : "Leave blank for all active employees"
+              }
             />
           )}
         />
@@ -171,11 +180,17 @@ export default function GeneratePayrollDialog({
           }}
         >
           <Typography variant="body2" sx={{ color: SLATE }}>
-            {selectedEmployees.length === 0
-              ? "This will generate payroll for all active employees who have a payroll profile set up."
-              : `This will generate payroll for ${selectedEmployees.length} selected ${
-                  selectedEmployees.length === 1 ? "employee" : "employees"
-                }.`}
+            {isRegenerate
+              ? selectedEmployees.length === 0
+                ? "This will recalculate every GENERATED payroll for this period."
+                : `This will recalculate ${selectedEmployees.length} selected ${
+                    selectedEmployees.length === 1 ? "employee's" : "employees'"
+                  } GENERATED payroll.`
+              : selectedEmployees.length === 0
+                ? "This will generate payroll for all active employees who have a payroll profile set up."
+                : `This will generate payroll for ${selectedEmployees.length} selected ${
+                    selectedEmployees.length === 1 ? "employee" : "employees"
+                  }.`}
           </Typography>
         </Box>
 
@@ -192,7 +207,7 @@ export default function GeneratePayrollDialog({
         </Button>
         <Button
           variant="contained"
-          onClick={handleGenerate}
+          onClick={handleSubmit}
           disabled={isProcessing}
           startIcon={
             isProcessing ? (
@@ -209,7 +224,13 @@ export default function GeneratePayrollDialog({
             "&:hover": { bgcolor: "#1E3A5F" },
           }}
         >
-          {isProcessing ? "Generating…" : "Generate payroll"}
+          {isProcessing
+            ? isRegenerate
+              ? "Regenerating…"
+              : "Generating…"
+            : isRegenerate
+              ? "Regenerate payroll"
+              : "Generate payroll"}
         </Button>
       </DialogActions>
     </Dialog>

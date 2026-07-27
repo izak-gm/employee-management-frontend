@@ -68,6 +68,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/payroll/regenerate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations["regeneratePayroll"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/payroll/profiles/{profileId}": {
     parameters: {
       query?: never;
@@ -967,6 +983,40 @@ export interface components {
     MarkAsPaidRequest: {
       paymentReference: string;
     };
+    GeneratePayrollRequest: {
+      /** Format: int32 */
+      month: number;
+      /** Format: int32 */
+      year: number;
+      employeeIds?: string[];
+    };
+    PayrollSummaryResponse: {
+      /** Format: uuid */
+      id?: string;
+      payrollNumber?: string;
+      /** Format: uuid */
+      employeeId?: string;
+      employeeFullName?: string;
+      employeeNumber?: string;
+      department?: string;
+      /** Format: int32 */
+      payrollMonth?: number;
+      /** Format: int32 */
+      payrollYear?: number;
+      grossPay?: number;
+      netPay?: number;
+      totalDeductions?: number;
+      /** @enum {string} */
+      status?: "DRAFT" | "GENERATED" | "APPROVED" | "PAID" | "REVERSED";
+      /** Format: date */
+      payrollDate?: string;
+      /** Format: date */
+      paymentDate?: string;
+      personalRelief?: number;
+      incomeTax?: number;
+      statutoryDeductions?: number;
+      payAfterStatutoryDeductions?: number;
+    };
     PayrollProfileRequest: {
       /** Format: uuid */
       employeeId: string;
@@ -1205,40 +1255,6 @@ export interface components {
       name?: string;
       description?: string;
       active?: boolean;
-    };
-    GeneratePayrollRequest: {
-      /** Format: int32 */
-      month: number;
-      /** Format: int32 */
-      year: number;
-      employeeIds?: string[];
-    };
-    PayrollSummaryResponse: {
-      /** Format: uuid */
-      id?: string;
-      payrollNumber?: string;
-      /** Format: uuid */
-      employeeId?: string;
-      employeeFullName?: string;
-      employeeNumber?: string;
-      department?: string;
-      /** Format: int32 */
-      payrollMonth?: number;
-      /** Format: int32 */
-      payrollYear?: number;
-      grossPay?: number;
-      netPay?: number;
-      totalDeductions?: number;
-      /** @enum {string} */
-      status?: "DRAFT" | "GENERATED" | "APPROVED" | "PAID" | "REVERSED";
-      /** Format: date */
-      payrollDate?: string;
-      /** Format: date */
-      paymentDate?: string;
-      personalRelief?: number;
-      incomeTax?: number;
-      statutoryDeductions?: number;
-      payAfterStatutoryDeductions?: number;
     };
     BulkReverseRequest: {
       payrollIds: string[];
@@ -1489,6 +1505,30 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["PayrollResponse"];
+        };
+      };
+    };
+  };
+  regeneratePayroll: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["GeneratePayrollRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PayrollSummaryResponse"][];
         };
       };
     };
