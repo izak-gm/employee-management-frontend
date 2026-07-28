@@ -35,6 +35,18 @@ export async function generatePayroll(
   return data;
 }
 
+// ─── Admin: Regenerate (recalculate in place) ─────────────────────────────────
+
+export async function regeneratePayroll(
+  payload: GeneratePayrollRequest,
+): Promise<PayrollSummaryResponse[]> {
+  const { data } = await apiClient.put<PayrollSummaryResponse[]>(
+    "/api/v1/payroll/regenerate",
+    payload,
+  );
+  return data;
+}
+
 // ─── Admin: Approve ───────────────────────────────────────────────────────────
 
 export async function approvePayroll(payrollId: string): Promise<PayrollResponse> {

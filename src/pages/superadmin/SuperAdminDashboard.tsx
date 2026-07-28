@@ -258,7 +258,7 @@ const SuperAdminDashboard = () => {
                 size="small"
                 variant="text"
                 startIcon={<BeachAccessIcon fontSize="small" />}
-                onClick={() => navigate("/employee/apply-leave")}
+                onClick={() => navigate("/leaves/apply-leave")}
               >
                 Request time off
               </Button>
