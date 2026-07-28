@@ -8,8 +8,8 @@ export interface PayrollSummaryTotals {
   totalNssf: number;
   totalEmployerNssf: number;
   totalShif: number;
-  totalEmployerShif: number;
   totalHousingLevy: number;
+  totalEmployerHousingLevy: number;
   totalPensionContribution: number;
   totalStatutoryDeductions: number;
   totalDeductions: number;

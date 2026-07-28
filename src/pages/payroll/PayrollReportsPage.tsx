@@ -1,7 +1,6 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import {
   Box,
-  Container,
   Typography,
   TextField,
   MenuItem,
@@ -9,17 +8,14 @@ import {
   Paper,
   Tabs,
   Tab,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
   CircularProgress,
   Alert,
-  Grid,
 } from "@mui/material";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import DownloadIcon from "@mui/icons-material/Download";
-import { usePayrollSummary, usePayrollReports } from "../../hooks/usePayrollReports";
+import DescriptionIcon from "@mui/icons-material/Description";
+import * as XLSX from "xlsx";
+import { usePayrollReports } from "../../hooks/usePayrollReports";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 
 const NAVY = "#132A46";
@@ -45,7 +41,6 @@ const fmt = (n?: number) =>
   new Intl.NumberFormat("en-KE", { maximumFractionDigits: 0 }).format(n ?? 0);
 
 const TABS = [
-  { key: "summary", label: "Summary" },
   { key: "paye", label: "PAYE" },
   { key: "nssf", label: "NSSF" },
   { key: "shif", label: "SHIF" },
@@ -55,11 +50,144 @@ const TABS = [
 
 type TabKey = (typeof TABS)[number]["key"];
 
+const COLUMN_DEFS: Record<TabKey, GridColDef[]> = {
+  paye: [
+    { field: "employeeNumber", headerName: "Emp No.", width: 110 },
+    { field: "employeeFullName", headerName: "Name", flex: 1, minWidth: 180 },
+    { field: "kraPin", headerName: "KRA PIN", width: 130 },
+    {
+      field: "taxablePay",
+      headerName: "Taxable Pay",
+      width: 140,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "incomeTax",
+      headerName: "Income Tax",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "personalRelief",
+      headerName: "Relief",
+      width: 120,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "paye",
+      headerName: "PAYE",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+  ],
+  nssf: [
+    { field: "employeeNumber", headerName: "Emp No.", width: 110 },
+    { field: "employeeFullName", headerName: "Name", flex: 1, minWidth: 180 },
+    { field: "nssfNumber", headerName: "NSSF No.", width: 140 },
+    {
+      field: "employeeNssf",
+      headerName: "Employee",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "employerNssf",
+      headerName: "Employer",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "totalNssf",
+      headerName: "Total",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+  ],
+  shif: [
+    { field: "employeeNumber", headerName: "Emp No.", width: 110 },
+    { field: "employeeFullName", headerName: "Name", flex: 1, minWidth: 180 },
+    { field: "shifNumber", headerName: "SHIF No.", width: 140 },
+    {
+      field: "employeeShif",
+      headerName: "SHIF",
+      width: 140,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+  ],
+  "housing-levy": [
+    { field: "employeeNumber", headerName: "Emp No.", width: 110 },
+    { field: "employeeFullName", headerName: "Name", flex: 1, minWidth: 180 },
+    {
+      field: "grossPay",
+      headerName: "Gross Pay",
+      width: 140,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "housingLevy",
+      headerName: "Employee",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "employerHouseLevy",
+      headerName: "Employer",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+    {
+      field: "totalHouseLevy",
+      headerName: "Total",
+      width: 130,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+  ],
+  "bank-transfer": [
+    { field: "employeeNumber", headerName: "Emp No.", width: 110 },
+    { field: "employeeFullName", headerName: "Name", flex: 1, minWidth: 180 },
+    { field: "bankName", headerName: "Bank", width: 160 },
+    { field: "bankBranch", headerName: "Branch", width: 160, valueFormatter: (v) => v ?? "—" },
+    { field: "accountNumber", headerName: "Account No.", width: 160 },
+    {
+      field: "netPay",
+      headerName: "Net Pay",
+      width: 140,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: (v) => fmt(v as number),
+    },
+  ],
+};
+
 export default function PayrollReportsPage() {
   const now = new Date();
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
-  const [tab, setTab] = useState<TabKey>("summary");
+  const [tab, setTab] = useState<TabKey>("paye");
   const [rows, setRows] = useState<any[]>([]);
 
   const years = useMemo(() => {
@@ -67,12 +195,6 @@ export default function PayrollReportsPage() {
     return [y - 1, y, y + 1];
   }, [now]);
 
-  const {
-    data: summary,
-    isLoading: isSummaryLoading,
-    error: summaryError,
-    reload,
-  } = usePayrollSummary(month, year);
   const {
     isLoading,
     isDownloading,
@@ -86,7 +208,6 @@ export default function PayrollReportsPage() {
   } = usePayrollReports();
 
   useEffect(() => {
-    if (tab === "summary") return;
     (async () => {
       let result: any[] | null = null;
       if (tab === "paye") result = await loadPaye(month, year);
@@ -94,78 +215,50 @@ export default function PayrollReportsPage() {
       if (tab === "shif") result = await loadShif(month, year);
       if (tab === "housing-levy") result = await loadHousingLevy(month, year);
       if (tab === "bank-transfer") result = await loadBankTransfer(month, year);
-      setRows(result ?? []);
+      setRows((result ?? []).map((r, i) => ({ id: r.employeeId ?? i, ...r })));
     })();
   }, [tab, month, year]);
 
-  useEffect(() => {
-    if (tab === "summary") reload();
-  }, [month, year, tab]);
+  const handleExportExcel = useCallback(() => {
+    if (rows.length === 0) return;
 
-  const columns: Record<TabKey, { key: string; label: string; align?: "right" }[]> = {
-    summary: [],
-    paye: [
-      { key: "employeeNumber", label: "Emp No." },
-      { key: "employeeFullName", label: "Name" },
-      { key: "kraPin", label: "KRA PIN" },
-      { key: "taxablePay", label: "Taxable Pay", align: "right" },
-      { key: "incomeTax", label: "Income Tax", align: "right" },
-      { key: "personalRelief", label: "Relief", align: "right" },
-      { key: "paye", label: "PAYE", align: "right" },
-    ],
-    nssf: [
-      { key: "employeeNumber", label: "Emp No." },
-      { key: "employeeFullName", label: "Name" },
-      { key: "nssfNumber", label: "NSSF No." },
-      { key: "employeeNssf", label: "Employee", align: "right" },
-      { key: "employerNssf", label: "Employer", align: "right" },
-      { key: "totalNssf", label: "Total", align: "right" },
-    ],
-    shif: [
-      { key: "employeeNumber", label: "Emp No." },
-      { key: "employeeFullName", label: "Name" },
-      { key: "shifNumber", label: "SHIF No." },
-      { key: "employeeShif", label: "SHIF", align: "right" },
-    ],
-    "housing-levy": [
-      { key: "employeeNumber", label: "Emp No." },
-      { key: "employeeFullName", label: "Name" },
-      { key: "grossPay", label: "Gross Pay", align: "right" },
-      { key: "housingLevy", label: "Employee", align: "right" },
-      { key: "employerHouseLevy", label: "Employer", align: "right" },
-      { key: "totalHouseLevy", label: "Total", align: "right" },
-    ],
-    "bank-transfer": [
-      { key: "employeeNumber", label: "Emp No." },
-      { key: "employeeFullName", label: "Name" },
-      { key: "bankName", label: "Bank" },
-      { key: "bankBranch", label: "Branch" },
-      { key: "accountNumber", label: "Account No." },
-      { key: "netPay", label: "Net Pay", align: "right" },
-    ],
-  };
+    const columns = COLUMN_DEFS[tab];
+    const headerLabels = columns.map((c) => c.headerName as string);
+    const dataRows = rows.map((row) =>
+      columns.map((c) => {
+        const val = row[c.field as string];
+        return typeof val === "number" ? val : (val ?? "—");
+      }),
+    );
 
-  const renderCell = (col: { key: string; align?: string }, row: any) => {
-    const val = row[col.key];
-    if (col.align === "right") return fmt(val);
-    return val ?? "—";
-  };
+    const worksheet = XLSX.utils.aoa_to_sheet([headerLabels, ...dataRows]);
+    worksheet["!cols"] = columns.map((c) => ({ wch: Math.max(12, (c.width ?? 120) / 8) }));
+
+    const workbook = XLSX.utils.book_new();
+    const sheetName = TABS.find((t) => t.key === tab)?.label ?? "Report";
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+
+    const filename = `${tab}-report-${year}-${String(month).padStart(2, "0")}.xlsx`;
+    XLSX.writeFile(workbook, filename);
+  }, [rows, tab, month, year]);
 
   return (
     <DashboardLayout title="Payroll Reports">
-      <Box sx={{ bgcolor: "#F7F8FA", minHeight: "100vh" }}>
+      <Box
+        sx={{ bgcolor: "#F7F8FA", minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      >
         <Box sx={{ bgcolor: "#fff", borderBottom: `1px solid ${BORDER}` }}>
-          <Container maxWidth="lg" sx={{ py: 3 }}>
+          <Box sx={{ px: 3, py: 3 }}>
             <Typography variant="h5" sx={{ fontWeight: 700, color: NAVY }}>
               Payroll reports
             </Typography>
             <Typography variant="body2" sx={{ color: SLATE, mt: 0.5 }}>
-              Summary, statutory, and bank transfer reports for a payroll period.
+              Statutory and bank transfer reports for a payroll period.
             </Typography>
-          </Container>
+          </Box>
         </Box>
 
-        <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Box sx={{ px: 3, py: 3, flex: 1, display: "flex", flexDirection: "column" }}>
           <Paper
             variant="outlined"
             sx={{ borderColor: BORDER, borderRadius: 2, p: 2, mb: 3, display: "flex", gap: 2 }}
@@ -200,138 +293,112 @@ export default function PayrollReportsPage() {
             </TextField>
           </Paper>
 
-          {(error || summaryError) && (
+          {error && (
             <Alert severity="error" sx={{ mb: 2 }}>
-              {error || summaryError}
+              {error}
             </Alert>
           )}
 
-          <Paper variant="outlined" sx={{ borderColor: BORDER, borderRadius: 2 }}>
-            <Tabs
-              value={tab}
-              onChange={(_, v) => setTab(v)}
-              sx={{ borderBottom: `1px solid ${BORDER}`, px: 2 }}
+          <Paper
+            variant="outlined"
+            sx={{
+              borderColor: BORDER,
+              borderRadius: 2,
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                borderBottom: `1px solid ${BORDER}`,
+                px: 2,
+              }}
             >
-              {TABS.map((t) => (
-                <Tab
-                  key={t.key}
-                  value={t.key}
-                  label={t.label}
-                  sx={{ textTransform: "none", fontWeight: 600 }}
-                />
-              ))}
-            </Tabs>
+              <Tabs value={tab} onChange={(_, v) => setTab(v)}>
+                {TABS.map((t) => (
+                  <Tab
+                    key={t.key}
+                    value={t.key}
+                    label={t.label}
+                    sx={{ textTransform: "none", fontWeight: 600 }}
+                  />
+                ))}
+              </Tabs>
 
-            <Box sx={{ p: 3 }}>
-              {tab === "summary" ? (
-                isSummaryLoading ? (
-                  <Box sx={{ display: "flex", justifyContent: "center", py: 6 }}>
-                    <CircularProgress size={28} sx={{ color: NAVY }} />
-                  </Box>
-                ) : summary ? (
-                  <Grid container spacing={2}>
-                    {[
-                      ["Employees", summary.employeeCount],
-                      ["Gross Pay", fmt(summary.totalGrossPay)],
-                      ["Taxable Pay", fmt(summary.totalTaxablePay)],
-                      ["PAYE", fmt(summary.totalPaye)],
-                      ["NSSF (Employee)", fmt(summary.totalNssf)],
-                      ["NSSF (Employer)", fmt(summary.totalEmployerNssf)],
-                      ["SHIF (Employee)", fmt(summary.totalShif)],
-                      ["Housing Levy", fmt(summary.totalHousingLevy)],
-                      ["Housing Levy(Employer)", fmt(summary.totalHousingLevy)],
-                      ["Pension", fmt(summary.totalPensionContribution)],
-                      ["Statutory Deductions", fmt(summary.totalStatutoryDeductions)],
-                      ["Total Deductions", fmt(summary.totalDeductions)],
-                      ["Net Pay", fmt(summary.totalNetPay)],
-                    ].map(([label, value]) => (
-                      <Grid size={{ xs: 6, sm: 4, md: 3 }} key={label as string}>
-                        <Paper
-                          variant="outlined"
-                          sx={{ borderColor: BORDER, borderRadius: 1.5, p: 2 }}
-                        >
-                          <Typography variant="caption" sx={{ color: SLATE }}>
-                            {label}
-                          </Typography>
-                          <Typography variant="h6" sx={{ fontWeight: 700, color: NAVY }}>
-                            {value}
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                    ))}
-                  </Grid>
-                ) : (
-                  <Typography variant="body2" sx={{ color: SLATE }}>
-                    No data for this period.
-                  </Typography>
-                )
+              <Box sx={{ display: "flex", gap: 1.5, py: 1 }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<DescriptionIcon fontSize="small" />}
+                  onClick={handleExportExcel}
+                  disabled={rows.length === 0}
+                  sx={{ textTransform: "none", fontWeight: 600, borderColor: BORDER, color: NAVY }}
+                >
+                  Export Excel
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<DownloadIcon fontSize="small" />}
+                  onClick={() => download(tab, month, year)}
+                  disabled={isDownloading || rows.length === 0}
+                  sx={{ textTransform: "none", fontWeight: 600, borderColor: BORDER, color: NAVY }}
+                >
+                  Download PDF
+                </Button>
+              </Box>
+            </Box>
+
+            <Box sx={{ flex: 1, minHeight: 500, p: 2 }}>
+              {isLoading ? (
+                <Box sx={{ display: "flex", justifyContent: "center", py: 6 }}>
+                  <CircularProgress size={28} sx={{ color: NAVY }} />
+                </Box>
               ) : (
-                <>
-                  <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<DownloadIcon fontSize="small" />}
-                      onClick={() => download(tab, month, year)}
-                      disabled={isDownloading || rows.length === 0}
-                      sx={{
-                        textTransform: "none",
-                        fontWeight: 600,
-                        borderColor: BORDER,
-                        color: NAVY,
-                      }}
-                    >
-                      Download PDF
-                    </Button>
-                  </Box>
-                  {isLoading ? (
-                    <Box sx={{ display: "flex", justifyContent: "center", py: 6 }}>
-                      <CircularProgress size={28} sx={{ color: NAVY }} />
-                    </Box>
-                  ) : rows.length === 0 ? (
-                    <Typography variant="body2" sx={{ color: SLATE, textAlign: "center", py: 4 }}>
-                      No records for this period.
-                    </Typography>
-                  ) : (
-                    <Box sx={{ overflowX: "auto" }}>
-                      <Table size="small">
-                        <TableHead>
-                          <TableRow>
-                            {columns[tab].map((c) => (
-                              <TableCell
-                                key={c.key}
-                                align={c.align}
-                                sx={{
-                                  fontWeight: 700,
-                                  fontSize: 12,
-                                  color: SLATE,
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                {c.label}
-                              </TableCell>
-                            ))}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row, i) => (
-                            <TableRow key={i} hover>
-                              {columns[tab].map((c) => (
-                                <TableCell key={c.key} align={c.align}>
-                                  {renderCell(c, row)}
-                                </TableCell>
-                              ))}
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </Box>
-                  )}
-                </>
+                <DataGrid
+                  rows={rows}
+                  columns={COLUMN_DEFS[tab]}
+                  density="comfortable"
+                  disableRowSelectionOnClick
+                  pageSizeOptions={[10, 25, 50, 100]}
+                  initialState={{
+                    pagination: { paginationModel: { pageSize: 25 } },
+                  }}
+                  sx={{
+                    border: "none",
+                    "& .MuiDataGrid-columnHeaders": {
+                      bgcolor: "#F7F8FA",
+                      color: SLATE,
+                      fontWeight: 700,
+                      fontSize: 12,
+                      textTransform: "uppercase",
+                    },
+                  }}
+                  slots={{
+                    noRowsOverlay: () => (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: "100%",
+                        }}
+                      >
+                        <Typography variant="body2" sx={{ color: SLATE }}>
+                          No records for this period.
+                        </Typography>
+                      </Box>
+                    ),
+                  }}
+                />
               )}
             </Box>
           </Paper>
-        </Container>
+        </Box>
       </Box>
     </DashboardLayout>
   );
