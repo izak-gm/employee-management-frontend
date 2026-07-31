@@ -3,9 +3,6 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
 import FormHelperText from "@mui/material/FormHelperText";
 import Typography from "@mui/material/Typography";
 import PhoneInput from "react-phone-number-input";
@@ -30,6 +27,7 @@ export default function PersonalDetailsStep() {
       <Grid size={{ xs: 12, sm: 4 }}>
         <TextField
           fullWidth
+          size="small"
           required
           label="First Name"
           {...register("firstName")}
@@ -41,6 +39,8 @@ export default function PersonalDetailsStep() {
       <Grid size={{ xs: 12, sm: 4 }}>
         <TextField
           fullWidth
+          size="small"
+          required
           label="Middle Name"
           {...register("middleName")}
           error={!!errors.middleName}
@@ -52,6 +52,7 @@ export default function PersonalDetailsStep() {
         <TextField
           fullWidth
           required
+          size="small"
           label="Last Name"
           {...register("lastName")}
           error={!!errors.lastName}
@@ -63,6 +64,7 @@ export default function PersonalDetailsStep() {
         <TextField
           fullWidth
           required
+          size="small"
           type="email"
           label="Email Address"
           {...register("email")}
@@ -76,10 +78,18 @@ export default function PersonalDetailsStep() {
           name="phoneNumber"
           control={control}
           render={({ field }) => (
-            <FormControl fullWidth error={!!errors.phoneNumber} variant="outlined">
-              <FormLabel required sx={{ fontSize: 12, mb: 0.5 }}>
+            <FormControl fullWidth error={!!errors.phoneNumber}>
+              <FormLabel
+                sx={{
+                  fontSize: "0.75rem",
+                  color: "text.secondary",
+                  fontWeight: 500,
+                  mb: 1,
+                }}
+              >
                 Phone Number
               </FormLabel>
+
               <PhoneInput
                 international
                 defaultCountry="KE"
@@ -88,26 +98,39 @@ export default function PersonalDetailsStep() {
                 onBlur={field.onBlur}
                 className={`phone-input-mui ${errors.phoneNumber ? "phone-input-error" : ""}`}
               />
-              {errors.phoneNumber && (
-                <FormHelperText>{errors.phoneNumber.message as string}</FormHelperText>
-              )}
+
+              <FormHelperText>{errors.phoneNumber?.message ?? " "}</FormHelperText>
             </FormControl>
           )}
         />
       </Grid>
-
       <Grid size={{ xs: 12, sm: 6 }}>
         <Controller
-          name="gender"
+          name="phoneNumber"
           control={control}
           render={({ field }) => (
-            <FormControl error={!!errors.gender} required>
-              <FormLabel>Gender</FormLabel>
-              <RadioGroup row {...field}>
-                <FormControlLabel value="MALE" control={<Radio />} label="Male" />
-                <FormControlLabel value="FEMALE" control={<Radio />} label="Female" />
-              </RadioGroup>
-              {errors.gender && <FormHelperText>{errors.gender.message}</FormHelperText>}
+            <FormControl fullWidth error={!!errors.phoneNumber}>
+              <FormLabel
+                sx={{
+                  fontSize: "0.75rem",
+                  color: "text.secondary",
+                  fontWeight: 500,
+                  mb: 1,
+                }}
+              >
+                Phone Number
+              </FormLabel>
+
+              <PhoneInput
+                international
+                defaultCountry="KE"
+                value={field.value}
+                onChange={(value) => field.onChange(value ?? "")}
+                onBlur={field.onBlur}
+                className={`phone-input-mui ${errors.phoneNumber ? "phone-input-error" : ""}`}
+              />
+
+              <FormHelperText>{errors.phoneNumber?.message ?? " "}</FormHelperText>
             </FormControl>
           )}
         />

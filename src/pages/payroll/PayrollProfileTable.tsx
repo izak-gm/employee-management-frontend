@@ -37,7 +37,7 @@ export default function PayrollProfilesTable() {
           <Button
             variant="outlined"
             startIcon={<CalculateOutlinedIcon />}
-            onClick={() => navigate("/payroll/generate")}
+            onClick={() => navigate("/payroll/payslips")}
           >
             Generate Payroll
           </Button>

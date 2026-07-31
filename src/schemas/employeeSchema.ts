@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { isValidPhoneNumber } from "react-phone-number-input";
-import type { CreateEmployeeRequest } from "../api/types";
+import type { CreateEmployeeRequest, UpdateEmployee } from "../api/types";
 
 export const ROLES = [
   "SUPERADMIN",
@@ -83,6 +83,25 @@ export function toCreateEmployeeRequest(data: CreateEmployeeForm): CreateEmploye
     hireDate: data.hireDate,
     confirmationDate: data.confirmationDate || undefined,
     employment_type: data.employment_type,
+    departmentId: data.departmentId,
+    positionId: data.positionId,
+    supervisorId: data.supervisorId,
+  };
+}
+
+export function toUpdateEmployeeRequest(data: CreateEmployeeForm): UpdateEmployee {
+  return {
+    firstName: data.firstName,
+    middleName: data.middleName || undefined,
+    lastName: data.lastName,
+    email: data.email,
+    phoneNumber: data.phoneNumber,
+    gender: data.gender,
+    dateOfBirth: data.dateOfBirth || undefined,
+    nationalId: data.nationalId || undefined,
+    role: data.role,
+    hireDate: data.hireDate,
+    confirmationDate: data.confirmationDate || undefined,
     departmentId: data.departmentId,
     positionId: data.positionId,
     supervisorId: data.supervisorId,
