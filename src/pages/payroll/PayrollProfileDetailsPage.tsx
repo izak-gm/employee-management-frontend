@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import {
   Alert,
   Box,
-  Button,
   Card,
   CardContent,
   Chip,
@@ -14,12 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import EditIcon from "@mui/icons-material/Edit";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import BadgeIcon from "@mui/icons-material/Badge";
 import PaymentsIcon from "@mui/icons-material/Payments";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 import { getPayrollProfileById } from "../../api/payrolls/payrollProfiles";
 import type { PayrollProfileResponse } from "../../api/types/payroll";
@@ -34,8 +29,6 @@ const TOKENS = {
 
 export default function PayrollProfileDetailsPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
-
   const [profile, setProfile] = useState<PayrollProfileResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

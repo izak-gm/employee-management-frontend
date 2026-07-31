@@ -25,21 +25,17 @@ const AddEmployeePage = () => {
             Back to Employees
           </Button>
         </Box>
-
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
+            width: {
+              xs: "100%",
+              md: "90%",
+              lg: "75%",
+            },
+            mx: "auto",
           }}
         >
-          <Card
-            elevation={2}
-            sx={{
-              width: "100%",
-              maxWidth: 900, // adjust to your preferred width
-            }}
-          >
+          <Card elevation={2}>
             <CardContent sx={{ p: 4 }}>
               <Stack spacing={3}>
                 <Box>

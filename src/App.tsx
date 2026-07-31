@@ -29,6 +29,8 @@ import PayrollDashboardPage from "./pages/payroll/dashboard/PayrollDashboardPage
 import DepartmentsPage from "./pages/departments/DepartmentPage";
 import PositionsPage from "./pages/departments/PositionPage";
 import PayrollReportsPage from "./pages/payroll/PayrollReportsPage";
+import EditEmployeePage from "./pages/employee/EditEmployeePage";
+import EmployeeDetailPage from "./pages/employee/EmployeeDetailsPage";
 
 function App() {
   return (
@@ -57,7 +59,8 @@ function App() {
             <Route element={<RoleRoute allowedRoles={["SUPERADMIN", "HR_ADMIN"]} />}>
               <Route path="/employees" element={<ManageEmployeesPage />} />
               <Route path="/employees/create" element={<AddEmployeePage />} />
-              <Route path="/employees/:id/edit" element={<div>Edit Employee</div>} />
+              <Route path="/employees/:id" element={<EmployeeDetailPage />} />
+              <Route path="/employees/:id/edit" element={<EditEmployeePage />} />{" "}
             </Route>
 
             {/* HR Leave Management */}
