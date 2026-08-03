@@ -1,17 +1,20 @@
 import type { ReactNode } from "react";
-
 import DashboardIcon from "@mui/icons-material/SpaceDashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import PersonIcon from "@mui/icons-material/Person";
+
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import EventNoteIcon from "@mui/icons-material/EventNote";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 import PaymentsIcon from "@mui/icons-material/Payments";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 
-import PersonIcon from "@mui/icons-material/Person";
-
+import BusinessIcon from "@mui/icons-material/Business";
+import WorkIcon from "@mui/icons-material/Work";
+import SettingsIcon from "@mui/icons-material/Settings";
 export interface MenuItem {
   label: string;
   icon: ReactNode;
@@ -54,25 +57,25 @@ export const menuItems: MenuItem[] = [
 
   {
     label: "Leave Management",
-    icon: <BeachAccessIcon />,
+    icon: <EventAvailableIcon />,
     roles: ["SUPERADMIN", "HR_ADMIN", "TECH_LEAD", "SOFTWARE_ENGINEER", "INTERN"],
     children: [
       {
         label: "My Leaves",
         path: "/leaves",
-        icon: <BeachAccessIcon />,
+        icon: <EventAvailableIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN", "TECH_LEAD", "SOFTWARE_ENGINEER", "INTERN"],
       },
       {
         label: "Apply Leave",
         path: "/leaves/apply",
-        icon: <CalendarMonthIcon />,
+        icon: <EventNoteIcon />,
         roles: ["TECH_LEAD", "SOFTWARE_ENGINEER", "INTERN"],
       },
       {
         label: "Leave Requests",
         path: "/leaves/all",
-        icon: <EventNoteIcon />,
+        icon: <AssignmentIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN"],
       },
     ],
@@ -91,21 +94,18 @@ export const menuItems: MenuItem[] = [
       "INTERN",
     ],
     children: [
-      // This is dashboard
       {
         label: "Payroll Dashboard",
         path: "/payroll",
-        icon: <ReceiptLongIcon />,
+        icon: <ReceiptIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
       },
-
       {
-        label: "Payrolls",
+        label: "Payroll Profiles",
         path: "/payroll/profiles",
         icon: <ReceiptLongIcon />,
         roles: ["SUPERADMIN", "HR_ADMIN", "PAYROLL_MANAGER", "FINANCE_MANAGER"],
       },
-
       {
         label: "Payslips",
         path: "/payroll/payslips",
@@ -129,26 +129,17 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-
-
   {
-    label: "Settings",
-    icon: <BeachAccessIcon />,
+    label: "Departments",
+    path: "/departments",
+    icon: <BusinessIcon />,
     roles: ["SUPERADMIN", "HR_ADMIN"],
-    children: [
-      {
-        label: "Departments",
-        path: "/departments",
-        icon: <BeachAccessIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN"],
-      },
-      {
-        label: "Position",
-        path: "/positions",
-        icon: <CalendarMonthIcon />,
-        roles: ["SUPERADMIN", "HR_ADMIN"],
-      },
-    ],
+  },
+  {
+    label: "Positions",
+    path: "/positions",
+    icon: <WorkIcon />,
+    roles: ["SUPERADMIN", "HR_ADMIN"],
   },
   {
     label: "My Profile",

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -26,7 +27,8 @@ import DeleteConfirmationDialog from "../employees/DeleteConfirmationDialog";
 import { getEmployees, getEmployeeById, deleteEmployee, type EmployeeResponse } from "../../api";
 const PAGE_SIZE = 10;
 
-const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) => {
+const EmployeeTable = ({ }: { onEdit: (emp: EmployeeResponse) => void }) => {
+  const navigate = useNavigate();
   const [employees, setEmployees] = useState<EmployeeResponse[]>([]);
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
@@ -61,6 +63,12 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
       console.error(err);
     }
   };
+
+  const handleEdit = (emp: EmployeeResponse) => {
+    if (!emp.id) return;
+    navigate(`/employees/${emp.id}/edit`);
+  };
+
   const formatRole = (role?: string) =>
     role
       ?.toLowerCase()
@@ -164,7 +172,7 @@ const EmployeeTable = ({ onEdit }: { onEdit: (emp: EmployeeResponse) => void }) 
                       </Tooltip>
 
                       <Tooltip title="Edit">
-                        <IconButton color="warning" onClick={() => onEdit(emp)}>
+                        <IconButton color="warning" onClick={() => handleEdit(emp)}>
                           <EditIcon />
                         </IconButton>
                       </Tooltip>

@@ -225,7 +225,7 @@ const SuperAdminDashboard = () => {
               size="small"
               variant="outlined"
               endIcon={<ArrowForwardIcon />}
-              onClick={() => navigate("/superadmin/employees")}
+              onClick={() => navigate("/employees")}
             >
               Employees
             </Button>
@@ -258,7 +258,7 @@ const SuperAdminDashboard = () => {
                 size="small"
                 variant="text"
                 startIcon={<BeachAccessIcon fontSize="small" />}
-                onClick={() => navigate("/leaves/apply-leave")}
+                onClick={() => navigate("/leaves/apply")}
               >
                 Request time off
               </Button>
@@ -266,7 +266,7 @@ const SuperAdminDashboard = () => {
                 size="small"
                 variant="outlined"
                 endIcon={<ArrowForwardIcon />}
-                onClick={() => navigate("/superadmin/leaves")}
+                onClick={() => navigate("/leaves")}
               >
                 Leaves
               </Button>
