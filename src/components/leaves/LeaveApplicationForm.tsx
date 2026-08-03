@@ -8,6 +8,8 @@ import {
   Stack,
   Autocomplete,
   CircularProgress,
+  Typography,
+  Box,
 } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -211,116 +213,315 @@ const ApplyLeavePage = () => {
   };
 
   // EDIT
+const TYPE_META: Record<string, { color: string; label: string }> = {
+  ANNUAL: { color: "#1F8A5F", label: "Annual Leave" },
+  SICK: { color: "#B8860B", label: "Sick Leave" },
+  MATERNITY: { color: "#B5637A", label: "Maternity Leave" },
+  PATERNITY: { color: "#3D6FB4", label: "Paternity Leave" },
+  COMPASSIONATE: { color: "#5B4B8A", label: "Compassionate Leave" },
+};
+return (
+  <DashboardLayout title={editId ? "Edit Leave" : "Apply for Leave"}>
+    <Box sx={{ bgcolor: "#F4F6F9", minHeight: "100vh", pb: 6 }}>
+      {/* Header bar */}
+      <Box sx={{ bgcolor: "#fff", borderBottom: "1px solid #E1E6ED" }}>
+        <Box sx={{ maxWidth: 1200, mx: "auto", px: 3, py: 3 }}>
+          <Button
+            startIcon={<ArrowBackIcon sx={{ fontSize: 18 }} />}
+            onClick={() => navigate("/leaves")}
+            sx={{
+              color: "#8493A6",
+              fontWeight: 500,
+              textTransform: "none",
+              mb: 1,
+              pl: 0,
+              "&:hover": { bgcolor: "transparent", color: "#132A46" },
+            }}
+          >
+            Back to leaves
+          </Button>
+          <Typography variant="h5" sx={{ fontWeight: 700, color: "#0F1E33" }}>
+            {editId ? "Edit Leave Request" : "Apply for Leave"}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#8493A6", mt: 0.5 }}>
+            Submit your request and track your available balance below.
+          </Typography>
+        </Box>
+      </Box>
 
-  return (
-    <DashboardLayout title={editId ? "Edit Leave" : "Apply for Leave"}>
-      <Button
-        startIcon={<ArrowBackIcon />}
-        onClick={() => navigate("/leaves")}
-        sx={{ mb: 2, color: "text.secondary" }}
-      >
-        Back
-      </Button>
-
-      <Paper
-        sx={{
-          p: 4,
-          maxWidth: 520,
-          border: "1px solid",
-          borderColor: "divider",
-        }}
-      >
+      <Box sx={{ maxWidth: 1200, mx: "auto", px: 3, mt: 4 }}>
         {banner && (
-          <Alert severity={banner.type} sx={{ mb: 2 }}>
+          <Alert severity={banner.type} sx={{ mb: 3, borderRadius: 1.5 }}>
             {banner.text}
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={2.5}>
-            <TextField
-              select
-              label="Leave Type"
-              fullWidth
-              value={leaveType}
-              onChange={(e) => setLeaveType(e.target.value)}
-            >
-              {TYPES.map((t) => (
-                <MenuItem key={t} value={t}>
-                  {t}
-                </MenuItem>
-              ))}
-            </TextField>
+        <Stack direction={{ xs: "column", md: "row" }} spacing={3} alignItems="flex-start">
+          {/* FORM CARD */}
+          <Paper
+            elevation={0}
+            sx={{
+              width: { xs: "100%", md: "34%" },
+              minWidth: { md: 380 },
+              border: "1px solid #E1E6ED",
+              borderRadius: 2,
+              overflow: "hidden",
+            }}
+          >
+            <Box sx={{ px: 3, py: 2.5, borderBottom: "1px solid #E1E6ED", bgcolor: "#FAFBFC" }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#0F1E33" }}>
+                Request Details
+              </Typography>
+            </Box>
 
-            <TextField
-              label="Start Date"
-              type="date"
-              fullWidth
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              slotProps={{
-                inputLabel: { shrink: true },
-                htmlInput: {
-                  min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
-                },
+            <Box sx={{ p: 3 }}>
+              <form onSubmit={handleSubmit}>
+                <Stack spacing={2.5}>
+                  <TextField
+                    select
+                    label="Leave Type"
+                    fullWidth
+                    size="small"
+                    value={leaveType}
+                    onChange={(e) => setLeaveType(e.target.value)}
+                  >
+                    {TYPES.map((t) => (
+                      <MenuItem key={t} value={t}>
+                        {TYPE_META[t]?.label ?? t}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+                  <TextField
+                    label="Start Date"
+                    type="date"
+                    fullWidth
+                    size="small"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    slotProps={{
+                      inputLabel: { shrink: true },
+                      htmlInput: {
+                        min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                      },
+                    }}
+                  />
+                  <TextField
+                    label="End Date"
+                    type="date"
+                    fullWidth
+                    size="small"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    disabled={isEndDateAutoCalculated}
+                    helperText={
+                      isEndDateAutoCalculated
+                        ? "Calculated automatically from your entitlement."
+                        : undefined
+                    }
+                    slotProps={{
+                      inputLabel: { shrink: true },
+                      htmlInput: {
+                        min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                      },
+                    }}
+                  />
+
+                  <TextField
+                    label="Reason"
+                    multiline
+                    rows={3}
+                    fullWidth
+                    size="small"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                  />
+
+                  {leaveType !== "COMPASSIONATE" && (
+                    <Autocomplete
+                      options={active}
+                      value={cover}
+                      onChange={(_, value) => setCover(value)}
+                      getOptionLabel={(e: any) => `${e.firstName} ${e.lastName}`}
+                      isOptionEqualToValue={(option, value) => option.id === value.id}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Cover Employee" size="small" required />
+                      )}
+                    />
+                  )}
+
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    fullWidth
+                    disabled={
+                      loading || !startDate || !endDate || (leaveType !== "COMPASSIONATE" && !cover)
+                    }
+                    startIcon={loading ? <CircularProgress size={18} color="inherit" /> : null}
+                    sx={{
+                      bgcolor: "#132A46",
+                      textTransform: "none",
+                      fontWeight: 600,
+                      py: 1.2,
+                      "&:hover": { bgcolor: "#0F1E33" },
+                    }}
+                  >
+                    {loading ? "Submitting…" : editId ? "Save Changes" : "Submit Application"}
+                  </Button>
+                </Stack>
+              </form>
+            </Box>
+          </Paper>
+
+          {/* BALANCE CARD */}
+          <Paper
+            elevation={0}
+            sx={{
+              width: { xs: "100%", md: "66%" },
+              border: "1px solid #E1E6ED",
+              borderRadius: 2,
+              overflow: "hidden",
+              position: { md: "sticky" },
+              top: { md: 24 },
+            }}
+          >
+            <Box
+              sx={{
+                px: 3,
+                py: 2.5,
+                borderBottom: "1px solid #E1E6ED",
+                bgcolor: "#FAFBFC",
+                display: "flex",
+                alignItems: "baseline",
+                justifyContent: "space-between",
               }}
-            />
-            <TextField
-              label="End Date"
-              type="date"
-              fullWidth
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              disabled={isEndDateAutoCalculated}
-              helperText={
-                isEndDateAutoCalculated
-                  ? "Calculated automatically from your start date and leave entitlement."
-                  : undefined
-              }
-              slotProps={{
-                inputLabel: { shrink: true },
-                htmlInput: {
-                  min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
-                },
-              }}
-            />
-
-            <TextField
-              label="Reason"
-              multiline
-              rows={3}
-              fullWidth
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-            />
-
-            {leaveType !== "COMPASSIONATE" && (
-              <Autocomplete
-                options={active}
-                value={cover}
-                onChange={(_, value) => setCover(value)}
-                getOptionLabel={(e: any) => `${e.firstName} ${e.lastName}`}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                renderInput={(params) => <TextField {...params} label="Cover Employee" required />}
-              />
-            )}
-
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              disabled={
-                loading || !startDate || !endDate || (leaveType !== "COMPASSIONATE" && !cover)
-              }
-              startIcon={loading ? <CircularProgress size={18} color="inherit" /> : null}
             >
-              {loading ? "Submitting..." : editId ? "Save Changes" : "Submit Application"}
-            </Button>
-          </Stack>
-        </form>
-      </Paper>
-    </DashboardLayout>
-  );
+              <Box>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#0F1E33" }}>
+                  Leave Balance
+                </Typography>
+                <Typography variant="caption" sx={{ color: "#8493A6" }}>
+                  Days available as of today
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                p: 3,
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                gap: 2,
+              }}
+            >
+              {TYPES.map((t) => {
+                const bal = balances.find((b) => b.leaveType === t);
+                const max = bal?.maxDays ?? 0;
+                const used = bal?.usedDays ?? 0;
+                const remaining = bal?.remainingDays ?? Math.max(max - used, 0);
+                const unlimited = bal?.unlimited || max < 0;
+                const isSelected = t === leaveType;
+                const meta = TYPE_META[t] ?? { color: "#8493A6", label: t };
+                const pct = !unlimited && max > 0 ? Math.min((remaining / max) * 100, 100) : 0;
+                const isLow = !unlimited && remaining === 0;
+
+                return (
+                  <Box
+                    key={t}
+                    sx={{
+                      p: 2.25,
+                      borderRadius: 1.5,
+                      border: "1px solid",
+                      borderColor: isSelected ? "#132A46" : "#E1E6ED",
+                      bgcolor: isSelected ? "#F5F8FC" : "#FFFFFF",
+                      boxShadow: isSelected ? "0 0 0 1px #132A46 inset" : "none",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+                      <Box>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                          <Box
+                            sx={{
+                              width: 8,
+                              height: 8,
+                              borderRadius: "50%",
+                              bgcolor: meta.color,
+                            }}
+                          />
+                          <Typography variant="body2" sx={{ fontWeight: 600, color: "#0F1E33" }}>
+                            {meta.label}
+                          </Typography>
+                        </Stack>
+                        {isSelected && (
+                          <Typography
+                            variant="caption"
+                            sx={{ color: "#132A46", fontWeight: 600, ml: 2.25 }}
+                          >
+                            Selected
+                          </Typography>
+                        )}
+                      </Box>
+                    </Stack>
+
+                    <Stack direction="row" alignItems="baseline" spacing={0.5} sx={{ mt: 1.5 }}>
+                      <Typography variant="h4" sx={{ fontWeight: 700, color: "#0F1E33" }}>
+                        {unlimited ? "∞" : remaining}
+                      </Typography>
+                      {!unlimited && (
+                        <Typography variant="body2" sx={{ color: "#8493A6", fontWeight: 500 }}>
+                          / {max} days
+                        </Typography>
+                      )}
+                    </Stack>
+
+                    {!unlimited ? (
+                      <Box
+                        sx={{
+                          mt: 1.5,
+                          height: 6,
+                          borderRadius: 3,
+                          bgcolor: "#EEF1F5",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: "100%",
+                            width: `${pct}%`,
+                            bgcolor: isLow ? "#C0392B" : meta.color,
+                            borderRadius: 3,
+                          }}
+                        />
+                      </Box>
+                    ) : (
+                      <Typography
+                        variant="caption"
+                        sx={{ color: "#8493A6", mt: 1.5, display: "block" }}
+                      >
+                        No annual cap
+                      </Typography>
+                    )}
+
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "#8493A6", mt: 0.75, display: "block" }}
+                    >
+                      {unlimited
+                        ? "Unlimited entitlement"
+                        : `${used} day${used === 1 ? "" : "s"} used`}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Box>
+          </Paper>
+        </Stack>
+      </Box>
+    </Box>
+  </DashboardLayout>
+);
 };
 
 export default ApplyLeavePage;
